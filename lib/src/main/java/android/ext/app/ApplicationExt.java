@@ -12,4 +12,8 @@ public class ApplicationExt extends Application {
         super.attachBaseContext(base);
         Global.init(this);
     }
+
+    protected <T> void putSingleton(Class<T> clazz, T instance) {
+        Global.putSingleton(clazz, instance);
+    }
 }

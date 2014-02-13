@@ -1,6 +1,7 @@
 package android.ext.example;
 
 import android.ext.app.ActivityExt;
+import android.ext.widget.Toaster;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,6 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import static android.ext.app.Global.getSingleton;
 
 public class MainActivity extends ActivityExt {
 
@@ -56,6 +59,13 @@ public class MainActivity extends ActivityExt {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.f_main, container, false);
             return rootView;
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+
+            Toaster.show(getSingleton(ExampleSingleton.class).getText());
         }
     }
 }

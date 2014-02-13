@@ -7,6 +7,8 @@ import android.os.Looper;
 
 import java.util.HashMap;
 
+import static android.ext.BuildConfig.DEBUG;
+
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
@@ -34,9 +36,15 @@ public final class Global {
     }
 
     static <T> void putSingleton(Class<T> clazz, T instance) {
-        Object old = sSingletons.get(clazz);
-        if (old != null) {
-            throw new IllegalStateException();
+        if (DEBUG) {
+            if (!clazz.isInstance(instance)) {
+                throw new IllegalArgumentException();
+            }
+
+            Object old = sSingletons.get(clazz);
+            if (old != null) {
+                throw new IllegalStateException();
+            }
         }
 
         sSingletons.put(clazz, Objects.notNull(instance));
@@ -47,6 +55,6 @@ public final class Global {
     }
 
     public static <T> T getSingleton(Class<T> clazz) {
-        return clazz.cast(sSingletons.get(clazz));
+        return Objects.notNull(clazz.cast(sSingletons.get(clazz)));
     }
 }
