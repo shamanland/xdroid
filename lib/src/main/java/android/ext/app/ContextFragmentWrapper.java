@@ -35,19 +35,17 @@ public class ContextFragmentWrapper extends ContextWrapper {
 
     @Override
     public Object getSystemService(String name) {
+        if (CustomServiceChecker.isCustom(name)) {
+            CustomServiceResolver resolver = (CustomServiceResolver) mFragment;
+            return resolver.resolveCustomService(name);
+        }
+
         if (LAYOUT_INFLATER_SERVICE.equals(name)) {
             if (mInflater == null) {
                 mInflater = LayoutInflater.from(getBaseContext()).cloneInContext(this);
             }
 
             return mInflater;
-        }
-
-        SystemServiceResolver resolver = (SystemServiceResolver) mFragment;
-
-        Object result = resolver.resolveSystemService(name);
-        if (result != null) {
-            return result;
         }
 
         return getBaseContext().getSystemService(name);

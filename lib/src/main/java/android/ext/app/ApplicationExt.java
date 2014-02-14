@@ -6,7 +6,13 @@ import android.content.Context;
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
-public class ApplicationExt extends Application implements SystemServiceResolver {
+public class ApplicationExt extends Application implements CustomServiceResolver {
+    private CustomServiceResolver mCustomServiceResolver;
+
+    protected void setCustomServiceResolver(CustomServiceResolver customServiceResolver) {
+        mCustomServiceResolver = customServiceResolver;
+    }
+
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
@@ -19,16 +25,22 @@ public class ApplicationExt extends Application implements SystemServiceResolver
 
     @Override
     public Object getSystemService(String name) {
-        Object result = resolveSystemService(name);
-        if (result != null) {
-            return result;
+        if (CustomServiceChecker.isCustom(name)) {
+            return resolveCustomService(name);
         }
 
         return super.getSystemService(name);
     }
 
     @Override
-    public Object resolveSystemService(String name) {
-        return null;
+    public Object resolveCustomService(String name) {
+        Object result = null;
+
+        CustomServiceResolver resolver = mCustomServiceResolver;
+        if (resolver != null) {
+            result = resolver.resolveCustomService(name);
+        }
+
+        return result;
     }
 }
