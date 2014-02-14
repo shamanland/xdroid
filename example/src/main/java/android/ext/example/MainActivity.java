@@ -1,9 +1,9 @@
 package android.ext.example;
 
 import android.ext.app.ActivityExt;
+import android.ext.app.FragmentExt;
 import android.ext.widget.Toaster;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,18 +46,27 @@ public class MainActivity extends ActivityExt {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Toaster.show(getSingleton(ExampleSingleton.class).getText());
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class PlaceholderFragment extends FragmentExt {
 
         public PlaceholderFragment() {
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.f_main, container, false);
+
+            Toaster.show(rootView.getContext().toString());
+
             return rootView;
         }
 
@@ -65,7 +74,7 @@ public class MainActivity extends ActivityExt {
         public void onResume() {
             super.onResume();
 
-            Toaster.show(getSingleton(ExampleSingleton.class).getText());
+            Toaster.show(getContext().toString());
         }
     }
 }
