@@ -1,13 +1,13 @@
-package android.ext.app;
+package android.ext.core;
 
+import android.app.Application;
 import android.content.Context;
-import android.ext.Objects;
 import android.os.Handler;
 import android.os.Looper;
 
 import java.util.HashMap;
 
-import static android.ext.BuildConfig.DEBUG;
+import static android.ext.core.BuildConfig.DEBUG;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
@@ -21,7 +21,7 @@ public final class Global {
         // disallow public access
     }
 
-    static void init(ApplicationExt app) {
+    public static void init(Application app) {
         sContext = Objects.notNull(app);
         sUiHandler = new Handler(Looper.getMainLooper());
         sSingletons = new HashMap<Class<?>, Object>();
@@ -35,7 +35,7 @@ public final class Global {
         return Objects.notNull(sUiHandler);
     }
 
-    static <T> void putSingleton(Class<T> clazz, T instance) {
+    public static <T> void putSingleton(Class<T> clazz, T instance) {
         if (DEBUG) {
             if (!clazz.isInstance(instance)) {
                 throw new IllegalArgumentException();

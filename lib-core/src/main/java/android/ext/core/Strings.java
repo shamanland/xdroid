@@ -1,6 +1,6 @@
-package android.ext;
+package android.ext.core;
 
-import static android.ext.BuildConfig.DEBUG;
+import static android.ext.core.BuildConfig.DEBUG;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)

@@ -2,15 +2,13 @@ package android.ext.app;
 
 import android.app.Activity;
 import android.content.Context;
-import android.ext.Objects;
-import android.os.Bundle;
+import android.ext.core.Objects;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
-public class FragmentExt extends Fragment implements CustomServiceResolver {
+public class DialogFragmentExt extends Fragment implements CustomServiceResolver {
     private Context mContext;
     private CustomServiceResolver mCustomServiceResolver;
 
@@ -50,10 +48,5 @@ public class FragmentExt extends Fragment implements CustomServiceResolver {
         }
 
         return result;
-    }
-
-    @Override
-    public LayoutInflater getLayoutInflater(Bundle savedInstanceState) {
-        return LayoutInflater.from(getContext());
     }
 }

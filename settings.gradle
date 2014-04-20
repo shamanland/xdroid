@@ -1,2 +1,5 @@
+include ':lib-core'
+include ':lib-app'
+include ':lib-widget'
 include ':lib'
 include ':example'

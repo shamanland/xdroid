@@ -1,11 +1,11 @@
 package android.ext.app;
 
 import android.content.ContextWrapper;
-import android.ext.Objects;
+import android.ext.core.Objects;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 
-import static android.ext.BuildConfig.DEBUG;
+import static android.ext.app.BuildConfig.DEBUG;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)

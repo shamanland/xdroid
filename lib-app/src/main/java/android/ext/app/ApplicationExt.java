@@ -2,6 +2,7 @@ package android.ext.app;
 
 import android.app.Application;
 import android.content.Context;
+import android.ext.core.Global;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)

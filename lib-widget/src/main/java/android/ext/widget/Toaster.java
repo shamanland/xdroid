@@ -1,10 +1,10 @@
 package android.ext.widget;
 
-import android.ext.Strings;
+import android.ext.core.Strings;
 import android.widget.Toast;
 
-import static android.ext.app.Global.getContext;
-import static android.ext.app.Global.getUiHandler;
+import static android.ext.core.Global.getContext;
+import static android.ext.core.Global.getUiHandler;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
