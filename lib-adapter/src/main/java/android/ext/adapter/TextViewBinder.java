@@ -19,6 +19,10 @@ public class TextViewBinder<D> implements ViewBinder<D, View> {
         this(android.R.id.text1, DefaultTextExtractor.<D>getInstance());
     }
 
+    public TextViewBinder(int textViewId) {
+        this(textViewId, DefaultTextExtractor.<D>getInstance());
+    }
+
     public TextViewBinder(int textViewId, TextExtractor<D> textExtractor) {
         mTextViewId = textViewId;
         mTextExtractor = textExtractor != null ? textExtractor : DefaultTextExtractor.<D>getInstance();

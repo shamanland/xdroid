@@ -1,6 +1,7 @@
 package android.ext.example;
 
 import android.ext.adapter.AdapterExt;
+import android.ext.adapter.SmartViewBinder;
 import android.ext.app.ActivityExt;
 import android.ext.app.FragmentExt;
 import android.ext.collections.ArrayListExt;
@@ -59,21 +60,23 @@ public class MainActivity extends ActivityExt {
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends FragmentExt {
-        private AdapterExt mAdapter;
-        private ArrayListExt mData;
+        private AdapterExt<ExampleData, View> mAdapter;
+        private ArrayListExt<ExampleData> mData;
 
         @Override
         public void onCreate(Bundle state) {
             super.onCreate(state);
 
             if (state == null) {
-                mAdapter = new AdapterExt();
-                mData = new ArrayListExt();
+                mAdapter = new AdapterExt<ExampleData, View>();
+                mData = new ArrayListExt<ExampleData>();
                 mAdapter.setData(mData);
+                mAdapter.setLayoutId(R.layout.v_item_with_progress);
+                mAdapter.setBinder(new SmartViewBinder<ExampleData, View>(new ExampleBinderFactory()));
 
-                mData.add("Hello");
-                mData.add("World");
-                mData.add("How are you?");
+                mData.add(new ExampleData("Hello", "World"));
+                mData.add(new ExampleData("How are you?", "I'm fine"));
+                mData.add(new ExampleData("What about you?", "Not bad at all"));
             } else {
                 mAdapter = state.getParcelable("adapter");
                 mData = (ArrayListExt) mAdapter.getData();
