@@ -1,62 +1,61 @@
 package android.ext.widget;
 
-import android.ext.core.Strings;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.widget.Toast;
 
 import static android.ext.core.Global.getContext;
-import static android.ext.core.Global.getUiHandler;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
-public final class Toaster implements Runnable {
-    private final CharSequence mText;
-    private final int mDuration;
+public final class Toaster implements Handler.Callback {
+    private static final Handler sHandler = new Handler(Looper.getMainLooper(), new Toaster());
 
-    private Toaster(CharSequence text) {
-        mText = Strings.notEmpty(text);
-        mDuration = Toast.LENGTH_SHORT;
-    }
-
-    private Toaster(CharSequence text, boolean ignored) {
-        mText = Strings.notEmpty(text);
-        mDuration = Toast.LENGTH_LONG;
+    private Toaster() {
+        // disallow public access
     }
 
     @Override
-    public void run() {
-        Toast.makeText(getContext(), mText, mDuration).show();
+    public boolean handleMessage(Message msg) {
+        Toast.makeText(getContext(), (CharSequence) msg.obj, msg.arg1).show();
+        return true;
+    }
+
+    private static void sendMessage(CharSequence text, int length) {
+        Message.obtain(sHandler, length, text).sendToTarget();
     }
 
     public static void show(int stringId) {
-        getUiHandler().post(new Toaster(getContext().getText(stringId)));
+        sendMessage(getContext().getText(stringId), Toast.LENGTH_SHORT);
     }
 
     public static void showLong(int stringId) {
-        getUiHandler().post(new Toaster(getContext().getText(stringId), true));
+        sendMessage(getContext().getText(stringId), Toast.LENGTH_LONG);
     }
 
     public static void show(int stringId, Object... args) {
-        getUiHandler().post(new Toaster(getContext().getString(stringId, args)));
+        sendMessage(getContext().getString(stringId, args), Toast.LENGTH_SHORT);
     }
 
     public static void showLong(int stringId, Object... args) {
-        getUiHandler().post(new Toaster(getContext().getString(stringId, args), true));
+        sendMessage(getContext().getString(stringId, args), Toast.LENGTH_LONG);
     }
 
     public static void show(CharSequence text) {
-        getUiHandler().post(new Toaster(text));
+        sendMessage(text, Toast.LENGTH_SHORT);
     }
 
     public static void showLong(CharSequence text) {
-        getUiHandler().post(new Toaster(text, true));
+        sendMessage(text, Toast.LENGTH_LONG);
     }
 
     public static void show(String text, Object... args) {
-        getUiHandler().post(new Toaster(String.format(text, args)));
+        sendMessage(String.format(text, args), Toast.LENGTH_SHORT);
     }
 
     public static void showLong(String text, Object... args) {
-        getUiHandler().post(new Toaster(String.format(text, args), true));
+        sendMessage(String.format(text, args), Toast.LENGTH_LONG);
     }
 }
