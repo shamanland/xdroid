@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CompositeViewBinder xmlns:app="http://schemas.android.com/apk/res-auto">
     <TextViewBinder
-            app:id="@+id/title"
+            app:id="@android:id/text1"
             app:method="getTitle"
             />
     <CompoundButtonBinder
             app:id="@+id/added"
             app:method="isAdded"
             />
+    <!--
     <RatingBarBinder
             app:id="@+id/rating"
             app:method="getRating"
             />
+            -->
 </CompositeViewBinder>

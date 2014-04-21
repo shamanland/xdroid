@@ -1,5 +1,6 @@
 package android.ext.adapter;
 
+import android.content.res.Resources;
 import android.ext.collections.Indexed;
 import android.ext.collections.IndexedIterator;
 import android.ext.core.Objects;
@@ -45,6 +46,10 @@ public class AdapterExt<D, V extends View> extends BaseAdapter implements Iterab
     public void setLayoutId(int layoutId) {
         mLayoutId = layoutId;
         notifyDataSetChanged();
+    }
+
+    public void setBinder(Resources resources, int xmlId) {
+        setBinder(ViewBinderInflater.getInstance().inflate(resources, xmlId));
     }
 
     public void lockChanges() {
