@@ -18,20 +18,14 @@ public class CursorAdapterExt<V extends View> extends CursorAdapter {
 
     public CursorAdapterExt(Context context, Cursor c, boolean autoRequery) {
         super(context, c, autoRequery);
-        init();
     }
 
     public CursorAdapterExt(Context context, Cursor c, int flags) {
         super(context, c, flags);
-        init();
-    }
-
-    private void init() {
-        mBinder = TextViewBinder.getDefaultInstance();
     }
 
     public void setBinder(ViewBinder<Cursor, V> binder) {
-        mBinder = binder != null ? binder : TextViewBinder.<Cursor, V>getDefaultInstance();
+        mBinder = binder;
         notifyDataSetChanged();
     }
 

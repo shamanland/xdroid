@@ -24,7 +24,7 @@ public class AdapterExt<D, V extends View> extends BaseAdapter implements Iterab
     private transient boolean mChangesLocked;
 
     public AdapterExt() {
-        mBinder = TextViewBinder.getDefaultInstance();
+        mBinder = NullBinder.getInstance();
         mLayoutId = android.R.layout.simple_list_item_1;
     }
 
@@ -38,7 +38,7 @@ public class AdapterExt<D, V extends View> extends BaseAdapter implements Iterab
     }
 
     public void setBinder(ViewBinder<D, V> binder) {
-        mBinder = binder != null ? binder : TextViewBinder.<D, V>getDefaultInstance();
+        mBinder = binder != null ? binder : NullBinder.<D, V>getInstance();
         notifyDataSetChanged();
     }
 

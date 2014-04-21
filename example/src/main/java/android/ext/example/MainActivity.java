@@ -1,7 +1,7 @@
 package android.ext.example;
 
 import android.ext.adapter.AdapterExt;
-import android.ext.adapter.SmartViewBinder;
+import android.ext.adapter.CompositeViewBinder;
 import android.ext.app.ActivityExt;
 import android.ext.app.FragmentExt;
 import android.ext.collections.ArrayListExt;
@@ -72,7 +72,11 @@ public class MainActivity extends ActivityExt {
                 mData = new ArrayListExt<ExampleData>();
                 mAdapter.setData(mData);
                 mAdapter.setLayoutId(R.layout.v_item_with_progress);
-                mAdapter.setBinder(new SmartViewBinder<ExampleData, View>(new ExampleBinderFactory()));
+
+                CompositeViewBinder<ExampleData, View> binder = new CompositeViewBinder<ExampleData, View>();
+                binder.add(android.R.id.text1, ExampleTitleBinder.getInstance());
+                binder.add(android.R.id.progress, ExampleRatingBinder.getInstance());
+                mAdapter.setBinder(binder);
 
                 mData.add(new ExampleData("Hello", "World"));
                 mData.add(new ExampleData("How are you?", "I'm fine"));
