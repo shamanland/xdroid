@@ -5,10 +5,7 @@ import android.os.Build;
 
 import java.util.HashSet;
 
-/**
- * @author Oleksii Kropachov (o.kropachov@shamanland.com)
- */
-public final class CustomServiceChecker {
+public final class CustomService {
     private static final HashSet<String> SYSTEM;
 
     static {
@@ -79,7 +76,20 @@ public final class CustomServiceChecker {
         return !SYSTEM.contains(name);
     }
 
-    private CustomServiceChecker() {
+    public static Object resolve(CustomServiceResolver resolver, String name) {
+        while (resolver != null) {
+            Object result = resolver.getCustomService(name);
+            if (result != null) {
+                return result;
+            }
+
+            resolver = resolver.getParentResolver();
+        }
+
+        return null;
+    }
+
+    private CustomService() {
         // disallow public access
     }
 }

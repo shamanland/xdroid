@@ -3,41 +3,47 @@ package android.ext.app;
 import android.app.Application;
 import android.support.v7.app.ActionBarActivity;
 
+import java.util.HashMap;
+
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
 public class ActivityExt extends ActionBarActivity implements CustomServiceResolver {
-    private CustomServiceResolver mCustomServiceResolver;
+    private HashMap<String, Object> mCustomServices;
 
-    protected void setCustomServiceResolver(CustomServiceResolver customServiceResolver) {
-        mCustomServiceResolver = customServiceResolver;
+    public void putCustomService(String name, Object instance) {
+        if (mCustomServices == null) {
+            mCustomServices = new HashMap<String, Object>();
+        }
+
+        mCustomServices.put(name, instance);
+    }
+
+    @Override
+    public Object getCustomService(String name) {
+        return mCustomServices != null ? mCustomServices.get(name) : null;
+    }
+
+    @Override
+    public CustomServiceResolver getParentResolver() {
+        Application result = getApplication();
+
+        if (result instanceof CustomServiceResolver) {
+            return (CustomServiceResolver) result;
+        }
+
+        return null;
     }
 
     @Override
     public Object getSystemService(String name) {
-        if (CustomServiceChecker.isCustom(name)) {
-            return resolveCustomService(name);
-        }
-
-        return super.getSystemService(name);
-    }
-
-    @Override
-    public Object resolveCustomService(String name) {
-        Object result = null;
-
-        CustomServiceResolver resolver = mCustomServiceResolver;
-        if (resolver != null) {
-            result = resolver.resolveCustomService(name);
-        }
-
-        if (result == null) {
-            Application application = getApplication();
-            if (application instanceof CustomServiceResolver) {
-                result = ((CustomServiceResolver) application).resolveCustomService(name);
+        if (CustomService.isCustom(name)) {
+            Object result = CustomService.resolve(this, name);
+            if (result != null) {
+                return result;
             }
         }
 
-        return result;
+        return super.getSystemService(name);
     }
 }

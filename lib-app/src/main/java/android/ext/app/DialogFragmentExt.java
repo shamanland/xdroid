@@ -5,16 +5,14 @@ import android.content.Context;
 import android.ext.core.Objects;
 import android.support.v4.app.Fragment;
 
+import java.util.HashMap;
+
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
 public class DialogFragmentExt extends Fragment implements CustomServiceResolver {
     private Context mContext;
-    private CustomServiceResolver mCustomServiceResolver;
-
-    protected void setCustomServiceResolver(CustomServiceResolver customServiceResolver) {
-        mCustomServiceResolver = customServiceResolver;
-    }
+    private HashMap<String, Object> mCustomServices;
 
     public Context getContext() {
         return Objects.notNull(mContext);
@@ -32,21 +30,26 @@ public class DialogFragmentExt extends Fragment implements CustomServiceResolver
         mContext = null;
     }
 
-    public Object resolveCustomService(String name) {
-        Object result = null;
-
-        CustomServiceResolver resolver = mCustomServiceResolver;
-        if (resolver != null) {
-            result = resolver.resolveCustomService(name);
+    public void putCustomService(String name, Object instance) {
+        if (mCustomServices == null) {
+            mCustomServices = new HashMap<String, Object>();
         }
 
-        if (result == null) {
-            Activity activity = getActivity();
-            if (activity instanceof CustomServiceResolver) {
-                result = ((CustomServiceResolver) activity).resolveCustomService(name);
-            }
+        mCustomServices.put(name, instance);
+    }
+
+    public Object getCustomService(String name) {
+        return mCustomServices != null ? mCustomServices.get(name) : null;
+    }
+
+    @Override
+    public CustomServiceResolver getParentResolver() {
+        Activity result = getActivity();
+
+        if (result instanceof CustomServiceResolver) {
+            return (CustomServiceResolver) result;
         }
 
-        return result;
+        return null;
     }
 }

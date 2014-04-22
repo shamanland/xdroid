@@ -7,16 +7,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 
+import java.util.HashMap;
+
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
 public class FragmentExt extends Fragment implements CustomServiceResolver {
     private Context mContext;
-    private CustomServiceResolver mCustomServiceResolver;
-
-    protected void setCustomServiceResolver(CustomServiceResolver customServiceResolver) {
-        mCustomServiceResolver = customServiceResolver;
-    }
+    private HashMap<String, Object> mCustomServices;
 
     public Context getContext() {
         return Objects.notNull(mContext);
@@ -34,26 +32,31 @@ public class FragmentExt extends Fragment implements CustomServiceResolver {
         mContext = null;
     }
 
-    public Object resolveCustomService(String name) {
-        Object result = null;
-
-        CustomServiceResolver resolver = mCustomServiceResolver;
-        if (resolver != null) {
-            result = resolver.resolveCustomService(name);
+    public void putCustomService(String name, Object instance) {
+        if (mCustomServices == null) {
+            mCustomServices = new HashMap<String, Object>();
         }
 
-        if (result == null) {
-            Activity activity = getActivity();
-            if (activity instanceof CustomServiceResolver) {
-                result = ((CustomServiceResolver) activity).resolveCustomService(name);
-            }
-        }
+        mCustomServices.put(name, instance);
+    }
 
-        return result;
+    public Object getCustomService(String name) {
+        return mCustomServices != null ? mCustomServices.get(name) : null;
     }
 
     @Override
-    public LayoutInflater getLayoutInflater(Bundle savedInstanceState) {
+    public CustomServiceResolver getParentResolver() {
+        Activity result = getActivity();
+
+        if (result instanceof CustomServiceResolver) {
+            return (CustomServiceResolver) result;
+        }
+
+        return null;
+    }
+
+    @Override
+    public LayoutInflater getLayoutInflater(Bundle state) {
         return LayoutInflater.from(getContext());
     }
 }

@@ -35,9 +35,11 @@ public class ContextFragmentWrapper extends ContextWrapper {
 
     @Override
     public Object getSystemService(String name) {
-        if (CustomServiceChecker.isCustom(name)) {
-            CustomServiceResolver resolver = (CustomServiceResolver) mFragment;
-            return resolver.resolveCustomService(name);
+        if (CustomService.isCustom(name)) {
+            Object result = CustomService.resolve((CustomServiceResolver) mFragment, name);
+            if (result != null) {
+                return result;
+            }
         }
 
         if (LAYOUT_INFLATER_SERVICE.equals(name)) {
@@ -48,6 +50,6 @@ public class ContextFragmentWrapper extends ContextWrapper {
             return mInflater;
         }
 
-        return getBaseContext().getSystemService(name);
+        return super.getSystemService(name);
     }
 }
