@@ -10,9 +10,14 @@ import java.util.HashMap;
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
-public class DialogFragmentExt extends Fragment implements CustomServiceResolver {
+public class DialogFragmentExt extends Fragment implements ActivityStarter, CustomServiceResolver {
     private Context mContext;
-    private HashMap<String, Object> mCustomServices;
+    private final HashMap<String, Object> mCustomServices;
+
+    public DialogFragmentExt() {
+        mCustomServices = new HashMap<String, Object>();
+        putCustomService(ActivityStarter.class.getName(), this);
+    }
 
     public Context getContext() {
         return Objects.notNull(mContext);
@@ -31,15 +36,11 @@ public class DialogFragmentExt extends Fragment implements CustomServiceResolver
     }
 
     public void putCustomService(String name, Object instance) {
-        if (mCustomServices == null) {
-            mCustomServices = new HashMap<String, Object>();
-        }
-
         mCustomServices.put(name, instance);
     }
 
     public Object getCustomService(String name) {
-        return mCustomServices != null ? mCustomServices.get(name) : null;
+        return mCustomServices.get(name);
     }
 
     @Override

@@ -8,20 +8,21 @@ import java.util.HashMap;
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
-public class ActivityExt extends ActionBarActivity implements CustomServiceResolver {
-    private HashMap<String, Object> mCustomServices;
+public class ActivityExt extends ActionBarActivity implements ActivityStarter, CustomServiceResolver {
+    private final HashMap<String, Object> mCustomServices;
+
+    public ActivityExt() {
+        mCustomServices = new HashMap<String, Object>();
+        putCustomService(ActivityStarter.class.getName(), this);
+    }
 
     public void putCustomService(String name, Object instance) {
-        if (mCustomServices == null) {
-            mCustomServices = new HashMap<String, Object>();
-        }
-
         mCustomServices.put(name, instance);
     }
 
     @Override
     public Object getCustomService(String name) {
-        return mCustomServices != null ? mCustomServices.get(name) : null;
+        return mCustomServices.get(name);
     }
 
     @Override

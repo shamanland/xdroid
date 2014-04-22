@@ -72,11 +72,11 @@ public final class CustomService {
         }
     }
 
-    public static boolean isCustom(String name) {
+    protected static boolean isCustom(String name) {
         return !SYSTEM.contains(name);
     }
 
-    public static Object resolve(CustomServiceResolver resolver, String name) {
+    protected static Object resolve(CustomServiceResolver resolver, String name) {
         while (resolver != null) {
             Object result = resolver.getCustomService(name);
             if (result != null) {
@@ -87,6 +87,10 @@ public final class CustomService {
         }
 
         return null;
+    }
+
+    public static <T> T get(Context context, Class<T> clazz) {
+        return clazz.cast(context.getSystemService(clazz.getName()));
     }
 
     private CustomService() {
