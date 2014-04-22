@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CompositeViewBinder xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- default binder for TextView with ByMethodExtractor -->
     <TextViewBinder
-            app:id="@android:id/text1"
-            app:method="getTitle"
+            app:viewId="@android:id/text1"
+            app:extractorMethod="getTitle"
+            />
+    <!-- custom binder by specified class, here class written without package name -->
+    <ViewBinder
+            app:viewId="@android:id/text2"
+            app:binderClass=".helpers.ExampleSubTitleBinder"
             />
     <CompoundButtonBinder
-            app:id="@+id/added"
-            app:method="isAdded"
+            app:viewId="@+id/added"
+            app:extractorMethod="isAdded"
             />
-    <!--
+    <!-- default binder for RatingBar, but custom extractor used by specified class -->
     <RatingBarBinder
-            app:id="@+id/rating"
-            app:method="getRating"
+            app:viewId="@android:id/progress"
+            app:extractorClass="android.ext.example.helpers.ExampleRatingExtractor"
             />
-            -->
 </CompositeViewBinder>

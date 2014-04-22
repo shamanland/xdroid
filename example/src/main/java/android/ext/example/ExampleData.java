@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class ExampleData implements Serializable {
     private String mTitle;
     private String mSubTitle;
+    private boolean mAdded;
 
     public ExampleData() {
         super();
@@ -13,6 +14,12 @@ public class ExampleData implements Serializable {
     public ExampleData(String title, String subTitle) {
         mTitle = title;
         mSubTitle = subTitle;
+    }
+
+    public ExampleData(String title, String subTitle, boolean added) {
+        mTitle = title;
+        mSubTitle = subTitle;
+        mAdded = added;
     }
 
     public String getTitle() {
@@ -29,5 +36,13 @@ public class ExampleData implements Serializable {
 
     public void setSubTitle(String subTitle) {
         mSubTitle = subTitle;
+    }
+
+    public boolean isAdded() {
+        return mAdded;
+    }
+
+    public void setAdded(boolean added) {
+        mAdded = added;
     }
 }

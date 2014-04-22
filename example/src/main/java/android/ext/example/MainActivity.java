@@ -71,11 +71,12 @@ public class MainActivity extends ActivityExt {
                 mData = new ArrayListExt<ExampleData>();
                 mAdapter.setData(mData);
                 mAdapter.setLayoutId(R.layout.v_item_with_progress);
-                mAdapter.setBinder(getResources(), R.xml.vb_example_two);
+                mAdapter.setBinder(getContext(), R.xml.vb_example_two);
 
-                mData.add(new ExampleData("Hello", "World"));
-                mData.add(new ExampleData("How are you?", "I'm fine"));
-                mData.add(new ExampleData("What about you?", "Not bad at all"));
+                // FIXME remove this example
+                mData.add(new ExampleData("Hello", "The Best World", true));
+                mData.add(new ExampleData("How are you?", "I'm fine", false));
+                mData.add(new ExampleData("What about you?", "Not bad at all", true));
             } else {
                 mAdapter = state.getParcelable("adapter");
                 mData = (ArrayListExt) mAdapter.getData();

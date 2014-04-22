@@ -1,8 +1,10 @@
 package android.ext.core;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.InflateException;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -10,20 +12,46 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 
+import static android.ext.core.BuildConfig.DEBUG;
+
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
 public abstract class AbstractInflater<T, C extends T> {
+    private static final String LOG_TAG = AbstractInflater.class.getSimpleName();
+
+    public static final char DOT = '.';
+
     private final Class<C> mCompositeClazz;
 
-    protected abstract T createFromTag(Resources resources, String tagName, C parent, AttributeSet attrs) throws XmlPullParserException;
+    protected static String fullClassName(Context context, String className) {
+        if (className.charAt(0) == DOT) {
+            return context.getPackageName() + className;
+        }
+
+        return className;
+    }
+
+    protected static Object newInstanceByClassName(String className) {
+        try {
+            return Class.forName(className).newInstance();
+        } catch (Throwable ex) {
+            if (DEBUG) {
+                Log.wtf(LOG_TAG, ex);
+            }
+
+            return null;
+        }
+    }
+
+    protected abstract T createFromTag(Context context, String tagName, C parent, AttributeSet attrs) throws XmlPullParserException;
 
     protected AbstractInflater(Class<C> compositeClazz) {
         mCompositeClazz = Objects.notNull(compositeClazz);
     }
 
-    public T inflate(Resources resources, int xmlId) {
-        XmlResourceParser parser = resources.getXml(xmlId);
+    public T inflate(Context context, int xmlId) {
+        XmlResourceParser parser = context.getResources().getXml(xmlId);
         if (parser == null) {
             throw new InflateException(String.valueOf(xmlId));
         }
@@ -38,10 +66,10 @@ public abstract class AbstractInflater<T, C extends T> {
                 throw new InflateException(parser.getPositionDescription());
             }
 
-            T result = Objects.notNull(createFromTag(resources, parser.getName(), null, parser));
+            T result = Objects.notNull(createFromTag(context, parser.getName(), null, parser));
 
             if (mCompositeClazz.isInstance(result)) {
-                inflateRec(resources, parser, mCompositeClazz.cast(result), parser);
+                inflateRec(context, parser, mCompositeClazz.cast(result), parser);
             }
 
             return result;
@@ -52,7 +80,7 @@ public abstract class AbstractInflater<T, C extends T> {
         }
     }
 
-    private void inflateRec(Resources resources, XmlPullParser parser, C parent, AttributeSet attrs) throws XmlPullParserException, IOException {
+    private void inflateRec(Context context, XmlPullParser parser, C parent, AttributeSet attrs) throws XmlPullParserException, IOException {
         final int depth = parser.getDepth();
         int type;
 
@@ -61,11 +89,38 @@ public abstract class AbstractInflater<T, C extends T> {
                 continue;
             }
 
-            T item = Objects.notNull(createFromTag(resources, parser.getName(), parent, attrs));
+            T item = Objects.notNull(createFromTag(context, parser.getName(), parent, attrs));
 
             if (mCompositeClazz.isInstance(item)) {
-                inflateRec(resources, parser, mCompositeClazz.cast(item), attrs);
+                inflateRec(context, parser, mCompositeClazz.cast(item), attrs);
             }
+        }
+    }
+
+    public static class MissedAttributeException extends XmlPullParserException {
+        public MissedAttributeException(Context context, int[] styleableArray, int... attrIndices) {
+            super(createMessage(context, styleableArray, attrIndices));
+        }
+
+        public static String createMessage(Context context, int[] styleableArray, int... attrIndices) {
+            if (DEBUG) {
+                if (ArrayUtils.isEmpty(attrIndices)) {
+                    return null;
+                }
+
+                Resources resources = context.getResources();
+                StringBuilder sb = new StringBuilder();
+
+                for (int i : attrIndices) {
+                    sb.append(resources.getResourceName(styleableArray[i]));
+                    sb.append(", ");
+                }
+
+                sb.delete(sb.length() - 2, sb.length());
+                return sb.toString();
+            }
+
+            return null;
         }
     }
 }

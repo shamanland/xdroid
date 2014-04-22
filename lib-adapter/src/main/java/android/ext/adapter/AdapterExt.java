@@ -1,6 +1,6 @@
 package android.ext.adapter;
 
-import android.content.res.Resources;
+import android.content.Context;
 import android.ext.collections.Indexed;
 import android.ext.collections.IndexedIterator;
 import android.ext.core.Objects;
@@ -48,8 +48,8 @@ public class AdapterExt<D, V extends View> extends BaseAdapter implements Iterab
         notifyDataSetChanged();
     }
 
-    public void setBinder(Resources resources, int xmlId) {
-        setBinder(ViewBinderInflater.getInstance().inflate(resources, xmlId));
+    public void setBinder(Context context, int xmlId) {
+        setBinder(ViewBinderInflater.getInstance().inflate(context, xmlId));
     }
 
     public void lockChanges() {

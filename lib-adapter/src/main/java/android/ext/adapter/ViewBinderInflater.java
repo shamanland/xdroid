@@ -1,9 +1,11 @@
 package android.ext.adapter;
 
-import android.content.res.Resources;
+import android.content.Context;
 import android.content.res.TypedArray;
 import android.ext.collections.Factory;
 import android.ext.core.AbstractInflater;
+import android.ext.core.Objects;
+import android.ext.core.Strings;
 import android.util.AttributeSet;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -15,10 +17,6 @@ import java.util.HashMap;
  */
 public final class ViewBinderInflater extends AbstractInflater<ViewBinder, CompositeViewBinder> {
     private static final ViewBinderInflater sInstance;
-
-    private static final String TAG_COMPOSITE = "CompositeViewBinder";
-    private static final String TAG_TEXT_VIEW = "TextViewBinder";
-    private static final String TAG_COMPOUND_BUTTON = "CompoundButtonBinder";
 
     private final HashMap<String, Factory<ViewBinder>> mFactories;
 
@@ -35,49 +33,62 @@ public final class ViewBinderInflater extends AbstractInflater<ViewBinder, Compo
 
         mFactories = new HashMap<String, Factory<ViewBinder>>();
 
-        mFactories.put(TAG_COMPOSITE, new Factory<ViewBinder>() {
+        mFactories.put(CompositeViewBinder.class.getSimpleName(), new Factory<ViewBinder>() {
             @Override
             public ViewBinder create() {
                 return new CompositeViewBinder();
             }
         });
 
-        mFactories.put(TAG_TEXT_VIEW, new Factory<ViewBinder>() {
+        mFactories.put(TextViewBinder.class.getSimpleName(), new Factory<ViewBinder>() {
             @Override
             public ViewBinder create() {
                 return new TextViewBinder();
             }
         });
 
-        mFactories.put(TAG_COMPOUND_BUTTON, new Factory<ViewBinder>() {
+        mFactories.put(CompoundButtonBinder.class.getSimpleName(), new Factory<ViewBinder>() {
             @Override
             public ViewBinder create() {
                 return new CompoundButtonBinder();
             }
         });
+
+        mFactories.put(RatingBarBinder.class.getSimpleName(), new Factory<ViewBinder>() {
+            @Override
+            public ViewBinder create() {
+                return new RatingBarBinder();
+            }
+        });
     }
 
     @Override
-    protected ViewBinder createFromTag(Resources resources, String tagName, CompositeViewBinder parent, AttributeSet attrs) throws XmlPullParserException {
-        final Factory<ViewBinder> factory = mFactories.get(tagName);
-        if (factory == null) {
-            throw new XmlPullParserException(tagName);
+    protected ViewBinder createFromTag(Context context, String tagName, CompositeViewBinder parent, AttributeSet attrs) throws XmlPullParserException {
+        ViewBinder result;
+
+        Factory<ViewBinder> factory = mFactories.get(tagName);
+        if (factory != null) {
+            result = Objects.notNull(factory.create());
+        } else {
+            if (ViewBinder.class.getSimpleName().equals(tagName)) {
+                result = createCustomBinder(context, attrs);
+            } else {
+                throw new XmlPullParserException(tagName);
+            }
         }
 
-        final ViewBinder result = factory.create();
-
         if (result instanceof ExtractorViewBinder) {
-            ViewBinderExtractor extractor = createExtractor(resources, attrs);
+            ViewBinderExtractor extractor = createExtractor(context, attrs);
             ((ExtractorViewBinder) result).setExtractor(extractor);
         }
 
         if (parent != null) {
-            TypedArray a = resources.obtainAttributes(attrs, R.styleable.ViewBinder);
+            TypedArray a = context.getResources().obtainAttributes(attrs, R.styleable.ViewBinder);
             if (a != null) {
                 try {
-                    int id = a.getResourceId(R.styleable.ViewBinder_id, 0);
+                    int id = a.getResourceId(R.styleable.ViewBinder_viewId, 0);
                     if (id == 0) {
-                        throw new XmlPullParserException(resources.getResourceName(R.styleable.ViewBinder_id));
+                        throw new MissedAttributeException(context, R.styleable.ViewBinder, R.styleable.ViewBinder_viewId);
                     }
 
                     parent.add(id, result);
@@ -90,8 +101,40 @@ public final class ViewBinderInflater extends AbstractInflater<ViewBinder, Compo
         return result;
     }
 
-    private ViewBinderExtractor createExtractor(Resources resources, AttributeSet attrs) {
-        // TODO
-        return null;
+    private ViewBinder createCustomBinder(Context context, AttributeSet attrs) throws XmlPullParserException {
+        TypedArray a = context.getResources().obtainAttributes(attrs, R.styleable.ViewBinder);
+        if (a != null) {
+            try {
+                String binder = a.getString(R.styleable.ViewBinder_binderClass);
+                if (!Strings.isEmpty(binder)) {
+                    return (ViewBinder) newInstanceByClassName(fullClassName(context, binder));
+                }
+            } finally {
+                a.recycle();
+            }
+        }
+
+        throw new MissedAttributeException(context, R.styleable.ViewBinder, R.styleable.ViewBinder_binderClass);
+    }
+
+    private ViewBinderExtractor createExtractor(Context context, AttributeSet attrs) throws XmlPullParserException {
+        TypedArray a = context.getResources().obtainAttributes(attrs, R.styleable.ViewBinder);
+        if (a != null) {
+            try {
+                String extractor = a.getString(R.styleable.ViewBinder_extractorClass);
+                if (!Strings.isEmpty(extractor)) {
+                    return (ViewBinderExtractor) newInstanceByClassName(fullClassName(context, extractor));
+                }
+
+                String method = a.getString(R.styleable.ViewBinder_extractorMethod);
+                if (!Strings.isEmpty(method)) {
+                    return new ByMethodExtractor(method);
+                }
+            } finally {
+                a.recycle();
+            }
+        }
+
+        throw new MissedAttributeException(context, R.styleable.ViewBinder, R.styleable.ViewBinder_extractorClass, R.styleable.ViewBinder_extractorMethod);
     }
 }

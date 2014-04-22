@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="ViewBinder">
-        <attr name="id" format="reference"/>
-        <attr name="name" format="string|reference"/>
-        <attr name="method" format="string|reference"/>
-        <attr name="extractor" format="string|reference"/>
+        <attr name="viewId" format="reference"/>
+        <attr name="binderClass" format="string|reference"/>
+        <attr name="extractorClass" format="string|reference"/>
+        <attr name="extractorMethod" format="string|reference"/>
     </declare-styleable>
 </resources>

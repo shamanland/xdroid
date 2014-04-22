@@ -13,10 +13,23 @@
             android:text="@string/hello_world"
             />
 
-    <SeekBar
-            android:id="@android:id/progress"
-            android:layout_width="match_parent"
+    <TextView
+            android:id="@android:id/text2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:max="40"
+            android:text="@string/hello_world"
+            />
+
+    <CheckBox
+            android:id="@+id/added"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+    <RatingBar
+            android:id="@android:id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
             />
 </LinearLayout>
