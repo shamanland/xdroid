@@ -4,13 +4,13 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.InflateException;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import static android.ext.core.BuildConfig.DEBUG;
 
@@ -23,6 +23,7 @@ public abstract class AbstractInflater<T, C extends T> {
     public static final char DOT = '.';
 
     private final Class<C> mCompositeClazz;
+    private final HashMap<String, Class<?>> mClassesCache;
 
     protected static String fullClassName(Context context, String className) {
         if (className.charAt(0) == DOT) {
@@ -32,22 +33,33 @@ public abstract class AbstractInflater<T, C extends T> {
         return className;
     }
 
-    protected static Object newInstanceByClassName(String className) {
-        try {
-            return Class.forName(className).newInstance();
-        } catch (Throwable ex) {
-            if (DEBUG) {
-                Log.wtf(LOG_TAG, ex);
-            }
-
-            return null;
-        }
-    }
-
     protected abstract T createFromTag(Context context, String tagName, C parent, AttributeSet attrs) throws XmlPullParserException;
 
     protected AbstractInflater(Class<C> compositeClazz) {
         mCompositeClazz = Objects.notNull(compositeClazz);
+        mClassesCache = new HashMap<String, Class<?>>();
+    }
+
+    protected Object newInstanceByClassName(String className) {
+        Class clazz = mClassesCache.get(className);
+        if (clazz == null) {
+            try {
+                clazz = Class.forName(className);
+                mClassesCache.put(className, clazz);
+            } catch (Throwable ex) {
+                throw new IllegalStateException(ex);
+            }
+        }
+
+        try {
+            return clazz.newInstance();
+        } catch (Throwable ex) {
+            throw new IllegalStateException(ex);
+        }
+    }
+
+    public void clearCache() {
+        mClassesCache.clear();
     }
 
     public T inflate(Context context, int xmlId) {

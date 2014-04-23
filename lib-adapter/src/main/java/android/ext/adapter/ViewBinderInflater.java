@@ -71,14 +71,14 @@ public final class ViewBinderInflater extends AbstractInflater<ViewBinder, Compo
             result = Objects.notNull(factory.create());
         } else {
             if (ViewBinder.class.getSimpleName().equals(tagName)) {
-                result = createCustomBinder(context, attrs);
+                result = Objects.notNull(createCustomBinder(context, attrs));
             } else {
                 throw new XmlPullParserException(tagName);
             }
         }
 
         if (result instanceof ExtractorViewBinder) {
-            ViewBinderExtractor extractor = createExtractor(context, attrs);
+            ViewBinderExtractor extractor = Objects.notNull(createExtractor(context, attrs));
             ((ExtractorViewBinder) result).setExtractor(extractor);
         }
 
