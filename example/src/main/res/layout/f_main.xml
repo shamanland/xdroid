@@ -1,6 +1,10 @@
-<ListView
+<android.ext.widget.ListViewExt
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:adapterData="linked_list"
+        app:adapterLayoutId="@layout/v_item_with_progress"
+        app:adapterBinderClass=".ExampleBinder"
         />

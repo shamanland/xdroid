@@ -1,6 +1,5 @@
 package android.ext.adapter;
 
-import android.content.Context;
 import android.ext.collections.Indexed;
 import android.ext.collections.IndexedIterator;
 import android.ext.core.Objects;
@@ -13,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
@@ -25,8 +25,12 @@ public class AdapterExt<D, V extends View> extends BaseAdapter implements Iterab
     private transient boolean mChangesLocked;
 
     public AdapterExt() {
-        mBinder = NullBinder.getInstance();
         mLayoutId = android.R.layout.simple_list_item_1;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<D> getDataList() {
+        return List.class.cast(mData);
     }
 
     public Indexed<D> getData() {
@@ -39,17 +43,13 @@ public class AdapterExt<D, V extends View> extends BaseAdapter implements Iterab
     }
 
     public void setBinder(ViewBinder<D, V> binder) {
-        mBinder = binder != null ? binder : NullBinder.<D, V>getInstance();
+        mBinder = binder;
         notifyDataSetChanged();
     }
 
     public void setLayoutId(int layoutId) {
         mLayoutId = layoutId;
         notifyDataSetChanged();
-    }
-
-    public void setBinder(Context context, int xmlId) {
-        setBinder(ViewBinderInflater.getInstance().inflate(context, xmlId));
     }
 
     public void lockChanges() {
@@ -83,26 +83,34 @@ public class AdapterExt<D, V extends View> extends BaseAdapter implements Iterab
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public V getView(int position, View convertView, ViewGroup parent) {
         final V result;
 
         if (convertView != null) {
             result = (V) convertView;
+
+            if (mBinder != null) {
+                mBinder.onNewData(result, getItem(position));
+            }
         } else {
-            result = (V) LayoutInflater.from(parent.getContext()).inflate(mLayoutId, parent, false);
+            result = (V) LayoutInflater.from(Objects.notNull(parent.getContext())).inflate(mLayoutId, parent, false);
 
-            mBinder.onNewView(result);
+            if (mBinder != null) {
+                mBinder.onNewView(result);
+                mBinder.onNewData(result, getItem(position));
+            }
         }
-
-        mBinder.onNewData(result, getItem(position));
 
         return result;
     }
 
+    @SuppressWarnings("unused")
     public D getFirstItem() {
         return getCount() > 0 ? getItem(0) : null;
     }
 
+    @SuppressWarnings("unused")
     public D getLastItem() {
         int count = getCount();
         return count > 0 ? getItem(count - 1) : null;

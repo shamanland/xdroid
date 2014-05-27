@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ListViewExt">
+        <!-- type of data source -->
+        <attr name="adapterData" format="enum">
+            <!-- do not initialize Adapter (default) -->
+            <enum name="none" value="0"/>
+            <!-- used with AdapterExt -->
+            <enum name="array_list" value="1"/>
+            <!-- used with AdapterExt -->
+            <enum name="linked_list" value="2"/>
+            <!-- used with CursorAdapterExt -->
+            <enum name="cursor" value="3"/>
+        </attr>
+        <!-- used for adapterData="cursor" -->
+        <attr name="adapterCursorQuery" format="string|reference"/>
+        <!-- used for adapterData="cursor" -->
+        <attr name="adapterCursorAutoRequery" format="boolean|reference"/>
+        <!-- layout for items -->
+        <attr name="adapterLayoutId" format="reference"/>
+        <!-- binder for items -->
+        <attr name="adapterBinderClass" format="string|reference"/>
+    </declare-styleable>
+</resources>

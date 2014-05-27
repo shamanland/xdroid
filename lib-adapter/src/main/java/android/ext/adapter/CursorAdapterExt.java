@@ -20,6 +20,7 @@ public class CursorAdapterExt<V extends View> extends CursorAdapter {
         super(context, c, autoRequery);
     }
 
+    @Deprecated
     public CursorAdapterExt(Context context, Cursor c, int flags) {
         super(context, c, flags);
     }
@@ -34,10 +35,12 @@ public class CursorAdapterExt<V extends View> extends CursorAdapter {
         notifyDataSetChanged();
     }
 
+    @SuppressWarnings("unused")
     public void lockChanges() {
         mChangesLocked = true;
     }
 
+    @SuppressWarnings("unused")
     public void unlockChanges() {
         mChangesLocked = false;
     }
@@ -50,6 +53,7 @@ public class CursorAdapterExt<V extends View> extends CursorAdapter {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public V newView(Context context, Cursor cursor, ViewGroup parent) {
         V result = (V) LayoutInflater.from(context).inflate(mLayoutId, parent, false);
         mBinder.onNewData(result, cursor);
@@ -57,6 +61,7 @@ public class CursorAdapterExt<V extends View> extends CursorAdapter {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void bindView(View view, Context context, Cursor cursor) {
         mBinder.onNewData((V) view, cursor);
     }

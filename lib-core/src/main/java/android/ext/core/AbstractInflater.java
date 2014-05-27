@@ -10,7 +10,6 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import static android.ext.core.BuildConfig.DEBUG;
 
@@ -18,48 +17,12 @@ import static android.ext.core.BuildConfig.DEBUG;
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
 public abstract class AbstractInflater<T, C extends T> {
-    private static final String LOG_TAG = AbstractInflater.class.getSimpleName();
-
-    public static final char DOT = '.';
-
     private final Class<C> mCompositeClazz;
-    private final HashMap<String, Class<?>> mClassesCache;
 
-    protected static String fullClassName(Context context, String className) {
-        if (className.charAt(0) == DOT) {
-            return context.getPackageName() + className;
-        }
-
-        return className;
-    }
-
-    protected abstract T createFromTag(Context context, String tagName, C parent, AttributeSet attrs) throws XmlPullParserException;
+    protected abstract T createFromTag(Context context, XmlPullParser parser, C parent, AttributeSet attrs) throws XmlPullParserException;
 
     protected AbstractInflater(Class<C> compositeClazz) {
         mCompositeClazz = Objects.notNull(compositeClazz);
-        mClassesCache = new HashMap<String, Class<?>>();
-    }
-
-    protected Object newInstanceByClassName(String className) {
-        Class clazz = mClassesCache.get(className);
-        if (clazz == null) {
-            try {
-                clazz = Class.forName(className);
-                mClassesCache.put(className, clazz);
-            } catch (Throwable ex) {
-                throw new IllegalStateException(ex);
-            }
-        }
-
-        try {
-            return clazz.newInstance();
-        } catch (Throwable ex) {
-            throw new IllegalStateException(ex);
-        }
-    }
-
-    public void clearCache() {
-        mClassesCache.clear();
     }
 
     public T inflate(Context context, int xmlId) {
@@ -78,7 +41,7 @@ public abstract class AbstractInflater<T, C extends T> {
                 throw new InflateException(parser.getPositionDescription());
             }
 
-            T result = Objects.notNull(createFromTag(context, parser.getName(), null, parser));
+            T result = Objects.notNull(createFromTag(context, parser, null, parser));
 
             if (mCompositeClazz.isInstance(result)) {
                 inflateRec(context, parser, mCompositeClazz.cast(result), parser);
@@ -101,7 +64,7 @@ public abstract class AbstractInflater<T, C extends T> {
                 continue;
             }
 
-            T item = Objects.notNull(createFromTag(context, parser.getName(), parent, attrs));
+            T item = Objects.notNull(createFromTag(context, parser, parent, attrs));
 
             if (mCompositeClazz.isInstance(item)) {
                 inflateRec(context, parser, mCompositeClazz.cast(item), attrs);

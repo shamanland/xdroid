@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CompositeViewBinder xmlns:app="http://schemas.android.com/apk/res-auto">
-    <!-- default binder for TextView with ByMethodExtractor -->
-    <TextViewBinder
+    <ProxyViewBinder
             app:viewId="@android:id/text1"
+            app:viewType="TextView"
             app:extractorMethod="getTitle"
             />
-    <!-- custom binder by specified class, here class written without package name -->
-    <ViewBinder
-            app:viewId="@android:id/text2"
-            app:binderClass=".helpers.ExampleSubTitleBinder"
-            />
-    <CompoundButtonBinder
+    <ProxyViewBinder
             app:viewId="@+id/added"
+            app:viewType="CompoundButton"
             app:extractorMethod="isAdded"
             />
-    <!-- default binder for RatingBar, but custom extractor used by specified class -->
-    <RatingBarBinder
+    <ProxyViewBinder
             app:viewId="@android:id/progress"
+            app:viewType="RatingBar"
             app:extractorClass="android.ext.example.helpers.ExampleRatingExtractor"
+            />
+    <ProxyViewBinder
+            app:viewId="@android:id/text2"
+            app:binderClass=".helpers.ExampleSubTitleBinder"
             />
 </CompositeViewBinder>

@@ -14,6 +14,10 @@ public final class Strings {
         return text == null || text.length() == 0;
     }
 
+    public static boolean isNotEmpty(CharSequence text) {
+        return !isEmpty(text);
+    }
+
     public static CharSequence notEmpty(CharSequence text) {
         if (DEBUG) {
             if (isEmpty(text)) {
@@ -26,6 +30,10 @@ public final class Strings {
 
     public static boolean isEmpty(String text) {
         return text == null || text.trim().length() == 0;
+    }
+
+    public static boolean isNotEmpty(String text) {
+        return !isEmpty(text);
     }
 
     public static String notEmpty(String text) {
