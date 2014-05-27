@@ -2,6 +2,7 @@ package android.ext.app;
 
 import android.app.Activity;
 import android.content.Context;
+import android.ext.collections.Prototypes;
 import android.ext.core.Objects;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,7 +18,7 @@ public class FragmentExt extends Fragment implements ActivityStarter, CustomServ
     private final HashMap<String, Object> mCustomServices;
 
     public FragmentExt() {
-        mCustomServices = new HashMap<String, Object>();
+        mCustomServices = Prototypes.newHashMap();
         putCustomService(ActivityStarter.class.getName(), this);
     }
 

@@ -3,6 +3,7 @@ package android.ext.app;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.ext.collections.Prototypes;
 import android.ext.core.Global;
 import android.util.Log;
 
@@ -19,7 +20,7 @@ public class ApplicationExt extends Application implements ActivityStarter, Cust
     private final HashMap<String, Object> mCustomServices;
 
     public ApplicationExt() {
-        mCustomServices = new HashMap<String, Object>();
+        mCustomServices = Prototypes.newHashMap();
         putCustomService(ActivityStarter.class.getName(), this);
     }
 

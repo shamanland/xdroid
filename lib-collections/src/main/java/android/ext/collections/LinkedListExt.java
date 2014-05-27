@@ -15,6 +15,12 @@ public class LinkedListExt<E> extends LinkedList<E> implements Indexed<E>, Parce
         super(collection);
     }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    public LinkedListExt<E> clone() {
+        return (LinkedListExt) super.clone();
+    }
+
     public int describeContents() {
         return 0;
     }

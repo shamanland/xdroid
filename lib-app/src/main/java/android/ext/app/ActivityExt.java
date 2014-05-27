@@ -1,6 +1,7 @@
 package android.ext.app;
 
 import android.app.Application;
+import android.ext.collections.Prototypes;
 import android.support.v7.app.ActionBarActivity;
 
 import java.util.HashMap;
@@ -12,7 +13,7 @@ public class ActivityExt extends ActionBarActivity implements ActivityStarter, C
     private final HashMap<String, Object> mCustomServices;
 
     public ActivityExt() {
-        mCustomServices = new HashMap<String, Object>();
+        mCustomServices = Prototypes.newHashMap();
         putCustomService(ActivityStarter.class.getName(), this);
     }
 

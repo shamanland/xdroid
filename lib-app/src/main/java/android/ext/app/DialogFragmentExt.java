@@ -2,6 +2,7 @@ package android.ext.app;
 
 import android.app.Activity;
 import android.content.Context;
+import android.ext.collections.Prototypes;
 import android.ext.core.Objects;
 import android.support.v4.app.Fragment;
 
@@ -15,7 +16,7 @@ public class DialogFragmentExt extends Fragment implements ActivityStarter, Cust
     private final HashMap<String, Object> mCustomServices;
 
     public DialogFragmentExt() {
-        mCustomServices = new HashMap<String, Object>();
+        mCustomServices = Prototypes.newHashMap();
         putCustomService(ActivityStarter.class.getName(), this);
     }
 

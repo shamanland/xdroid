@@ -7,9 +7,8 @@ import android.database.Cursor;
 import android.ext.adapter.AdapterExt;
 import android.ext.adapter.CursorAdapterExt;
 import android.ext.adapter.ViewBinder;
-import android.ext.collections.ArrayListExt;
 import android.ext.collections.Indexed;
-import android.ext.collections.LinkedListExt;
+import android.ext.collections.Prototypes;
 import android.ext.core.ParcelUtils;
 import android.ext.core.ReflectUtils;
 import android.ext.core.Strings;
@@ -67,10 +66,10 @@ public class ListViewExt extends ListView {
         try {
             switch (a.getInt(R.styleable.ListViewExt_adapterData, ADAPTER_DATA_NONE)) {
                 case ADAPTER_DATA_ARRAY_LIST:
-                    initAdapter(context, a, new AdapterExt(), new ArrayListExt());
+                    initAdapter(context, a, new AdapterExt(), Prototypes.newArrayList());
                     break;
                 case ADAPTER_DATA_LINKED_LIST:
-                    initAdapter(context, a, new AdapterExt(), new LinkedListExt());
+                    initAdapter(context, a, new AdapterExt(), Prototypes.newLinkedList());
                     break;
                 case ADAPTER_DATA_CURSOR:
                     initCursorAdapter(context, a);

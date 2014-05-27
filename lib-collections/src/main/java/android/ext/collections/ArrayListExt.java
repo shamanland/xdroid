@@ -22,6 +22,12 @@ public class ArrayListExt<E> extends ArrayList<E> implements Indexed<E>, Parcela
         super(collection);
     }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    public ArrayListExt<E> clone() {
+        return (ArrayListExt) super.clone();
+    }
+
     public int describeContents() {
         return 0;
     }
