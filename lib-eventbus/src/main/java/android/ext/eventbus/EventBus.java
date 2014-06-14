@@ -21,25 +21,31 @@ public final class EventBus {
     }
 
     public boolean send(Context context, Bundle event) {
-        if (SNAPSHOT) {
-            if (!event.containsKey(EVENT_ID)) {
-                throw new IllegalArgumentException(String.valueOf(event));
+        if (event == null) {
+            if (SNAPSHOT) {
+                Log.w(LOG_TAG, "send: event is null");
             }
 
-            if (event.getInt(EVENT_ID) == 0) {
-                throw new IllegalArgumentException(String.valueOf(event.get(EVENT_ID)));
+            return false;
+        }
+
+        if (!(event.get(EVENT_ID) instanceof Integer)) {
+            if (SNAPSHOT) {
+                Log.w(LOG_TAG, "send: wrong id type: " + event.get(EVENT_ID));
             }
+
+            return false;
         }
 
         EventDispatcher dispatcher = CustomService.get(context, EventDispatcher.class);
-        if (dispatcher != null) {
-            return dispatcher.onNewEvent(event);
+        if (dispatcher == null) {
+            if (SNAPSHOT) {
+                Log.v(LOG_TAG, "send: dispatcher not found: " + context);
+            }
+
+            return false;
         }
 
-        if (SNAPSHOT) {
-            Log.v(LOG_TAG, "send: dispatcher not found: " + context);
-        }
-
-        return false;
+        return dispatcher.onNewEvent(event);
     }
 }
