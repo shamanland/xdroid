@@ -8,18 +8,17 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
 public class FragmentExt extends Fragment implements ActivityStarter, CustomServiceResolver {
     private Context mContext;
-    private final HashMap<String, Object> mCustomServices;
+    private Map<String, Object> mCustomServices;
 
     public FragmentExt() {
-        mCustomServices = Prototypes.newHashMap();
-        putCustomService(ActivityStarter.class.getName(), this);
+        // empty
     }
 
     public Context getContext() {
@@ -39,11 +38,23 @@ public class FragmentExt extends Fragment implements ActivityStarter, CustomServ
     }
 
     public void putCustomService(String name, Object instance) {
+        if (mCustomServices == null) {
+            mCustomServices = Prototypes.newHashMap();
+        }
+
         mCustomServices.put(name, instance);
     }
 
     public Object getCustomService(String name) {
-        return mCustomServices.get(name);
+        if (ActivityStarter.class.getName().equals(name)) {
+            return this;
+        }
+
+        if (mCustomServices != null) {
+            return mCustomServices.get(name);
+        }
+
+        return null;
     }
 
     @Override

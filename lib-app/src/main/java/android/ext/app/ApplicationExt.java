@@ -7,7 +7,7 @@ import android.ext.collections.Prototypes;
 import android.ext.core.Global;
 import android.util.Log;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import static android.ext.app.BuildConfig.SNAPSHOT;
 
@@ -17,11 +17,10 @@ import static android.ext.app.BuildConfig.SNAPSHOT;
 public class ApplicationExt extends Application implements ActivityStarter, CustomServiceResolver {
     private static final String LOG_TAG = ApplicationExt.class.getSimpleName();
 
-    private final HashMap<String, Object> mCustomServices;
+    private Map<String, Object> mCustomServices;
 
     public ApplicationExt() {
-        mCustomServices = Prototypes.newHashMap();
-        putCustomService(ActivityStarter.class.getName(), this);
+        // empty
     }
 
     @Override
@@ -31,12 +30,24 @@ public class ApplicationExt extends Application implements ActivityStarter, Cust
     }
 
     public void putCustomService(String name, Object instance) {
+        if (mCustomServices == null) {
+            mCustomServices = Prototypes.newHashMap();
+        }
+
         mCustomServices.put(name, instance);
     }
 
     @Override
     public Object getCustomService(String name) {
-        return mCustomServices.get(name);
+        if (ActivityStarter.class.getName().equals(name)) {
+            return this;
+        }
+
+        if (mCustomServices != null) {
+            return mCustomServices.get(name);
+        }
+
+        return null;
     }
 
     @Override

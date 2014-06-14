@@ -4,26 +4,37 @@ import android.app.Application;
 import android.ext.collections.Prototypes;
 import android.support.v7.app.ActionBarActivity;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
 public class ActivityExt extends ActionBarActivity implements ActivityStarter, CustomServiceResolver {
-    private final HashMap<String, Object> mCustomServices;
+    private Map<String, Object> mCustomServices;
 
     public ActivityExt() {
-        mCustomServices = Prototypes.newHashMap();
-        putCustomService(ActivityStarter.class.getName(), this);
+        // empty
     }
 
     public void putCustomService(String name, Object instance) {
+        if (mCustomServices == null) {
+            mCustomServices = Prototypes.newHashMap();
+        }
+
         mCustomServices.put(name, instance);
     }
 
     @Override
     public Object getCustomService(String name) {
-        return mCustomServices.get(name);
+        if (ActivityStarter.class.getName().equals(name)) {
+            return this;
+        }
+
+        if (mCustomServices != null) {
+            return mCustomServices.get(name);
+        }
+
+        return null;
     }
 
     @Override
