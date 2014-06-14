@@ -9,9 +9,10 @@ public interface ViewBinder<D, V extends View> {
     /**
      * Implementation should prepare passed <b>view</b> for future call {@link #onNewData}.
      *
-     * @param view newly created instance
+     * @param position index of data item
+     * @param view     newly created instance
      */
-    void onNewView(V view);
+    void onNewView(int position, V view);
 
-    void onNewData(V view, D data);
+    void onNewData(int position, V view, D data);
 }

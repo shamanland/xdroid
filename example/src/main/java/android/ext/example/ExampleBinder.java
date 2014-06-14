@@ -15,7 +15,7 @@ public class ExampleBinder implements ViewBinder<ExampleData, View> {
     }
 
     @Override
-    public void onNewView(View view) {
+    public void onNewView(int position, View view) {
         ViewHolder holder = new ViewHolder();
         holder.text1 = (TextView) view.findViewById(android.R.id.text1);
         holder.text2 = (TextView) view.findViewById(android.R.id.text2);
@@ -25,7 +25,7 @@ public class ExampleBinder implements ViewBinder<ExampleData, View> {
     }
 
     @Override
-    public void onNewData(View view, ExampleData data) {
+    public void onNewData(int position, View view, ExampleData data) {
         ViewHolder holder = (ViewHolder) view.getTag();
 
         if (holder.text1 != null) {

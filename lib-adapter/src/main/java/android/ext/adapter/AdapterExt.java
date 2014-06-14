@@ -93,20 +93,19 @@ public class AdapterExt<D, V extends View> extends BaseAdapter implements Iterab
     public V getView(int position, View convertView, ViewGroup parent) {
         final V result;
 
-        if (convertView != null) {
-            result = (V) convertView;
-
-            if (mBinder != null) {
-                mBinder.onNewData(result, getItem(position));
-            }
-        } else {
+        if (convertView == null) {
             result = (V) LayoutInflater.from(Objects.notNull(parent.getContext()))
                     .inflate(mLayoutId.get(getItemViewType(position)), parent, false);
 
             if (mBinder != null) {
-                mBinder.onNewView(result);
-                mBinder.onNewData(result, getItem(position));
+                mBinder.onNewView(position, result);
             }
+        } else {
+            result = (V) convertView;
+        }
+
+        if (mBinder != null) {
+            mBinder.onNewData(position, result, getItem(position));
         }
 
         return result;

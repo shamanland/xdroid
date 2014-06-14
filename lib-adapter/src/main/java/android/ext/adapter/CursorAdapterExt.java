@@ -56,13 +56,13 @@ public class CursorAdapterExt<V extends View> extends CursorAdapter {
     @SuppressWarnings("unchecked")
     public V newView(Context context, Cursor cursor, ViewGroup parent) {
         V result = (V) LayoutInflater.from(context).inflate(mLayoutId, parent, false);
-        mBinder.onNewData(result, cursor);
+        mBinder.onNewData(cursor.getPosition(), result, cursor);
         return result;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public void bindView(View view, Context context, Cursor cursor) {
-        mBinder.onNewData((V) view, cursor);
+        mBinder.onNewData(cursor.getPosition(), (V) view, cursor);
     }
 }
