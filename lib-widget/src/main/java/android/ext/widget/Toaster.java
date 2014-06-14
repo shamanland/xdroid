@@ -10,6 +10,7 @@ import static android.ext.core.Global.getContext;
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
+@SuppressWarnings("unused")
 public final class Toaster implements Handler.Callback {
     private static final Handler sHandler = new Handler(Looper.getMainLooper(), new Toaster());
 
@@ -19,11 +20,12 @@ public final class Toaster implements Handler.Callback {
 
     @Override
     public boolean handleMessage(Message msg) {
-        Toast.makeText(getContext(), (CharSequence) msg.obj, msg.arg1).show();
+        Toast.makeText(getContext(), (CharSequence) msg.obj, msg.what).show();
         return true;
     }
 
     private static void sendMessage(CharSequence text, int length) {
+        //noinspection ConstantConditions
         Message.obtain(sHandler, length, text).sendToTarget();
     }
 
