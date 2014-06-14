@@ -1,6 +1,6 @@
 package android.ext.core;
 
-import static android.ext.core.BuildConfig.DEBUG;
+import static android.ext.core.BuildConfig.SNAPSHOT;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
@@ -11,7 +11,7 @@ public final class Objects {
     }
 
     public static <T> T notNull(T object) {
-        if (DEBUG) {
+        if (SNAPSHOT) {
             if (object == null) {
                 throw new NullPointerException();
             }

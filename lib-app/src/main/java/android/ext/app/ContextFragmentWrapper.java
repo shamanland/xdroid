@@ -5,7 +5,7 @@ import android.ext.core.Objects;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 
-import static android.ext.app.BuildConfig.DEBUG;
+import static android.ext.app.BuildConfig.SNAPSHOT;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
@@ -26,7 +26,7 @@ public class ContextFragmentWrapper extends ContextWrapper {
 
     @Override
     public String toString() {
-        if (DEBUG) {
+        if (SNAPSHOT) {
             return ContextFragmentWrapper.class.getSimpleName() + '[' + mFragment.toString() + "]@" + System.identityHashCode(this);
         } else {
             return super.toString();

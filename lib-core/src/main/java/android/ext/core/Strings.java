@@ -1,6 +1,6 @@
 package android.ext.core;
 
-import static android.ext.core.BuildConfig.DEBUG;
+import static android.ext.core.BuildConfig.SNAPSHOT;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
@@ -19,7 +19,7 @@ public final class Strings {
     }
 
     public static CharSequence notEmpty(CharSequence text) {
-        if (DEBUG) {
+        if (SNAPSHOT) {
             if (isEmpty(text)) {
                 throw new IllegalArgumentException();
             }
@@ -37,7 +37,7 @@ public final class Strings {
     }
 
     public static String notEmpty(String text) {
-        if (DEBUG) {
+        if (SNAPSHOT) {
             if (isEmpty(text)) {
                 throw new IllegalArgumentException();
             }

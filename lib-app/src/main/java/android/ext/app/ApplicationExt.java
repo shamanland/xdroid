@@ -9,7 +9,7 @@ import android.util.Log;
 
 import java.util.HashMap;
 
-import static android.ext.app.BuildConfig.DEBUG;
+import static android.ext.app.BuildConfig.SNAPSHOT;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
@@ -58,7 +58,7 @@ public class ApplicationExt extends Application implements ActivityStarter, Cust
 
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
-        if (DEBUG) {
+        if (SNAPSHOT) {
             Log.w(LOG_TAG, "Cannot start Activity for result from Application: " + intent);
         }
 

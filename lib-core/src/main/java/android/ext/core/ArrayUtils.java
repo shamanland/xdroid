@@ -1,6 +1,6 @@
 package android.ext.core;
 
-import static android.ext.core.BuildConfig.DEBUG;
+import static android.ext.core.BuildConfig.SNAPSHOT;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
@@ -83,7 +83,7 @@ public final class ArrayUtils {
     }
 
     public static <T> T[] notEmpty(T[] array) {
-        if (DEBUG) {
+        if (SNAPSHOT) {
             if (isEmpty(array)) {
                 throw new IllegalArgumentException();
             }
@@ -93,7 +93,7 @@ public final class ArrayUtils {
     }
 
     public static boolean[] notEmpty(boolean[] array) {
-        if (DEBUG) {
+        if (SNAPSHOT) {
             if (isEmpty(array)) {
                 throw new IllegalArgumentException();
             }
@@ -103,7 +103,7 @@ public final class ArrayUtils {
     }
 
     public static byte[] notEmpty(byte[] array) {
-        if (DEBUG) {
+        if (SNAPSHOT) {
             if (isEmpty(array)) {
                 throw new IllegalArgumentException();
             }
@@ -113,7 +113,7 @@ public final class ArrayUtils {
     }
 
     public static char[] notEmpty(char[] array) {
-        if (DEBUG) {
+        if (SNAPSHOT) {
             if (isEmpty(array)) {
                 throw new IllegalArgumentException();
             }
@@ -123,7 +123,7 @@ public final class ArrayUtils {
     }
 
     public static short[] notEmpty(short[] array) {
-        if (DEBUG) {
+        if (SNAPSHOT) {
             if (isEmpty(array)) {
                 throw new IllegalArgumentException();
             }
@@ -133,7 +133,7 @@ public final class ArrayUtils {
     }
 
     public static int[] notEmpty(int[] array) {
-        if (DEBUG) {
+        if (SNAPSHOT) {
             if (isEmpty(array)) {
                 throw new IllegalArgumentException();
             }
@@ -143,7 +143,7 @@ public final class ArrayUtils {
     }
 
     public static long[] notEmpty(long[] array) {
-        if (DEBUG) {
+        if (SNAPSHOT) {
             if (isEmpty(array)) {
                 throw new IllegalArgumentException();
             }
@@ -153,7 +153,7 @@ public final class ArrayUtils {
     }
 
     public static float[] notEmpty(float[] array) {
-        if (DEBUG) {
+        if (SNAPSHOT) {
             if (isEmpty(array)) {
                 throw new IllegalArgumentException();
             }
@@ -163,7 +163,7 @@ public final class ArrayUtils {
     }
 
     public static double[] notEmpty(double[] array) {
-        if (DEBUG) {
+        if (SNAPSHOT) {
             if (isEmpty(array)) {
                 throw new IllegalArgumentException();
             }

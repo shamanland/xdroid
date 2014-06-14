@@ -7,7 +7,7 @@ import android.os.Looper;
 
 import java.util.HashMap;
 
-import static android.ext.core.BuildConfig.DEBUG;
+import static android.ext.core.BuildConfig.SNAPSHOT;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
@@ -36,7 +36,7 @@ public final class Global {
     }
 
     public static <T> void putSingleton(Class<T> clazz, T instance) {
-        if (DEBUG) {
+        if (SNAPSHOT) {
             if (!clazz.isInstance(instance)) {
                 throw new IllegalArgumentException();
             }

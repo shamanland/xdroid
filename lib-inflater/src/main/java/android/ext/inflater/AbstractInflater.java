@@ -13,7 +13,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 
-import static android.ext.inflater.BuildConfig.DEBUG;
+import static android.ext.inflater.BuildConfig.SNAPSHOT;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
@@ -80,7 +80,7 @@ public abstract class AbstractInflater<T, C extends T> {
         }
 
         public static String createMessage(Context context, int[] styleableArray, int... attrIndices) {
-            if (DEBUG) {
+            if (SNAPSHOT) {
                 if (ArrayUtils.isEmpty(attrIndices)) {
                     return null;
                 }
