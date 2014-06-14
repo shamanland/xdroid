@@ -33,9 +33,11 @@ public final class ParcelUtils {
     public static <T> T readParcelableOrSerializable(Parcel in, ClassLoader classLoader) {
         switch (in.readInt()) {
             case VAL_PARCELABLE:
+                //noinspection unchecked
                 return (T) in.readParcelable(classLoader);
 
             case VAL_SERIALIZABLE:
+                //noinspection unchecked
                 return (T) in.readSerializable();
 
             case VAL_NULL:

@@ -12,6 +12,10 @@ android {
         // workaround for https://code.google.com/p/android/issues/detail?id=52962
         buildConfigField 'boolean', 'SNAPSHOT', VERSION_NAME.contains("SNAPSHOT").toString()
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 apply from: 'https://raw.github.com/shamanland/gradle-mvn-push/master/gradle-mvn-push.gradle'
