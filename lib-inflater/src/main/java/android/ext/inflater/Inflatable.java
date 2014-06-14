@@ -1,4 +1,4 @@
-package android.ext.core;
+package android.ext.inflater;
 
 import android.content.res.Resources;
 import android.util.AttributeSet;

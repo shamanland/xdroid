@@ -1,8 +1,10 @@
-package android.ext.core;
+package android.ext.inflater;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
+import android.ext.core.ArrayUtils;
+import android.ext.core.Objects;
 import android.util.AttributeSet;
 import android.view.InflateException;
 
@@ -11,7 +13,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 
-import static android.ext.core.BuildConfig.DEBUG;
+import static android.ext.inflater.BuildConfig.DEBUG;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
