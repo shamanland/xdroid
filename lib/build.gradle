@@ -2,12 +2,19 @@ apply plugin: 'android-sdk-manager'
 apply plugin: 'android-library'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion '19.1.0'
+    compileSdkVersion COMPILE_SDK_VERSION as int
+    buildToolsVersion BUILD_TOOLS_VERSION
 
     defaultConfig {
-        minSdkVersion 10
-        targetSdkVersion 19
+        minSdkVersion MIN_SDK_VERSION as int
+        targetSdkVersion TARGET_SDK_VERSION as int
+
+        // workaround for https://code.google.com/p/android/issues/detail?id=52962
+        buildConfigField 'boolean', 'SNAPSHOT', VERSION_NAME.contains("SNAPSHOT").toString()
+    }
+
+    lintOptions {
+        abortOnError false
     }
 }
 
