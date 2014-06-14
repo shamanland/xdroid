@@ -23,7 +23,7 @@ public class MainActivity extends ActivityExt {
         setContentView(R.layout.a_main);
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
+            getFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }

@@ -1,11 +1,11 @@
 package android.ext.app;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.ext.collections.Prototypes;
 import android.ext.core.Objects;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 
 import java.util.Map;
@@ -68,7 +68,8 @@ public class FragmentExt extends Fragment implements ActivityStarter, CustomServ
         return null;
     }
 
-    @Override
+    // Override
+    @SuppressWarnings("UnusedDeclaration")
     public LayoutInflater getLayoutInflater(Bundle state) {
         return LayoutInflater.from(getContext());
     }

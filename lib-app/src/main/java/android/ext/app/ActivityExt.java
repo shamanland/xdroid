@@ -1,15 +1,15 @@
 package android.ext.app;
 
+import android.app.Activity;
 import android.app.Application;
 import android.ext.collections.Prototypes;
-import android.support.v7.app.ActionBarActivity;
 
 import java.util.Map;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
-public class ActivityExt extends ActionBarActivity implements ActivityStarter, CustomServiceResolver {
+public class ActivityExt extends Activity implements ActivityStarter, CustomServiceResolver {
     private Map<String, Object> mCustomServices;
 
     public ActivityExt() {
@@ -49,7 +49,7 @@ public class ActivityExt extends ActionBarActivity implements ActivityStarter, C
     }
 
     @Override
-    public Object getSystemService(String name) {
+    public Object getSystemService(@SuppressWarnings("NullableProblems") String name) {
         if (CustomService.isCustom(name)) {
             Object result = CustomService.resolve(this, name);
             if (result != null) {

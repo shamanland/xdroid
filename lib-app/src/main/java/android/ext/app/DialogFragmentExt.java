@@ -1,17 +1,17 @@
 package android.ext.app;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.ext.collections.Prototypes;
 import android.ext.core.Objects;
-import android.support.v4.app.Fragment;
 
 import java.util.Map;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
-public class DialogFragmentExt extends Fragment implements ActivityStarter, CustomServiceResolver {
+public class DialogFragmentExt extends DialogFragment implements ActivityStarter, CustomServiceResolver {
     private Context mContext;
     private Map<String, Object> mCustomServices;
 
