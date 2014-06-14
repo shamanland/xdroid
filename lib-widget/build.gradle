@@ -8,6 +8,9 @@ android {
     defaultConfig {
         minSdkVersion 10
         targetSdkVersion 19
+
+        // workaround for https://code.google.com/p/android/issues/detail?id=52962
+        buildConfigField 'boolean', 'SNAPSHOT', VERSION_NAME.contains("SNAPSHOT").toString()
     }
 }
 
