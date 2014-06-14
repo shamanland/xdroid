@@ -6,6 +6,7 @@ import android.ext.core.Objects;
 import android.ext.core.ParcelUtils;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +21,13 @@ import java.util.List;
 public class AdapterExt<D, V extends View> extends BaseAdapter implements Iterable<D>, Parcelable {
     private Indexed<D> mData;
     private ViewBinder<D, V> mBinder;
-    private int mLayoutId;
+    private SparseIntArray mLayoutId;
 
     private transient boolean mChangesLocked;
 
     public AdapterExt() {
-        mLayoutId = android.R.layout.simple_list_item_1;
+        mLayoutId = new SparseIntArray();
+        mLayoutId.put(0, android.R.layout.simple_list_item_1);
     }
 
     @SuppressWarnings("unchecked")
@@ -48,7 +50,11 @@ public class AdapterExt<D, V extends View> extends BaseAdapter implements Iterab
     }
 
     public void setLayoutId(int layoutId) {
-        mLayoutId = layoutId;
+        putLayoutId(0, layoutId);
+    }
+
+    public void putLayoutId(int viewType, int layoutId) {
+        mLayoutId.put(viewType, layoutId);
         notifyDataSetChanged();
     }
 
@@ -94,7 +100,8 @@ public class AdapterExt<D, V extends View> extends BaseAdapter implements Iterab
                 mBinder.onNewData(result, getItem(position));
             }
         } else {
-            result = (V) LayoutInflater.from(Objects.notNull(parent.getContext())).inflate(mLayoutId, parent, false);
+            result = (V) LayoutInflater.from(Objects.notNull(parent.getContext()))
+                    .inflate(mLayoutId.get(getItemViewType(position)), parent, false);
 
             if (mBinder != null) {
                 mBinder.onNewView(result);
@@ -128,7 +135,7 @@ public class AdapterExt<D, V extends View> extends BaseAdapter implements Iterab
     public void writeToParcel(Parcel out, int flags) {
         ParcelUtils.writeParcelableOrSerializable(out, flags, mData);
         ParcelUtils.writeParcelableOrSerializable(out, flags, mBinder);
-        out.writeInt(mLayoutId);
+        ParcelUtils.writeSparseIntArray(out, mLayoutId);
     }
 
     public static final Parcelable.Creator<AdapterExt> CREATOR = new Parcelable.Creator<AdapterExt>() {
@@ -145,6 +152,6 @@ public class AdapterExt<D, V extends View> extends BaseAdapter implements Iterab
         ClassLoader cl = ((Object) this).getClass().getClassLoader();
         mData = ParcelUtils.readParcelableOrSerializable(in, cl);
         mBinder = Objects.notNull(ParcelUtils.<ViewBinder<D, V>>readParcelableOrSerializable(in, cl));
-        mLayoutId = in.readInt();
+        mLayoutId = ParcelUtils.readSparseIntArray(in);
     }
 }

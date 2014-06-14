@@ -2,6 +2,7 @@ package android.ext.core;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.SparseIntArray;
 
 import java.io.Serializable;
 
@@ -43,5 +44,37 @@ public final class ParcelUtils {
             default:
                 return null;
         }
+    }
+
+    public static void writeSparseIntArray(Parcel out, SparseIntArray value) {
+        if (value == null) {
+            out.writeInt(-1);
+        } else {
+            int count = value.size();
+            out.writeInt(count);
+
+            for (int i = 0; i < count; ++i) {
+                out.writeInt(value.keyAt(i));
+                out.writeInt(value.valueAt(i));
+            }
+        }
+    }
+
+    public static SparseIntArray readSparseIntArray(Parcel in) {
+        int count = in.readInt();
+        if (count < 0) {
+            return null;
+        }
+
+        SparseIntArray result = new SparseIntArray();
+
+        for (int i = 0; i < count; ++i) {
+            int key = in.readInt();
+            int value = in.readInt();
+
+            result.put(key, value);
+        }
+
+        return result;
     }
 }
