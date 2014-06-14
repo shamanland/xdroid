@@ -1,4 +1,4 @@
-package android.ext.app;
+package android.ext.customservice;
 
 import android.content.Context;
 import android.os.Build;
@@ -72,11 +72,11 @@ public final class CustomService {
         }
     }
 
-    protected static boolean isCustom(String name) {
+    public static boolean isCustom(String name) {
         return !SYSTEM.contains(name);
     }
 
-    protected static Object resolve(CustomServiceResolver resolver, String name) {
+    public static Object resolve(CustomServiceResolver resolver, String name) {
         while (resolver != null) {
             Object result = resolver.getCustomService(name);
             if (result != null) {

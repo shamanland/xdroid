@@ -19,13 +19,8 @@ android {
 }
 
 dependencies {
-    compile project(':lib-adapter')
-    compile project(':lib-app')
-    compile project(':lib-collections')
     compile project(':lib-core')
-    compile project(':lib-eventbus')
-    compile project(':lib-inflater')
-    compile project(':lib-widget')
+    compile project(':lib-customservice')
 }
 
 apply from: 'https://raw.github.com/shamanland/gradle-mvn-push/master/gradle-mvn-push.gradle'

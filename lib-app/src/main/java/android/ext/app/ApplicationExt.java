@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.ext.collections.Prototypes;
 import android.ext.core.Global;
+import android.ext.customservice.CustomService;
+import android.ext.customservice.CustomServiceResolver;
 import android.util.Log;
 
 import java.util.Map;

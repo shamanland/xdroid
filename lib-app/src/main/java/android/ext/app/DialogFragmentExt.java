@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.ext.collections.Prototypes;
 import android.ext.core.Objects;
+import android.ext.customservice.CustomServiceResolver;
 
 import java.util.Map;
 

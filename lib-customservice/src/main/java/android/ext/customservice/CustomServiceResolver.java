@@ -1,4 +1,4 @@
-package android.ext.app;
+package android.ext.customservice;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)

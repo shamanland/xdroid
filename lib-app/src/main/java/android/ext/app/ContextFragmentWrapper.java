@@ -3,6 +3,8 @@ package android.ext.app;
 import android.app.Fragment;
 import android.content.ContextWrapper;
 import android.ext.core.Objects;
+import android.ext.customservice.CustomService;
+import android.ext.customservice.CustomServiceResolver;
 import android.view.LayoutInflater;
 
 import static android.ext.app.BuildConfig.SNAPSHOT;
