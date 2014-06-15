@@ -3,7 +3,6 @@ package android.ext.eventbus;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.Fragments;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.ext.core.Objects;
@@ -11,6 +10,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 
+import java.lang.reflect.Method;
+
+import static android.ext.eventbus.BuildConfig.SNAPSHOT;
 import static android.ext.eventbus.EventDispatcherInflater.readClass;
 
 public class EventDeliveryOptions implements Parcelable {
@@ -119,7 +121,7 @@ public class EventDeliveryOptions implements Parcelable {
         if (!backStack && appearance == APPEARANCE_REPLACE) {
             Fragment old = manager.findFragmentById(container);
             if (old != null) {
-                if (Fragments.isInBackStack(old)) {
+                if (MethodIsInBackStack.invoke(old)) {
                     if (manager.getBackStackEntryCount() == 1) {
                         if (popOnForceBackStackEvenForSingleEntry) {
                             manager.popBackStack();
@@ -216,5 +218,44 @@ public class EventDeliveryOptions implements Parcelable {
 
     private boolean useCustomAnimations() {
         return (enterAnimation | exitAnimation | popEnterAnimation | popExitAnimation) != 0;
+    }
+
+    static class MethodIsInBackStack {
+        private static final Method sMethod;
+
+        static {
+            try {
+                sMethod = Fragment.class.getDeclaredMethod("isInBackStack");
+                sMethod.setAccessible(true);
+            } catch (Throwable ex) {
+                if (SNAPSHOT) {
+                    throw new AssertionError(ex);
+                }
+            }
+        }
+
+        static boolean invoke(Fragment fragment) {
+            if (sMethod == null) {
+                return false;
+            }
+
+            Object result;
+
+            try {
+                result = sMethod.invoke(fragment);
+            } catch (Throwable ex) {
+                if (SNAPSHOT) {
+                    throw new AssertionError(ex);
+                }
+
+                return false;
+            }
+
+            if (result instanceof Boolean) {
+                return (Boolean) result;
+            }
+
+            return false;
+        }
     }
 }
