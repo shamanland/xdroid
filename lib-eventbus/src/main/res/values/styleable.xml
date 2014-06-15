@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="EventForwarder">
+        <attr name="activity" format="string"/>
+        <attr name="for_result" format="boolean|reference"/>
+        <attr name="request_code" format="integer|reference"/>
+    </declare-styleable>
+    <declare-styleable name="EventDelivery">
+        <attr name="fragment" format="string|reference"/>
+        <attr name="tag" format="string|reference"/>
+        <attr name="container" format="reference"/>
+        <attr name="appearance" format="enum">
+            <enum name="replace" value="0"/>
+            <enum name="add" value="1"/>
+        </attr>
+        <attr name="back_stack" format="boolean|reference"/>
+        <attr name="back_stack_state" format="string|reference"/>
+        <attr name="obey_on_force_back_stack_even_for_single_entry" format="boolean|reference"/>
+        <attr name="pop_on_force_back_stack_even_for_single_entry" format="boolean|reference"/>
+        <attr name="bread_crumb_short_title" format="reference"/>
+        <attr name="bread_crumb_title" format="reference"/>
+        <attr name="enter_animation" format="reference"/>
+        <attr name="exit_animation" format="reference"/>
+        <attr name="pop_enter_animation" format="reference"/>
+        <attr name="pop_exit_animation" format="reference"/>
+        <attr name="transition" format="enum">
+            <enum name="none" value="0"/>
+            <enum name="open" value="1"/>
+            <enum name="close" value="2"/>
+            <enum name="fade" value="3"/>
+        </attr>
+        <attr name="transition_style" format="reference"/>
+    </declare-styleable>
+    <declare-styleable name="EventDispatcher">
+        <attr name="id" format="reference"/>
+    </declare-styleable>
+</resources>

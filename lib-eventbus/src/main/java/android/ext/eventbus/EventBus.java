@@ -1,5 +1,6 @@
 package android.ext.eventbus;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.ext.customservice.CustomService;
@@ -8,6 +9,7 @@ import android.util.Log;
 
 import java.util.Locale;
 
+import static android.ext.core.Global.getResources;
 import static android.ext.eventbus.BuildConfig.SNAPSHOT;
 
 /**
@@ -15,7 +17,8 @@ import static android.ext.eventbus.BuildConfig.SNAPSHOT;
  */
 public final class EventBus {
     private static final String LOG_TAG = EventBus.class.getSimpleName();
-    public static final String EVENT_ID = EventBus.class.getName().toLowerCase(Locale.UK) + ".id";
+    public static final String INTENT_EXTRA_EVENT = EventBus.class.getName().toLowerCase(Locale.UK);
+    public static final String EVENT_ID = INTENT_EXTRA_EVENT + ".id";
 
     private EventBus() {
         // disallow
@@ -49,7 +52,7 @@ public final class EventBus {
             return null;
         }
 
-        return extract(intent.getExtras());
+        return extract(intent.getBundleExtra(INTENT_EXTRA_EVENT));
     }
 
     public static Bundle extract(Bundle bundle) {
@@ -109,5 +112,37 @@ public final class EventBus {
         }
 
         return dispatcher.onNewEvent(eventId, args != null ? args : Bundle.EMPTY);
+    }
+
+    public static boolean onActivityResult(EventDispatcher handler, int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_CANCELED) {
+            return false;
+        }
+
+        if (data != null) {
+            Bundle event = extract(data);
+            if (event != null) {
+                Object eventId = event.get(EVENT_ID);
+                if (!(eventId instanceof Integer)) {
+                    if (SNAPSHOT) {
+                        Log.w(LOG_TAG, "onActivityResult: wrong id type: " + event.get(EVENT_ID));
+                    }
+
+                    return false;
+                }
+
+                return handler.onNewEvent((Integer) eventId, event);
+            }
+        }
+
+        return false;
+    }
+
+    public static String getEventName(int eventId) {
+        try {
+            return getResources().getResourceName(eventId);
+        } catch (Throwable ex) {
+            return "0x" + Integer.toHexString(eventId);
+        }
     }
 }

@@ -3,6 +3,7 @@ package android.ext.app;
 import android.app.Activity;
 import android.app.Application;
 import android.ext.collections.Prototypes;
+import android.ext.core.ActivityStarter;
 import android.ext.customservice.CustomService;
 import android.ext.customservice.CustomServiceResolver;
 

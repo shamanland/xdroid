@@ -2,6 +2,7 @@ package android.ext.core;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -29,6 +30,10 @@ public final class Global {
 
     public static Context getContext() {
         return Objects.notNull(sContext);
+    }
+
+    public static Resources getResources() {
+        return Objects.notNull(getContext().getResources());
     }
 
     public static Handler getUiHandler() {

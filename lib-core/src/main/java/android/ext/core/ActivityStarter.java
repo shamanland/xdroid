@@ -1,4 +1,4 @@
-package android.ext.app;
+package android.ext.core;
 
 import android.content.Intent;
 
