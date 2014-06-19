@@ -4,9 +4,13 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.ext.core.Objects;
+import android.ext.inflater.Inflatable;
 import android.os.Bundle;
+import android.util.AttributeSet;
 
-public class EventDelivery implements EventDispatcher {
+import org.xmlpull.v1.XmlPullParser;
+
+public class EventDelivery implements EventDispatcher, Inflatable {
     private final Context mContext;
     private final FragmentManager mManager;
     private EventDeliveryOptions mOptions;
@@ -41,5 +45,10 @@ public class EventDelivery implements EventDispatcher {
             mOptions.performTransaction(mManager, Fragment.instantiate(mContext, mOptions.fragment, event));
             return true;
         }
+    }
+
+    @Override
+    public void inflate(Context context, XmlPullParser parser, AttributeSet attrs) {
+        setOptions(new EventDeliveryOptions(context, attrs));
     }
 }

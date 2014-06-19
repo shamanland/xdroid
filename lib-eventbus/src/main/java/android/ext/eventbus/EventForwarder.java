@@ -7,9 +7,13 @@ import android.ext.core.ActivityStarter;
 import android.ext.core.ContextActivityStarter;
 import android.ext.core.Objects;
 import android.ext.customservice.CustomService;
+import android.ext.inflater.Inflatable;
 import android.os.Bundle;
+import android.util.AttributeSet;
 
-public class EventForwarder implements EventDispatcher {
+import org.xmlpull.v1.XmlPullParser;
+
+public class EventForwarder implements EventDispatcher, Inflatable {
     private final Context mContext;
     private final ActivityStarter mStarter;
     private EventForwarderOptions mOptions;
@@ -49,5 +53,10 @@ public class EventForwarder implements EventDispatcher {
         }
 
         return true;
+    }
+
+    @Override
+    public void inflate(Context context, XmlPullParser parser, AttributeSet attrs) {
+        setOptions(new EventForwarderOptions(context, attrs));
     }
 }

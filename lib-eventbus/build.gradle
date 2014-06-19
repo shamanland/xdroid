@@ -21,6 +21,7 @@ android {
 dependencies {
     compile project(':lib-core')
     compile project(':lib-customservice')
+    compile project(':lib-inflater')
 }
 
 apply from: 'https://raw.github.com/shamanland/gradle-mvn-push/master/gradle-mvn-push.gradle'
