@@ -1,10 +1,10 @@
 package android.ext.inflater;
 
-import android.content.res.Resources;
+import android.content.Context;
 import android.util.AttributeSet;
 
 import org.xmlpull.v1.XmlPullParser;
 
 public interface Inflatable {
-    void inflate(Resources r, XmlPullParser parser, AttributeSet attrs);
+    void inflate(Context context, XmlPullParser parser, AttributeSet attrs);
 }

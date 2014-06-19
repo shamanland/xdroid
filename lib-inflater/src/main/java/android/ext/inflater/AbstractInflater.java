@@ -35,9 +35,9 @@ public abstract class AbstractInflater<T, C extends T> {
 
         try {
             int type;
-            while ((type = parser.next()) != XmlPullParser.START_TAG && type != XmlPullParser.END_DOCUMENT) {
-                // NOTE looking for the root node
-            }
+            do {
+                type = parser.next();
+            } while (type != XmlPullParser.START_TAG && type != XmlPullParser.END_DOCUMENT);
 
             if (type != XmlPullParser.START_TAG) {
                 throw new InflateException(parser.getPositionDescription());
