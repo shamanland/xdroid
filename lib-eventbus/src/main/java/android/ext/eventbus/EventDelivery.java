@@ -9,10 +9,16 @@ import android.ext.customservice.CustomService;
 import android.ext.inflater.Inflatable;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 
-public class EventDelivery implements EventDispatcher, Inflatable {
+import static android.ext.eventbus.BuildConfig.SNAPSHOT;
+import static android.ext.eventbus.EventBus.getEventName;
+
+public class EventDelivery extends DefaultEventDispatcher implements Inflatable {
+    private static final String LOG_TAG = EventDelivery.class.getSimpleName();
+
     private final Context mContext;
     private final FragmentManager mManager;
     private EventDeliveryOptions mOptions;
@@ -25,21 +31,26 @@ public class EventDelivery implements EventDispatcher, Inflatable {
         mOptions = options;
     }
 
-    public EventDelivery(Context context, FragmentManager manager) {
+    public EventDelivery(Context context) {
         mContext = Objects.notNull(context);
-        mManager = Objects.notNull(manager);
+        mManager = Objects.notNull(CustomService.get(context, FragmentManager.class));
     }
 
     @Override
-    public boolean onNewEvent(int eventId, Bundle event) {
+    protected boolean performOnNewEvent(int eventId, Bundle event) {
         Fragment fragment = mManager.findFragmentByTag(mOptions.tag);
         if (fragment != null) {
+            if (SNAPSHOT) {
+                Log.v(LOG_TAG, "performOnNewEvent: " + getEventName(eventId) + " delivering to " + fragment + debugThis());
+            }
+
             if (!fragment.isVisible()) {
                 mOptions.performTransaction(mManager, fragment);
             }
 
             if (fragment instanceof ContextOwner) {
-                EventDispatcher dispatcher = CustomService.get(((ContextOwner) fragment).getContext(), EventDispatcher.class);
+                Context context = ((ContextOwner) fragment).getContext();
+                EventDispatcher dispatcher = CustomService.get(context, EventDispatcher.class);
                 if (dispatcher != null) {
                     return dispatcher.onNewEvent(eventId, event);
                 }
@@ -47,6 +58,10 @@ public class EventDelivery implements EventDispatcher, Inflatable {
 
             return false;
         } else {
+            if (SNAPSHOT) {
+                Log.v(LOG_TAG, "performOnNewEvent: " + getEventName(eventId) + " instantiating of " + mOptions.fragment + debugThis());
+            }
+
             mOptions.performTransaction(mManager, Fragment.instantiate(mContext, mOptions.fragment, EventBus.prepare(eventId, event)));
             return true;
         }

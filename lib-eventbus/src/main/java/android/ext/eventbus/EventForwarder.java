@@ -13,7 +13,7 @@ import android.util.AttributeSet;
 
 import org.xmlpull.v1.XmlPullParser;
 
-public class EventForwarder implements EventDispatcher, Inflatable {
+public class EventForwarder extends DefaultEventDispatcher implements Inflatable {
     private final Context mContext;
     private final ActivityStarter mStarter;
     private EventForwarderOptions mOptions;
@@ -34,7 +34,7 @@ public class EventForwarder implements EventDispatcher, Inflatable {
     }
 
     @Override
-    public boolean onNewEvent(int eventId, Bundle event) {
+    public boolean performOnNewEvent(int eventId, Bundle event) {
         Class<?> target;
 
         try {

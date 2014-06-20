@@ -42,7 +42,7 @@ public class EventDispatcherInflater extends AbstractInflater<EventDispatcher, E
             throw new XmlPullParserException(parser.getName());
         }
 
-        EventDispatcher result = factory.create(context, CustomService.get(context, FragmentManager.class));
+        EventDispatcher result = factory.create(context);
         int eventId = 0;
 
         if (parent != null) {
@@ -85,26 +85,26 @@ public class EventDispatcherInflater extends AbstractInflater<EventDispatcher, E
     }
 
     static abstract class Factory {
-        abstract EventDispatcher create(Context context, FragmentManager fragmentManager);
+        abstract EventDispatcher create(Context context);
     }
 
     static class TransmitterFactory extends Factory {
         @Override
-        EventDispatcher create(Context context, FragmentManager fragmentManager) {
+        EventDispatcher create(Context context) {
             return new EventTransmitter();
         }
     }
 
     static class DeliveryFactory extends Factory {
         @Override
-        EventDispatcher create(Context context, FragmentManager fragmentManager) {
-            return new EventDelivery(context, fragmentManager);
+        EventDispatcher create(Context context) {
+            return new EventDelivery(context);
         }
     }
 
     static class ForwarderFactory extends Factory {
         @Override
-        EventDispatcher create(Context context, FragmentManager fragmentManager) {
+        EventDispatcher create(Context context) {
             return new EventForwarder(context);
         }
     }
