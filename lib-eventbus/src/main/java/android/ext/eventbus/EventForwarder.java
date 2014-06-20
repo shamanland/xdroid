@@ -44,7 +44,7 @@ public class EventForwarder implements EventDispatcher, Inflatable {
         }
 
         Intent intent = new Intent(mContext, target);
-        intent.putExtra(EventBus.INTENT_EXTRA_EVENT, event);
+        intent.putExtra(EventBus.INTENT_EXTRA_EVENT, EventBus.prepare(eventId, event));
 
         if (mOptions.forResult) {
             mStarter.startActivityForResult(intent, mOptions.requestCode);

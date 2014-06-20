@@ -3,6 +3,7 @@ package android.ext.eventbus;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.ext.customservice.CustomService;
 import android.ext.inflater.AbstractInflater;
 import android.ext.inflater.Inflatable;
 import android.util.AttributeSet;
@@ -15,12 +16,19 @@ import java.util.Map;
 
 public class EventDispatcherInflater extends AbstractInflater<EventDispatcher, EventTransmitter> {
     private static final Map<String, Factory> sFactories;
+    private static final EventDispatcherInflater sInstance;
 
     static {
         sFactories = new HashMap<String, Factory>();
         sFactories.put(EventTransmitter.class.getSimpleName(), new TransmitterFactory());
         sFactories.put(EventDelivery.class.getSimpleName(), new DeliveryFactory());
         sFactories.put(EventForwarder.class.getSimpleName(), new ForwarderFactory());
+
+        sInstance = new EventDispatcherInflater();
+    }
+
+    public static EventDispatcherInflater getInstance() {
+        return sInstance;
     }
 
     public EventDispatcherInflater() {
@@ -34,11 +42,11 @@ public class EventDispatcherInflater extends AbstractInflater<EventDispatcher, E
             throw new XmlPullParserException(parser.getName());
         }
 
-        EventDispatcher result = factory.create(context, null);
+        EventDispatcher result = factory.create(context, CustomService.get(context, FragmentManager.class));
         int eventId = 0;
 
         if (parent != null) {
-            TypedArray a = context.obtainStyledAttributes(R.styleable.EventDispatcher);
+            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.EventDispatcher);
             if (a != null) {
                 try {
                     eventId = a.getResourceId(R.styleable.EventDispatcher_id, eventId);
