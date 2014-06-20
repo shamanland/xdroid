@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.ext.collections.Prototypes;
 import android.ext.core.ActivityStarter;
+import android.ext.core.ContextOwner;
 import android.ext.core.Global;
 import android.ext.customservice.CustomService;
 import android.ext.customservice.CustomServiceResolver;
@@ -17,13 +18,18 @@ import static android.ext.app.BuildConfig.SNAPSHOT;
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
-public class ApplicationExt extends Application implements ActivityStarter, CustomServiceResolver {
+public class ApplicationExt extends Application implements ActivityStarter, ContextOwner, CustomServiceResolver {
     private static final String LOG_TAG = ApplicationExt.class.getSimpleName();
 
     private Map<String, Object> mCustomServices;
 
     public ApplicationExt() {
         // empty
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 
     @Override

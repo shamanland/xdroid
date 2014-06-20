@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.ext.collections.Prototypes;
 import android.ext.core.ActivityStarter;
+import android.ext.core.ContextOwner;
 import android.ext.core.Objects;
 import android.ext.customservice.CustomServiceResolver;
 import android.os.Bundle;
@@ -15,7 +16,7 @@ import java.util.Map;
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
-public class FragmentExt extends Fragment implements ActivityStarter, CustomServiceResolver {
+public class FragmentExt extends Fragment implements ActivityStarter, ContextOwner, CustomServiceResolver {
     private Context mContext;
     private Map<String, Object> mCustomServices;
 

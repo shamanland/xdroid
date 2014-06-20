@@ -90,7 +90,7 @@ public final class CustomService {
     }
 
     public static <T> T get(Context context, Class<T> clazz) {
-        //noinspection MagicConstant
+        //noinspection ResourceType
         return clazz.cast(context.getSystemService(clazz.getName()));
     }
 
