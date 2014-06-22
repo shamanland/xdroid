@@ -3,6 +3,9 @@ package android.ext.core;
 import android.content.Context;
 import android.content.Intent;
 
+/**
+ * @author Oleksii Kropachov (o.kropachov@shamanland.com)
+ */
 public class ContextActivityStarter implements ActivityStarter {
     private final Context mContext;
 
