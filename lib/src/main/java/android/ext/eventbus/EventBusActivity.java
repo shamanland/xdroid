@@ -1,10 +1,7 @@
-package android.ext.example.eventbus;
+package android.ext.eventbus;
 
 import android.content.Intent;
 import android.ext.app.ActivityExt;
-import android.ext.eventbus.EventBus;
-import android.ext.eventbus.EventDispatcher;
-import android.ext.eventbus.EventDispatcherInflater;
 import android.os.Bundle;
 
 public class EventBusActivity extends ActivityExt {

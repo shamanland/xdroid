@@ -1,5 +1,6 @@
 package android.ext.example.eventbus;
 
+import android.ext.eventbus.EventBusActivity;
 import android.ext.example.R;
 import android.os.Bundle;
 
