@@ -1,10 +1,11 @@
 package android.ext.eventbus;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.ext.app.ActivityExt;
+import android.ext.app.FragmentExt;
 import android.os.Bundle;
 
-public class EventBusActivity extends ActivityExt implements EventDispatcherOwner {
+public class EventBusFragment extends FragmentExt implements EventDispatcherOwner {
     @Override
     public int getEventDispatcherXmlId() {
         return 0;
@@ -12,18 +13,18 @@ public class EventBusActivity extends ActivityExt implements EventDispatcherOwne
 
     @Override
     public Bundle extractInitialEvent() {
-        return EventBus.extract(getIntent());
+        return EventBus.extract(getArguments());
     }
 
     @Override
-    protected void onCreate(Bundle state) {
-        super.onCreate(state);
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
 
         EventDispatcherHelper.init(this);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         EventBus.onActivityResult(getContext(), data);
     }
 }

@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 public class SecondActivity extends EventBusActivity {
     @Override
-    protected int getEventDispatcherXmlId() {
+    public int getEventDispatcherXmlId() {
         return R.xml.ed_second;
     }
 
