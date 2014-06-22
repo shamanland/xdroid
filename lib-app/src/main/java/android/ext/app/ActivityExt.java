@@ -29,6 +29,9 @@ public class ActivityExt extends Activity implements ActivityStarter, ContextOwn
     public void putCustomService(String name, Object instance) {
         if (mCustomServices == null) {
             mCustomServices = Prototypes.newHashMap();
+            mCustomServices.put(Activity.class.getName(), this);
+            mCustomServices.put(ActivityStarter.class.getName(), this);
+            mCustomServices.put(FragmentManager.class.getName(), getFragmentManager());
         }
 
         mCustomServices.put(name, instance);
@@ -36,20 +39,20 @@ public class ActivityExt extends Activity implements ActivityStarter, ContextOwn
 
     @Override
     public Object getCustomService(String name) {
-        if (ActivityStarter.class.getName().equals(name)) {
-            return this;
-        }
-
-        if (FragmentManager.class.getName().equals(name)) {
-            return getFragmentManager();
+        if (mCustomServices != null) {
+            return mCustomServices.get(name);
         }
 
         if (Activity.class.getName().equals(name)) {
             return this;
         }
 
-        if (mCustomServices != null) {
-            return mCustomServices.get(name);
+        if (ActivityStarter.class.getName().equals(name)) {
+            return this;
+        }
+
+        if (FragmentManager.class.getName().equals(name)) {
+            return getFragmentManager();
         }
 
         return null;
