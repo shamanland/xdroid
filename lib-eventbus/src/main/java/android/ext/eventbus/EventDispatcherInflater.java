@@ -24,6 +24,7 @@ public class EventDispatcherInflater extends AbstractInflater<EventDispatcher, E
         sFactories.put(EventTransmitter.class.getSimpleName(), new TransmitterFactory());
         sFactories.put(EventDelivery.class.getSimpleName(), new DeliveryFactory());
         sFactories.put(EventForwarder.class.getSimpleName(), new ForwarderFactory());
+        sFactories.put(EventFinish.class.getSimpleName(), new FinishFactory());
 
         sInstance = new EventDispatcherInflater();
     }
@@ -107,6 +108,13 @@ public class EventDispatcherInflater extends AbstractInflater<EventDispatcher, E
         @Override
         EventDispatcher create(Context context) {
             return new EventForwarder(context);
+        }
+    }
+
+    static class FinishFactory extends Factory {
+        @Override
+        EventDispatcher create(Context context) {
+            return new EventFinish(context);
         }
     }
 }

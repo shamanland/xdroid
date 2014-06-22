@@ -1,5 +1,6 @@
 package android.ext.example.eventbus;
 
+import android.content.Intent;
 import android.ext.app.ActivityExt;
 import android.ext.eventbus.EventBus;
 import android.ext.eventbus.EventDispatcher;
@@ -24,5 +25,10 @@ public class EventBusActivity extends ActivityExt {
                 EventBus.send(getContext(), event);
             }
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        EventBus.onActivityResult(getContext(), data);
     }
 }

@@ -22,7 +22,7 @@ public class EventForwarderOptions implements Parcelable {
 
         try {
             activity = readClass(context, a, R.styleable.EventForwarder_activity);
-            forResult = a.getBoolean(R.styleable.EventForwarder_for_result, false);
+            forResult = a.getBoolean(R.styleable.EventForwarder_for_result, true);
             requestCode = a.getInteger(R.styleable.EventForwarder_request_code, 0);
         } finally {
             a.recycle();

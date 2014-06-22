@@ -44,6 +44,10 @@ public class ActivityExt extends Activity implements ActivityStarter, ContextOwn
             return getFragmentManager();
         }
 
+        if (Activity.class.getName().equals(name)) {
+            return this;
+        }
+
         if (mCustomServices != null) {
             return mCustomServices.get(name);
         }

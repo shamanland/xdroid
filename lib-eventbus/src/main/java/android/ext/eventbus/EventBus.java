@@ -1,6 +1,5 @@
 package android.ext.eventbus;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.ext.customservice.CustomService;
@@ -47,6 +46,15 @@ public final class EventBus {
 
         args.putInt(EVENT_ID, eventId);
         return args;
+    }
+
+    public static Intent prepare(Intent intent, int eventId, Bundle event) {
+        if (intent == null) {
+            intent = new Intent();
+        }
+
+        intent.putExtra(INTENT_EXTRA_EVENT, prepare(eventId, event));
+        return intent;
     }
 
     public static Bundle extract(Intent intent) {
@@ -120,15 +128,7 @@ public final class EventBus {
         return dispatcher.onNewEvent(eventId, args != null ? args : Bundle.EMPTY);
     }
 
-    public static boolean onActivityResult(Context context, int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_CANCELED) {
-            if (SNAPSHOT) {
-                Log.v(LOG_TAG, "onActivityResult: RESULT_CANCELED");
-            }
-
-            return false;
-        }
-
+    public static boolean onActivityResult(Context context, Intent data) {
         if (data == null) {
             if (SNAPSHOT) {
                 Log.v(LOG_TAG, "onActivityResult: data is null");
