@@ -15,6 +15,9 @@ import java.lang.reflect.Method;
 import static android.ext.eventbus.BuildConfig.SNAPSHOT;
 import static android.ext.eventbus.EventDispatcherInflater.readClass;
 
+/**
+ * @author Oleksii Kropachov (o.kropachov@shamanland.com)
+ */
 public class EventDeliveryOptions implements Parcelable {
     public static final int APPEARANCE_REPLACE = 0;
     public static final int APPEARANCE_ADD = 1;

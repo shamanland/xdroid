@@ -1,9 +1,7 @@
 package android.ext.eventbus;
 
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.ext.customservice.CustomService;
 import android.ext.inflater.AbstractInflater;
 import android.ext.inflater.Inflatable;
 import android.util.AttributeSet;
@@ -14,6 +12,9 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Oleksii Kropachov (o.kropachov@shamanland.com)
+ */
 public class EventDispatcherInflater extends AbstractInflater<EventDispatcher, EventTransmitter> {
     private static final Map<String, Factory> sFactories;
     private static final EventDispatcherInflater sInstance;

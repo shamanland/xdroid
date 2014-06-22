@@ -6,6 +6,9 @@ import android.util.Log;
 import static android.ext.eventbus.BuildConfig.SNAPSHOT;
 import static android.ext.eventbus.EventBus.getEventName;
 
+/**
+ * @author Oleksii Kropachov (o.kropachov@shamanland.com)
+ */
 public abstract class DefaultEventDispatcher implements EventDispatcher {
     private static final String LOG_TAG = DefaultEventDispatcher.class.getSimpleName();
 
@@ -33,9 +36,18 @@ public abstract class DefaultEventDispatcher implements EventDispatcher {
 
     protected String debugThis() {
         if (SNAPSHOT) {
-            return ", this: " + this;
+            return ", this: @" + Integer.toHexString(System.identityHashCode(this));
         } else {
             return null;
+        }
+    }
+
+    @Override
+    public String toString() {
+        if (SNAPSHOT) {
+            return getClass().getSimpleName() + '@' + Integer.toHexString(System.identityHashCode(this));
+        } else {
+            return super.toString();
         }
     }
 }

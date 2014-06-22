@@ -9,6 +9,9 @@ import android.util.AttributeSet;
 
 import static android.ext.eventbus.EventDispatcherInflater.readClass;
 
+/**
+ * @author Oleksii Kropachov (o.kropachov@shamanland.com)
+ */
 public class EventForwarderOptions implements Parcelable {
     public final String activity;
     public final boolean forResult;

@@ -8,6 +8,9 @@ import android.util.SparseArray;
 import static android.ext.eventbus.BuildConfig.SNAPSHOT;
 import static android.ext.eventbus.EventBus.getEventName;
 
+/**
+ * @author Oleksii Kropachov (o.kropachov@shamanland.com)
+ */
 public class EventTransmitter extends DefaultEventDispatcher {
     private static final String LOG_TAG = EventTransmitter.class.getSimpleName();
 

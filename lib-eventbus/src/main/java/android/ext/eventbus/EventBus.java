@@ -34,8 +34,14 @@ public final class EventBus {
         }
 
         if (SNAPSHOT) {
-            if (args.containsKey(EVENT_ID)) {
-                Log.w(LOG_TAG, "prepare: args already has EVENT_ID: " + args.get(EVENT_ID));
+            Object tmp = args.get(EVENT_ID);
+            if (tmp instanceof Integer) {
+                int id = (Integer) tmp;
+                if (id != eventId) {
+                    Log.w(LOG_TAG, "prepare: EVENT_ID exists " + getEventName(id) + ", will be replaced by " + getEventName(eventId));
+                }
+            } else if (tmp != null) {
+                Log.w(LOG_TAG, "prepare: wrong EVENT_ID exists: " + tmp);
             }
         }
 
@@ -46,7 +52,7 @@ public final class EventBus {
     public static Bundle extract(Intent intent) {
         if (intent == null) {
             if (SNAPSHOT) {
-                Log.w(LOG_TAG, "extract: intent is null");
+                Log.v(LOG_TAG, "extract: intent is null");
             }
 
             return null;
@@ -58,7 +64,7 @@ public final class EventBus {
     public static Bundle extract(Bundle bundle) {
         if (bundle == null) {
             if (SNAPSHOT) {
-                Log.w(LOG_TAG, "extract: bundle is null");
+                Log.v(LOG_TAG, "extract: bundle is null");
             }
 
             return null;
@@ -67,7 +73,7 @@ public final class EventBus {
         Object eventId = bundle.get(EVENT_ID);
         if (!(eventId instanceof Integer)) {
             if (SNAPSHOT) {
-                Log.w(LOG_TAG, "extract: wrong id type: " + bundle.get(EVENT_ID));
+                Log.w(LOG_TAG, "extract: wrong EVENT_ID: " + eventId);
             }
 
             return null;
@@ -79,7 +85,7 @@ public final class EventBus {
     public static boolean send(Context context, Bundle event) {
         if (event == null) {
             if (SNAPSHOT) {
-                Log.w(LOG_TAG, "send: event is null");
+                Log.v(LOG_TAG, "send: event is null");
             }
 
             return false;
@@ -88,7 +94,7 @@ public final class EventBus {
         Object eventId = event.get(EVENT_ID);
         if (!(eventId instanceof Integer)) {
             if (SNAPSHOT) {
-                Log.w(LOG_TAG, "send: wrong id type: " + event.get(EVENT_ID));
+                Log.w(LOG_TAG, "send: wrong EVENT_ID: " + eventId);
             }
 
             return false;
@@ -105,7 +111,7 @@ public final class EventBus {
         EventDispatcher dispatcher = CustomService.get(context, EventDispatcher.class);
         if (dispatcher == null) {
             if (SNAPSHOT) {
-                Log.v(LOG_TAG, "send: dispatcher not found in: " + context);
+                Log.d(LOG_TAG, "send: dispatcher not found in: " + context);
             }
 
             return false;
@@ -114,28 +120,33 @@ public final class EventBus {
         return dispatcher.onNewEvent(eventId, args != null ? args : Bundle.EMPTY);
     }
 
-    public static boolean onActivityResult(EventDispatcher handler, int requestCode, int resultCode, Intent data) {
+    public static boolean onActivityResult(Context context, int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_CANCELED) {
+            if (SNAPSHOT) {
+                Log.v(LOG_TAG, "onActivityResult: RESULT_CANCELED");
+            }
+
             return false;
         }
 
-        if (data != null) {
-            Bundle event = extract(data);
-            if (event != null) {
-                Object eventId = event.get(EVENT_ID);
-                if (!(eventId instanceof Integer)) {
-                    if (SNAPSHOT) {
-                        Log.w(LOG_TAG, "onActivityResult: wrong id type: " + event.get(EVENT_ID));
-                    }
-
-                    return false;
-                }
-
-                return handler.onNewEvent((Integer) eventId, event);
+        if (data == null) {
+            if (SNAPSHOT) {
+                Log.v(LOG_TAG, "onActivityResult: data is null");
             }
+
+            return false;
         }
 
-        return false;
+        Bundle event = extract(data);
+        if (event == null) {
+            if (SNAPSHOT) {
+                Log.v(LOG_TAG, "onActivityResult: no event in data");
+            }
+
+            return false;
+        }
+
+        return send(context, event.getInt(EVENT_ID), event);
     }
 
     public static String getEventName(int eventId) {

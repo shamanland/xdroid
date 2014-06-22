@@ -16,6 +16,9 @@ import org.xmlpull.v1.XmlPullParser;
 import static android.ext.eventbus.BuildConfig.SNAPSHOT;
 import static android.ext.eventbus.EventBus.getEventName;
 
+/**
+ * @author Oleksii Kropachov (o.kropachov@shamanland.com)
+ */
 public class EventDelivery extends DefaultEventDispatcher implements Inflatable {
     private static final String LOG_TAG = EventDelivery.class.getSimpleName();
 
@@ -49,10 +52,11 @@ public class EventDelivery extends DefaultEventDispatcher implements Inflatable 
             }
 
             if (fragment instanceof ContextOwner) {
-                Context context = ((ContextOwner) fragment).getContext();
-                EventDispatcher dispatcher = CustomService.get(context, EventDispatcher.class);
-                if (dispatcher != null) {
-                    return dispatcher.onNewEvent(eventId, event);
+                return EventBus.send(((ContextOwner) fragment).getContext(), eventId, event);
+            } else {
+                if (SNAPSHOT) {
+                    Log.v(LOG_TAG, "performOnNewEvent: " + EventBus.getEventName(eventId) + ", "
+                            + fragment + " should extends android.ext.app.FragmentExt" + debugThis());
                 }
             }
 
