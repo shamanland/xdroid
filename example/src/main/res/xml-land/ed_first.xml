@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <EventTransmitter xmlns:app="http://schemas.android.com/apk/res-auto">
     <EventDelivery
-            app:id="@+id/ev_show_in_first"
+            app:id="@id/ev_show_in_first"
             app:fragment=".eventbus.FirstFragment"
             app:tag="first"
             app:container="@id/container"
             />
     <EventDelivery
-            app:id="@+id/ev_show_in_second"
+            app:id="@id/ev_show_in_second"
             app:fragment=".eventbus.SecondFragment"
             app:tag="second"
             app:container="@id/container1"

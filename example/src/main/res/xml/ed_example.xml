@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <EventTransmitter xmlns:app="http://schemas.android.com/apk/res-auto">
     <EventForwarder
-            app:id="@+id/ev_show_in_first"
+            app:id="@id/ev_show_in_first"
             app:activity=".eventbus.FirstActivity"
             />
 </EventTransmitter>
