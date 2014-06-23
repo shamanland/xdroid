@@ -2,14 +2,12 @@
 <EventTransmitter xmlns:app="http://schemas.android.com/apk/res-auto">
     <EventDelivery
             app:id="@id/ev_show_in_first"
-            app:fragment=".eventbus.FirstFragment"
+            app:fragment=".eventbus.BriefFragment"
             app:tag="first"
             app:container="@id/container"
             />
-    <EventDelivery
+    <EventForwarder
             app:id="@id/ev_show_in_second"
-            app:fragment=".eventbus.SecondFragment"
-            app:tag="second"
-            app:container="@id/container1"
+            app:activity=".eventbus.DetailsActivity"
             />
 </EventTransmitter>

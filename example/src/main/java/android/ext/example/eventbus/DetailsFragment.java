@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class SecondFragment extends EventBusFragment {
+public class DetailsFragment extends EventBusFragment {
     private TextView mTitleView;
     private TextView mDescriptionView;
     private TextView mTextView;

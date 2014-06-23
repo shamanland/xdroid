@@ -4,10 +4,10 @@ import android.ext.eventbus.EventBusActivity;
 import android.ext.example.R;
 import android.os.Bundle;
 
-public class FirstActivity extends EventBusActivity {
+public class BriefActivity extends EventBusActivity {
     @Override
     public int getEventDispatcherXmlId() {
-        return R.xml.ed_first;
+        return R.xml.ed_brief;
     }
 
     @Override

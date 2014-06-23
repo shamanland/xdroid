@@ -2,6 +2,6 @@
 <EventTransmitter xmlns:app="http://schemas.android.com/apk/res-auto">
     <EventForwarder
             app:id="@id/ev_show_in_first"
-            app:activity=".eventbus.FirstActivity"
+            app:activity=".eventbus.BriefActivity"
             />
 </EventTransmitter>

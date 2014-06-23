@@ -2,7 +2,7 @@
 <EventTransmitter xmlns:app="http://schemas.android.com/apk/res-auto">
     <EventDelivery
             app:id="@id/ev_show_in_second"
-            app:fragment=".eventbus.SecondFragment"
+            app:fragment=".eventbus.DetailsFragment"
             app:tag="second"
             app:container="@id/container"
             />

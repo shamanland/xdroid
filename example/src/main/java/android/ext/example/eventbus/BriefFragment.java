@@ -13,7 +13,7 @@ import android.widget.AdapterView;
 
 import java.util.List;
 
-public class FirstFragment extends EventBusFragment {
+public class BriefFragment extends EventBusFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         return inflater.inflate(R.layout.f_first, container, false);
@@ -33,8 +33,8 @@ public class FirstFragment extends EventBusFragment {
         });
 
         if (state == null) {
+            // NOTE this block generates stub data, you should require data from somewhere
             List<DataItem> list = listView.getRawAdapter().getDataList();
-
             for (int i = 1; i < 10; ++i) {
                 list.add(new DataItem("Title " + i, "Description " + i, "Text " + i));
             }

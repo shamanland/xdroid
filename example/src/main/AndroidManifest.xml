@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".eventbus.FirstActivity"/>
-        <activity android:name=".eventbus.SecondActivity"/>
+        <activity android:name=".eventbus.BriefActivity"/>
+        <activity android:name=".eventbus.DetailsActivity"/>
     </application>
 </manifest>
