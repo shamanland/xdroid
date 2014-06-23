@@ -90,6 +90,14 @@ public final class EventBus {
         return bundle;
     }
 
+    public static int getEventId(Bundle event) {
+        if (event == null) {
+            return 0;
+        }
+
+        return event.getInt(EVENT_ID);
+    }
+
     public static boolean send(Context context, Bundle event) {
         if (event == null) {
             if (SNAPSHOT) {
