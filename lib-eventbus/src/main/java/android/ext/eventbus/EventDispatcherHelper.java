@@ -18,7 +18,7 @@ public final class EventDispatcherHelper {
 
             Bundle event = owner.extractInitialEvent();
             if (event != null) {
-                EventBus.send(owner.getContext(), event);
+                dispatcher.onNewEvent(EventBus.getEventId(event), event);
             }
 
             if (keepLastEvent) {
@@ -31,6 +31,13 @@ public final class EventDispatcherHelper {
         Object dispatcher = owner.getCustomService(EventDispatcher.class.getName());
         if (dispatcher instanceof KeepLastEventDispatcher) {
             ((KeepLastEventDispatcher) dispatcher).onSaveInstanceState(state);
+        }
+    }
+
+    public static void resetLastEvent(EventDispatcherOwner owner) {
+        Object dispatcher = owner.getCustomService(EventDispatcher.class.getName());
+        if (dispatcher instanceof KeepLastEventDispatcher) {
+            ((KeepLastEventDispatcher) dispatcher).reset();
         }
     }
 
@@ -53,6 +60,10 @@ public final class EventDispatcherHelper {
                     mBase.onNewEvent(EventBus.getEventId(mLast), mLast);
                 }
             }
+        }
+
+        public void reset() {
+            mLast = null;
         }
 
         @Override

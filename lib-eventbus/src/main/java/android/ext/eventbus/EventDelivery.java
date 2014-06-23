@@ -3,9 +3,9 @@ package android.ext.eventbus;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
-import android.ext.core.ContextOwner;
 import android.ext.core.Objects;
 import android.ext.customservice.CustomService;
+import android.ext.customservice.CustomServiceResolver;
 import android.ext.inflater.Inflatable;
 import android.os.Bundle;
 import android.util.AttributeSet;
@@ -43,24 +43,33 @@ public class EventDelivery extends DefaultEventDispatcher implements Inflatable 
     protected boolean performOnNewEvent(int eventId, Bundle event) {
         Fragment fragment = mManager.findFragmentByTag(mOptions.tag);
         if (fragment != null) {
-            if (SNAPSHOT) {
-                Log.v(LOG_TAG, "performOnNewEvent: " + getEventName(eventId) + " delivering to " + fragment + debugThis());
-            }
-
             if (!fragment.isVisible()) {
                 mOptions.performTransaction(mManager, fragment);
             }
 
-            if (fragment instanceof ContextOwner) {
-                return EventBus.send(((ContextOwner) fragment).getContext(), eventId, event);
+            if (fragment instanceof CustomServiceResolver) {
+                Object dispatcher = ((CustomServiceResolver) fragment).getCustomService(EventDispatcher.class.getSimpleName());
+                if (dispatcher instanceof EventDispatcher) {
+                    if (SNAPSHOT) {
+                        Log.v(LOG_TAG, "performOnNewEvent: " + getEventName(eventId) + " delivering to " + fragment + debugThis());
+                    }
+
+                    return ((EventDispatcher) dispatcher).onNewEvent(eventId, event);
+                } else {
+                    if (SNAPSHOT) {
+                        Log.i(LOG_TAG, "performOnNewEvent: " + getEventName(eventId) + " no dispatcher found for " + fragment + debugThis());
+                    }
+
+                    // NOTE assume that event handled even if no custom dispatcher
+                    return true;
+                }
             } else {
                 if (SNAPSHOT) {
-                    Log.v(LOG_TAG, "performOnNewEvent: " + EventBus.getEventName(eventId) + ", "
-                            + fragment + " should extends android.ext.app.FragmentExt" + debugThis());
+                    Log.w(LOG_TAG, "performOnNewEvent: " + getEventName(eventId) + " failed to deliver for " + fragment + debugThis());
                 }
-            }
 
-            return false;
+                return false;
+            }
         } else {
             if (SNAPSHOT) {
                 Log.v(LOG_TAG, "performOnNewEvent: " + getEventName(eventId) + " instantiating of " + mOptions.fragment + debugThis());

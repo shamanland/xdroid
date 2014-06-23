@@ -1,5 +1,6 @@
 package android.ext.eventbus;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.ext.app.FragmentExt;
 import android.os.Bundle;
@@ -36,6 +37,12 @@ public class EventBusFragment extends FragmentExt implements EventDispatcherOwne
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        EventBus.onActivityResult(getContext(), data);
+        if (EventBus.onActivityResult(getContext(), data)) {
+            return;
+        }
+
+        if (resultCode == Activity.RESULT_CANCELED) {
+            EventDispatcherHelper.resetLastEvent(this);
+        }
     }
 }
