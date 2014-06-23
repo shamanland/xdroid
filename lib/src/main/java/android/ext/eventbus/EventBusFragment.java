@@ -1,6 +1,5 @@
 package android.ext.eventbus;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.ext.app.FragmentExt;
 import android.os.Bundle;
@@ -12,15 +11,27 @@ public class EventBusFragment extends FragmentExt implements EventDispatcherOwne
     }
 
     @Override
+    public boolean allowKeepLastEvent() {
+        return false;
+    }
+
+    @Override
     public Bundle extractInitialEvent() {
         return EventBus.extract(getArguments());
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onCreate(Bundle state) {
+        super.onCreate(state);
 
-        EventDispatcherHelper.init(this);
+        EventDispatcherHelper.onCreate(this, state, allowKeepLastEvent());
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+
+        EventDispatcherHelper.onSaveInstanceState(this, state);
     }
 
     @Override

@@ -11,6 +11,11 @@ public class EventBusActivity extends ActivityExt implements EventDispatcherOwne
     }
 
     @Override
+    public boolean allowKeepLastEvent() {
+        return false;
+    }
+
+    @Override
     public Bundle extractInitialEvent() {
         return EventBus.extract(getIntent());
     }
@@ -19,7 +24,14 @@ public class EventBusActivity extends ActivityExt implements EventDispatcherOwne
     protected void onCreate(Bundle state) {
         super.onCreate(state);
 
-        EventDispatcherHelper.init(this);
+        EventDispatcherHelper.onCreate(this, state, allowKeepLastEvent());
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+
+        EventDispatcherHelper.onSaveInstanceState(this, state);
     }
 
     @Override

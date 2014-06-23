@@ -10,5 +10,7 @@ import android.os.Bundle;
 public interface EventDispatcherOwner extends ContextOwner, CustomServiceResolver {
     int getEventDispatcherXmlId();
 
+    boolean allowKeepLastEvent();
+
     Bundle extractInitialEvent();
 }
