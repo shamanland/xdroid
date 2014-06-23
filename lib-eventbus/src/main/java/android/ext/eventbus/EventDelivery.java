@@ -48,7 +48,7 @@ public class EventDelivery extends DefaultEventDispatcher implements Inflatable 
             }
 
             if (fragment instanceof CustomServiceResolver) {
-                Object dispatcher = ((CustomServiceResolver) fragment).getCustomService(EventDispatcher.class.getSimpleName());
+                Object dispatcher = ((CustomServiceResolver) fragment).getCustomService(EventDispatcher.class.getName());
                 if (dispatcher instanceof EventDispatcher) {
                     if (SNAPSHOT) {
                         Log.v(LOG_TAG, "performOnNewEvent: " + getEventName(eventId) + " delivering to " + fragment + debugThis());
