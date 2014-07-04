@@ -5,14 +5,13 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.res.TypedArray;
-import xdroid.core.Objects;
-
-import xdroid.eventbus.R;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 
 import java.lang.reflect.Method;
+
+import xdroid.core.Objects;
 
 import static xdroid.eventbus.BuildConfig.SNAPSHOT;
 
@@ -61,12 +60,16 @@ public class EventDeliveryOptions implements Parcelable {
 
             tag = a.getString(R.styleable.EventDelivery_tag);
             if (tag == null) {
-                throw new IllegalArgumentException();
+                if (SNAPSHOT) {
+                    throw new IllegalArgumentException();
+                }
             }
 
             container = a.getResourceId(R.styleable.EventDelivery_container, 0);
             if (container == 0) {
-                throw new IllegalArgumentException();
+                if (SNAPSHOT) {
+                    throw new IllegalArgumentException();
+                }
             }
 
             appearance = a.getInteger(R.styleable.EventDelivery_appearance, APPEARANCE_REPLACE);
@@ -225,16 +228,19 @@ public class EventDeliveryOptions implements Parcelable {
     }
 
     static class MethodIsInBackStack {
-        private static final Method sMethod;
+        private static final Method sMethod = getMethod();
 
-        static {
+        static Method getMethod() {
             try {
-                sMethod = Fragment.class.getDeclaredMethod("isInBackStack");
-                sMethod.setAccessible(true);
+                Method result = Fragment.class.getDeclaredMethod("isInBackStack");
+                result.setAccessible(true);
+                return result;
             } catch (Throwable ex) {
                 if (SNAPSHOT) {
                     throw new AssertionError(ex);
                 }
+
+                return null;
             }
         }
 
