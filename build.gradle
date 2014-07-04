@@ -10,6 +10,10 @@ buildscript {
     }
 }
 
+def isSnapshot() {
+    return VERSION_NAME.contains('SNAPSHOT')
+}
+
 def gradleMvnPush = new File(buildDir, 'gradle-mvn-push.gradle')
 if (!gradleMvnPush.exists()) {
     buildDir.mkdirs()
@@ -29,8 +33,6 @@ subprojects {
         apply plugin: 'com.android.application'
     }
 
-    apply plugin: 'robolectric'
-
     android {
         compileSdkVersion COMPILE_SDK_VERSION as int
         buildToolsVersion BUILD_TOOLS_VERSION
@@ -42,7 +44,7 @@ subprojects {
             versionName '1.0'
 
             // workaround for https://code.google.com/p/android/issues/detail?id=52962
-            buildConfigField 'boolean', 'SNAPSHOT', VERSION_NAME.contains('SNAPSHOT').toString()
+            buildConfigField 'boolean', 'SNAPSHOT', isSnapshot().toString()
         }
 
         lintOptions {
@@ -55,13 +57,13 @@ subprojects {
         mavenCentral()
     }
 
-    dependencies {
-        androidTestCompile 'junit:junit:4.10'
-        androidTestCompile 'org.robolectric:robolectric:2.3'
-        androidTestCompile 'com.squareup:fest-android:1.0.8'
-    }
+    if (isSnapshot()) {
+        apply plugin: 'robolectric'
 
-    tasks.withType(JavaForkOptions) {
-        jvmArgs "-XX:-UseSplitVerifier"
+        dependencies {
+            androidTestCompile 'junit:junit:4.10'
+            androidTestCompile 'org.robolectric:robolectric:2.3'
+            androidTestCompile 'com.squareup:fest-android:1.0.8'
+        }
     }
 }
