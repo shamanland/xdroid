@@ -1,4 +1,4 @@
-package xdroid.widget;
+package xdroid.toaster;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -29,35 +29,35 @@ public final class Toaster implements Handler.Callback {
         Message.obtain(sHandler, length, text).sendToTarget();
     }
 
-    public static void show(int stringId) {
+    public static void toast(int stringId) {
         sendMessage(getContext().getText(stringId), Toast.LENGTH_SHORT);
     }
 
-    public static void showLong(int stringId) {
+    public static void toastLong(int stringId) {
         sendMessage(getContext().getText(stringId), Toast.LENGTH_LONG);
     }
 
-    public static void show(int stringId, Object... args) {
+    public static void toast(int stringId, Object... args) {
         sendMessage(getContext().getString(stringId, args), Toast.LENGTH_SHORT);
     }
 
-    public static void showLong(int stringId, Object... args) {
+    public static void toastLong(int stringId, Object... args) {
         sendMessage(getContext().getString(stringId, args), Toast.LENGTH_LONG);
     }
 
-    public static void show(CharSequence text) {
+    public static void toast(CharSequence text) {
         sendMessage(text, Toast.LENGTH_SHORT);
     }
 
-    public static void showLong(CharSequence text) {
+    public static void toastLong(CharSequence text) {
         sendMessage(text, Toast.LENGTH_LONG);
     }
 
-    public static void show(String text, Object... args) {
+    public static void toast(String text, Object... args) {
         sendMessage(String.format(text, args), Toast.LENGTH_SHORT);
     }
 
-    public static void showLong(String text, Object... args) {
+    public static void toastLong(String text, Object... args) {
         sendMessage(String.format(text, args), Toast.LENGTH_LONG);
     }
 }
