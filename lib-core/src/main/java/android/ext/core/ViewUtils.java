@@ -32,20 +32,11 @@ public final class ViewUtils {
     }
 
     public static <V extends View> V findViewByClass(View view, final Class<V> clazz) {
-        final View[] result = ArrayUtils.fromObjects((View) null);
-
-        traverse(view, new ViewVisitor() {
+        return clazz.cast(traverse(view, new ViewVisitor() {
             @Override
             public boolean onVisitView(View view) {
-                if (clazz.isInstance(view)) {
-                    result[0] = view;
-                    return true;
-                }
-
-                return false;
+                return clazz.isInstance(view);
             }
-        });
-
-        return clazz.cast(result[0]);
+        }));
     }
 }
