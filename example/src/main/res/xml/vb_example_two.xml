@@ -13,7 +13,7 @@
     <ProxyViewBinder
             app:viewId="@android:id/progress"
             app:viewType="RatingBar"
-            app:extractorClass="android.ext.example.helpers.ExampleRatingExtractor"
+            app:extractorClass="xdroid.example.helpers.ExampleRatingExtractor"
             />
     <ProxyViewBinder
             app:viewId="@android:id/text2"

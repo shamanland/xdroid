@@ -1,6 +1,6 @@
-package android.ext.core.test;
+package xdroid.core.test;
 
-import android.ext.core.Objects;
+import xdroid.core.Objects;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
