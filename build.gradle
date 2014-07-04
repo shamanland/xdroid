@@ -10,6 +10,14 @@ buildscript {
     }
 }
 
+def gradleMvnPush = new File(buildDir, 'gradle-mvn-push.gradle')
+if (!gradleMvnPush.exists()) {
+    buildDir.mkdirs()
+    ant.get(src: GRADLE_MVN_PUSH, dest: gradleMvnPush)
+}
+
+setProperty('GRADLE_MVN_PUSH', gradleMvnPush)
+
 subprojects {
     version VERSION_NAME
 
@@ -17,10 +25,6 @@ subprojects {
 
     if (name.startsWith('lib')) {
         apply plugin: 'com.android.library'
-
-        afterEvaluate {
-            apply from: 'https://raw.github.com/shamanland/gradle-mvn-push/master/gradle-mvn-push.gradle'
-        }
     } else {
         apply plugin: 'com.android.application'
     }

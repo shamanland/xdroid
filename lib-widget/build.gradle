@@ -2,3 +2,5 @@ dependencies {
     compile project(':lib-core')
     compile project(':lib-adapter')
 }
+
+apply from: GRADLE_MVN_PUSH

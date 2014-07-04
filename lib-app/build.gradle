@@ -3,3 +3,5 @@ dependencies {
     compile project(':lib-core')
     compile project(':lib-customservice')
 }
+
+apply from: GRADLE_MVN_PUSH
