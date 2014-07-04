@@ -23,6 +23,7 @@ if (!gradleMvnPush.exists()) {
 setProperty('GRADLE_MVN_PUSH', gradleMvnPush)
 
 subprojects {
+    group GROUP
     version VERSION_NAME
 
     apply plugin: 'android-sdk-manager'
