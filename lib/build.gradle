@@ -5,6 +5,7 @@ dependencies {
     compile project(':lib-core')
     compile project(':lib-eventbus')
     compile project(':lib-inflater')
+    compile project(':lib-toaster')
     compile project(':lib-widget')
 }
 

@@ -1,14 +1,18 @@
 package xdroid.example;
 
-import xdroid.adapter.AdapterExt;
-import xdroid.app.FragmentExt;
-import xdroid.widget.ListViewExt;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import java.util.List;
+
+import xdroid.adapter.AdapterExt;
+import xdroid.app.FragmentExt;
+import xdroid.widget.ListViewExt;
+
+import static xdroid.toaster.Toaster.toast;
 
 public class ExampleListFragment extends FragmentExt {
     @Override
@@ -16,6 +20,14 @@ public class ExampleListFragment extends FragmentExt {
         View result = inflater.inflate(R.layout.f_main, container, false);
 
         ListViewExt list = (ListViewExt) result.findViewById(android.R.id.list);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ExampleData item = (ExampleData) parent.getAdapter().getItem(position);
+                toast(item.getTitle());
+            }
+        });
 
         if (state == null) {
             AdapterExt<ExampleData, View> adapter = list.getRawAdapter();
