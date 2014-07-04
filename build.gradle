@@ -6,6 +6,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:0.12.0'
         classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.10.1'
+        classpath 'org.robolectric:robolectric-gradle-plugin:0.11.0'
     }
 }
 
@@ -23,6 +24,8 @@ subprojects {
     } else {
         apply plugin: 'com.android.application'
     }
+
+    apply plugin: 'robolectric'
 
     android {
         compileSdkVersion COMPILE_SDK_VERSION as int
@@ -46,5 +49,11 @@ subprojects {
     repositories {
         mavenLocal()
         mavenCentral()
+    }
+
+    dependencies {
+        androidTestCompile 'junit:junit:4.10'
+        androidTestCompile 'org.robolectric:robolectric:2.3'
+        androidTestCompile 'com.squareup:fest-android:1.0.8'
     }
 }
