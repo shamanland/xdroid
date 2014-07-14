@@ -4,16 +4,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.database.Cursor;
-import xdroid.adapter.AdapterExt;
-import xdroid.adapter.CursorAdapterExt;
-import xdroid.adapter.ViewBinder;
-import xdroid.collections.Indexed;
-import xdroid.collections.Prototypes;
-import xdroid.core.ParcelUtils;
-import xdroid.core.ReflectUtils;
-import xdroid.core.Strings;
-
-import xdroid.widget.R;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -24,6 +14,15 @@ import android.widget.ListView;
 import android.widget.WrapperListAdapter;
 
 import java.io.Serializable;
+
+import xdroid.adapter.AdapterExt;
+import xdroid.adapter.CursorAdapterExt;
+import xdroid.adapter.ViewBinder;
+import xdroid.collections.Indexed;
+import xdroid.collections.Prototypes;
+import xdroid.core.ParcelUtils;
+import xdroid.core.ReflectUtils;
+import xdroid.core.Strings;
 
 public class ListViewExt extends ListView {
     public static final int ADAPTER_DATA_NONE = 0;
@@ -100,7 +99,7 @@ public class ListViewExt extends ListView {
 
     @SuppressWarnings("unchecked")
     private void initCursorAdapter(Context context, TypedArray a) {
-        String uri = a.getString(R.styleable.ListViewExt_adapterCursorAutoRequery);
+        String uri = a.getString(R.styleable.ListViewExt_adapterCursorQuery);
         if (Strings.isEmpty(uri)) {
             return;
         }
