@@ -18,6 +18,7 @@ import java.io.Serializable;
 import xdroid.adapter.AdapterExt;
 import xdroid.adapter.CursorAdapterExt;
 import xdroid.adapter.ViewBinder;
+import xdroid.adapter.ViewTypeResolver;
 import xdroid.collections.Indexed;
 import xdroid.collections.Prototypes;
 import xdroid.core.ParcelUtils;
@@ -85,12 +86,29 @@ public class ListViewExt extends ListView {
     private void initAdapter(Context context, TypedArray a, AdapterExt adapter, Indexed data) {
         int layoutId = a.getResourceId(R.styleable.ListViewExt_adapterLayoutId, 0);
         if (layoutId != 0) {
-            adapter.setLayoutId(layoutId);
+            if ("array".equals(context.getResources().getResourceTypeName(layoutId))) {
+                TypedArray layouts = context.getResources().obtainTypedArray(layoutId);
+                try {
+                    int count = layouts.getIndexCount();
+                    for (int i = 0; i < count; ++i) {
+                        adapter.putLayoutId(i, layouts.getResourceId(i, 0));
+                    }
+                } finally {
+                    layouts.recycle();
+                }
+            } else {
+                adapter.setLayoutId(layoutId);
+            }
         }
 
         String binderClass = a.getString(R.styleable.ListViewExt_adapterBinderClass);
         if (Strings.isNotEmpty(binderClass)) {
             adapter.setBinder(ReflectUtils.<ViewBinder>newInstanceByClassName(ReflectUtils.fullClassName(context, binderClass)));
+        }
+
+        String viewTypeResolverClass = a.getString(R.styleable.ListViewExt_adapterViewTypeResolverClass);
+        if (Strings.isNotEmpty(viewTypeResolverClass)) {
+            adapter.setViewTypeResolver(ReflectUtils.<ViewTypeResolver>newInstanceByClassName(ReflectUtils.fullClassName(context, viewTypeResolverClass)));
         }
 
         adapter.setData(data);
@@ -113,12 +131,29 @@ public class ListViewExt extends ListView {
 
         int layoutId = a.getResourceId(R.styleable.ListViewExt_adapterLayoutId, 0);
         if (layoutId != 0) {
-            adapter.setLayoutId(layoutId);
+            if ("array".equals(context.getResources().getResourceTypeName(layoutId))) {
+                TypedArray layouts = context.getResources().obtainTypedArray(layoutId);
+                try {
+                    int count = layouts.getIndexCount();
+                    for (int i = 0; i < count; ++i) {
+                        adapter.putLayoutId(i, layouts.getResourceId(i, 0));
+                    }
+                } finally {
+                    layouts.recycle();
+                }
+            } else {
+                adapter.setLayoutId(layoutId);
+            }
         }
 
         String binderClass = a.getString(R.styleable.ListViewExt_adapterBinderClass);
         if (Strings.isNotEmpty(binderClass)) {
             adapter.setBinder(ReflectUtils.<ViewBinder>newInstanceByClassName(ReflectUtils.fullClassName(context, binderClass)));
+        }
+
+        String viewTypeResolverClass = a.getString(R.styleable.ListViewExt_adapterViewTypeResolverClass);
+        if (Strings.isNotEmpty(viewTypeResolverClass)) {
+            adapter.setViewTypeResolver(ReflectUtils.<ViewTypeResolver>newInstanceByClassName(ReflectUtils.fullClassName(context, viewTypeResolverClass)));
         }
 
         setAdapter(adapter);

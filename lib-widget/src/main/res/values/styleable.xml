@@ -20,5 +20,7 @@
         <attr name="adapterLayoutId" format="reference"/>
         <!-- binder for items -->
         <attr name="adapterBinderClass" format="string|reference"/>
+        <!-- view-type resolver for items -->
+        <attr name="adapterViewTypeResolverClass" format="string|reference"/>
     </declare-styleable>
 </resources>
