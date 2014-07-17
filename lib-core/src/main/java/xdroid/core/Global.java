@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Looper;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 
 import static xdroid.core.BuildConfig.SNAPSHOT;
@@ -22,13 +23,36 @@ public final class Global {
         // disallow public access
     }
 
-    public static void init(Application app) {
-        sContext = Objects.notNull(app);
+    static {
         sUiHandler = new Handler(Looper.getMainLooper());
         sSingletons = new HashMap<Class<?>, Object>();
     }
 
+    public static void init(Application app) {
+        sContext = Objects.notNull(app);
+    }
+
     public static Context getContext() {
+        if (sContext == null) {
+            synchronized (Global.class) {
+                if (sContext == null) {
+                    Throwable exception = null;
+
+                    try {
+                        Class<?> clazz = Class.forName("android.app.ActivityThread");
+                        Method method = ReflectUtils.getMethod(clazz, "currentApplication");
+                        sContext = (Context) ReflectUtils.invokeStaticMethod(method);
+                    } catch (Throwable ex) {
+                        exception = ex;
+                    }
+
+                    if (sContext == null) {
+                        throw new IllegalStateException(exception);
+                    }
+                }
+            }
+        }
+
         return Objects.notNull(sContext);
     }
 
