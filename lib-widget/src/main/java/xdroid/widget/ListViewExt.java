@@ -86,18 +86,19 @@ public class ListViewExt extends ListView {
     private void initAdapter(Context context, TypedArray a, AdapterExt adapter, Indexed data) {
         int layoutId = a.getResourceId(R.styleable.ListViewExt_adapterLayoutId, 0);
         if (layoutId != 0) {
-            if ("array".equals(context.getResources().getResourceTypeName(layoutId))) {
-                TypedArray layouts = context.getResources().obtainTypedArray(layoutId);
-                try {
-                    int count = layouts.length();
-                    for (int i = 0; i < count; ++i) {
-                        adapter.putLayoutId(i, layouts.getResourceId(i, 0));
-                    }
-                } finally {
-                    layouts.recycle();
+            adapter.setLayoutId(layoutId);
+        }
+
+        int layoutIdsArray = a.getResourceId(R.styleable.ListViewExt_adapterLayoutIdsArray, 0);
+        if (layoutIdsArray != 0) {
+            TypedArray layouts = context.getResources().obtainTypedArray(layoutId);
+            try {
+                int count = layouts.length();
+                for (int i = 0; i < count; ++i) {
+                    adapter.putLayoutId(i, layouts.getResourceId(i, 0));
                 }
-            } else {
-                adapter.setLayoutId(layoutId);
+            } finally {
+                layouts.recycle();
             }
         }
 
@@ -131,18 +132,19 @@ public class ListViewExt extends ListView {
 
         int layoutId = a.getResourceId(R.styleable.ListViewExt_adapterLayoutId, 0);
         if (layoutId != 0) {
-            if ("array".equals(context.getResources().getResourceTypeName(layoutId))) {
-                TypedArray layouts = context.getResources().obtainTypedArray(layoutId);
-                try {
-                    int count = layouts.getIndexCount();
-                    for (int i = 0; i < count; ++i) {
-                        adapter.putLayoutId(i, layouts.getResourceId(i, 0));
-                    }
-                } finally {
-                    layouts.recycle();
+            adapter.setLayoutId(layoutId);
+        }
+
+        int layoutIdsArray = a.getResourceId(R.styleable.ListViewExt_adapterLayoutIdsArray, 0);
+        if (layoutIdsArray != 0) {
+            TypedArray layouts = context.getResources().obtainTypedArray(layoutId);
+            try {
+                int count = layouts.length();
+                for (int i = 0; i < count; ++i) {
+                    adapter.putLayoutId(i, layouts.getResourceId(i, 0));
                 }
-            } else {
-                adapter.setLayoutId(layoutId);
+            } finally {
+                layouts.recycle();
             }
         }
 

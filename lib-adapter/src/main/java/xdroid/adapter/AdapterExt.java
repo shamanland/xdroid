@@ -19,7 +19,7 @@ import xdroid.core.ParcelUtils;
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
-public class AdapterExt<D, V extends View> extends BaseAdapter implements Iterable<D>, Parcelable {
+public class AdapterExt<D, V extends View> extends BaseAdapter implements IAdapter<D, V>, Iterable<D>, Parcelable {
     private Indexed<D> mData;
     private ViewBinder<D, V> mBinder;
     private ViewTypeResolver<D> mViewTypeResolver;

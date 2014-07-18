@@ -13,7 +13,7 @@ import xdroid.core.Objects;
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
-public class CursorAdapterExt<V extends View> extends CursorAdapter {
+public class CursorAdapterExt<V extends View> extends CursorAdapter implements IAdapter<Cursor, V> {
     private ViewBinder<Cursor, V> mBinder;
     private ViewTypeResolver<Cursor> mViewTypeResolver;
     private SparseIntArray mLayoutId;
