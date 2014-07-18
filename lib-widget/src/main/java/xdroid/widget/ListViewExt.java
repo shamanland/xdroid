@@ -17,6 +17,7 @@ import java.io.Serializable;
 
 import xdroid.adapter.AdapterExt;
 import xdroid.adapter.CursorAdapterExt;
+import xdroid.adapter.IAdapter;
 import xdroid.adapter.ViewBinder;
 import xdroid.adapter.ViewTypeResolver;
 import xdroid.collections.Indexed;
@@ -82,8 +83,7 @@ public class ListViewExt extends ListView {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private void initAdapter(Context context, TypedArray a, AdapterExt adapter, Indexed data) {
+    private void initAdapter(Context context, TypedArray a, IAdapter adapter) {
         int layoutId = a.getResourceId(R.styleable.ListViewExt_adapterLayoutId, 0);
         if (layoutId != 0) {
             adapter.setLayoutId(layoutId);
@@ -91,7 +91,7 @@ public class ListViewExt extends ListView {
 
         int layoutIdsArray = a.getResourceId(R.styleable.ListViewExt_adapterLayoutIdsArray, 0);
         if (layoutIdsArray != 0) {
-            TypedArray layouts = context.getResources().obtainTypedArray(layoutId);
+            TypedArray layouts = context.getResources().obtainTypedArray(layoutIdsArray);
             try {
                 int count = layouts.length();
                 for (int i = 0; i < count; ++i) {
@@ -104,15 +104,22 @@ public class ListViewExt extends ListView {
 
         String binderClass = a.getString(R.styleable.ListViewExt_adapterBinderClass);
         if (Strings.isNotEmpty(binderClass)) {
+            //noinspection unchecked
             adapter.setBinder(ReflectUtils.<ViewBinder>newInstanceByClassName(ReflectUtils.fullClassName(context, binderClass)));
         }
 
         String viewTypeResolverClass = a.getString(R.styleable.ListViewExt_adapterViewTypeResolverClass);
         if (Strings.isNotEmpty(viewTypeResolverClass)) {
+            //noinspection unchecked
             adapter.setViewTypeResolver(ReflectUtils.<ViewTypeResolver>newInstanceByClassName(ReflectUtils.fullClassName(context, viewTypeResolverClass)));
         }
+    }
 
+    @SuppressWarnings("unchecked")
+    private void initAdapter(Context context, TypedArray a, AdapterExt adapter, Indexed data) {
         adapter.setData(data);
+
+        initAdapter(context, a, adapter);
         setAdapter(adapter);
     }
 
@@ -129,35 +136,7 @@ public class ListViewExt extends ListView {
         }
 
         CursorAdapterExt adapter = new CursorAdapterExt(context, cursor, a.getBoolean(R.styleable.ListViewExt_adapterCursorAutoRequery, true));
-
-        int layoutId = a.getResourceId(R.styleable.ListViewExt_adapterLayoutId, 0);
-        if (layoutId != 0) {
-            adapter.setLayoutId(layoutId);
-        }
-
-        int layoutIdsArray = a.getResourceId(R.styleable.ListViewExt_adapterLayoutIdsArray, 0);
-        if (layoutIdsArray != 0) {
-            TypedArray layouts = context.getResources().obtainTypedArray(layoutId);
-            try {
-                int count = layouts.length();
-                for (int i = 0; i < count; ++i) {
-                    adapter.putLayoutId(i, layouts.getResourceId(i, 0));
-                }
-            } finally {
-                layouts.recycle();
-            }
-        }
-
-        String binderClass = a.getString(R.styleable.ListViewExt_adapterBinderClass);
-        if (Strings.isNotEmpty(binderClass)) {
-            adapter.setBinder(ReflectUtils.<ViewBinder>newInstanceByClassName(ReflectUtils.fullClassName(context, binderClass)));
-        }
-
-        String viewTypeResolverClass = a.getString(R.styleable.ListViewExt_adapterViewTypeResolverClass);
-        if (Strings.isNotEmpty(viewTypeResolverClass)) {
-            adapter.setViewTypeResolver(ReflectUtils.<ViewTypeResolver>newInstanceByClassName(ReflectUtils.fullClassName(context, viewTypeResolverClass)));
-        }
-
+        initAdapter(context, a, adapter);
         setAdapter(adapter);
     }
 
