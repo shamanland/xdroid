@@ -28,7 +28,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.shamanland:xdroid:0.0.2'
+    compile 'com.shamanland:xdroid:0.0.6'
 }
 ```
 
@@ -42,7 +42,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.shamanland:xdroid:0.0.2-SNAPSHOT'
+    compile 'com.shamanland:xdroid:0.0.6-SNAPSHOT'
 }
 ```
 
