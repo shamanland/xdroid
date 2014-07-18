@@ -89,7 +89,7 @@ public class ListViewExt extends ListView {
             if ("array".equals(context.getResources().getResourceTypeName(layoutId))) {
                 TypedArray layouts = context.getResources().obtainTypedArray(layoutId);
                 try {
-                    int count = layouts.getIndexCount();
+                    int count = layouts.length();
                     for (int i = 0; i < count; ++i) {
                         adapter.putLayoutId(i, layouts.getResourceId(i, 0));
                     }
