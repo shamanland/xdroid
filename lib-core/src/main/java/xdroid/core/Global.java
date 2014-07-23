@@ -17,6 +17,7 @@ import static xdroid.core.BuildConfig.SNAPSHOT;
 public final class Global {
     private static Context sContext;
     private static Handler sUiHandler;
+    private static Handler sBackgroundHandler;
     private static HashMap<Class<?>, Object> sSingletons;
 
     private Global() {
@@ -25,6 +26,7 @@ public final class Global {
 
     static {
         sUiHandler = new Handler(Looper.getMainLooper());
+        sBackgroundHandler = ThreadUtils.newThread(Global.class.getSimpleName(), null);
         sSingletons = new HashMap<Class<?>, Object>();
     }
 
@@ -61,7 +63,11 @@ public final class Global {
     }
 
     public static Handler getUiHandler() {
-        return Objects.notNull(sUiHandler);
+        return sUiHandler;
+    }
+
+    public static Handler getBackgroundHandler() {
+        return sBackgroundHandler;
     }
 
     public static <T> void putSingleton(Class<T> clazz, T instance) {
