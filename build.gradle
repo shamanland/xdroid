@@ -62,6 +62,9 @@ subprojects {
         apply plugin: 'robolectric'
 
         dependencies {
+            // NOTE workaround for sdkmanager plugin
+            compile 'com.android.support:support-v4:19.0.1'
+
             androidTestCompile 'junit:junit:4.10'
             androidTestCompile 'org.robolectric:robolectric:2.3'
             androidTestCompile 'com.squareup:fest-android:1.0.8'
