@@ -1,7 +1,0 @@
-dependencies {
-    compile project(':lib-core')
-    compile project(':lib-customservice')
-    compile project(':lib-inflater')
-}
-
-apply from: GRADLE_MVN_PUSH

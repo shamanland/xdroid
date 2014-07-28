@@ -1,5 +1,0 @@
-dependencies {
-    compile project(':lib-core')
-}
-
-apply from: GRADLE_MVN_PUSH
