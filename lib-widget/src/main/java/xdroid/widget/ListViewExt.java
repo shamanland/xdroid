@@ -32,6 +32,16 @@ public class ListViewExt extends ListView {
     public static final int ADAPTER_DATA_LINKED_LIST = 2;
     public static final int ADAPTER_DATA_CURSOR = 3;
 
+    private boolean mKeepData;
+
+    public boolean isKeepData() {
+        return mKeepData;
+    }
+
+    public void setKeepData(boolean keepData) {
+        mKeepData = keepData;
+    }
+
     public ListViewExt(Context context) {
         super(context);
         init(context, null, 0);
@@ -48,6 +58,8 @@ public class ListViewExt extends ListView {
     }
 
     private void init(Context context, AttributeSet attrs, @SuppressWarnings("unused") int defStyle) {
+        mKeepData = true;
+
         if (attrs == null) {
             return;
         }
@@ -168,6 +180,7 @@ public class ListViewExt extends ListView {
     static class SavedState extends BaseSavedState {
         final int firstVisiblePosition;
         final int topItemPosition;
+        final boolean keepData;
         final Object data;
 
         public static int getTopItemPosition(ListView listView) {
@@ -191,12 +204,14 @@ public class ListViewExt extends ListView {
             super(superState);
             firstVisiblePosition = listView.getFirstVisiblePosition();
             topItemPosition = getTopItemPosition(listView);
-            data = getData(listView);
+            keepData = listView.isKeepData();
+            data = keepData ? getData(listView) : null;
         }
 
         @SuppressWarnings("unchecked")
         public void onRestoreInstanceState(ListViewExt listView) {
             listView.setSelectionFromTop(firstVisiblePosition, topItemPosition);
+            listView.setKeepData(keepData);
 
             AdapterExt adapter = listView.getRawAdapter();
             if (adapter != null && data instanceof Indexed) {
@@ -208,6 +223,7 @@ public class ListViewExt extends ListView {
         public void writeToParcel(@SuppressWarnings("NullableProblems") Parcel out, int flags) {
             out.writeInt(firstVisiblePosition);
             out.writeInt(topItemPosition);
+            out.writeInt(keepData ? 1 : 0);
             ParcelUtils.writeParcelableOrSerializable(out, flags, data);
         }
 
@@ -230,6 +246,7 @@ public class ListViewExt extends ListView {
 
             firstVisiblePosition = in.readInt();
             topItemPosition = in.readInt();
+            keepData = in.readInt() == 1;
             data = ParcelUtils.readParcelableOrSerializable(in, cl);
         }
     }
