@@ -1,9 +1,5 @@
 package xdroid.adapter;
 
-import xdroid.collections.Indexed;
-import xdroid.collections.IndexedIterator;
-import xdroid.core.Objects;
-import xdroid.core.ParcelUtils;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.SparseIntArray;
@@ -15,12 +11,18 @@ import android.widget.BaseAdapter;
 import java.util.Iterator;
 import java.util.List;
 
+import xdroid.collections.Indexed;
+import xdroid.collections.IndexedIterator;
+import xdroid.core.Objects;
+import xdroid.core.ParcelUtils;
+
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
-public class AdapterExt<D, V extends View> extends BaseAdapter implements Iterable<D>, Parcelable {
+public class AdapterExt<D, V extends View> extends BaseAdapter implements IAdapter<D, V>, Iterable<D>, Parcelable {
     private Indexed<D> mData;
     private ViewBinder<D, V> mBinder;
+    private ViewTypeResolver<D> mViewTypeResolver;
     private SparseIntArray mLayoutId;
 
     private transient boolean mChangesLocked;
@@ -46,6 +48,11 @@ public class AdapterExt<D, V extends View> extends BaseAdapter implements Iterab
 
     public void setBinder(ViewBinder<D, V> binder) {
         mBinder = binder;
+        notifyDataSetChanged();
+    }
+
+    public void setViewTypeResolver(ViewTypeResolver<D> viewTypeResolver) {
+        mViewTypeResolver = viewTypeResolver;
         notifyDataSetChanged();
     }
 
@@ -127,6 +134,20 @@ public class AdapterExt<D, V extends View> extends BaseAdapter implements Iterab
         return new IndexedIterator<D>(mData);
     }
 
+    @Override
+    public int getViewTypeCount() {
+        return mLayoutId.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (mViewTypeResolver != null) {
+            return mViewTypeResolver.getViewType(position, getItem(position));
+        }
+
+        return super.getItemViewType(position);
+    }
+
     public int describeContents() {
         return 0;
     }
@@ -151,6 +172,7 @@ public class AdapterExt<D, V extends View> extends BaseAdapter implements Iterab
         ClassLoader cl = ((Object) this).getClass().getClassLoader();
         mData = ParcelUtils.readParcelableOrSerializable(in, cl);
         mBinder = Objects.notNull(ParcelUtils.<ViewBinder<D, V>>readParcelableOrSerializable(in, cl));
+        mViewTypeResolver = Objects.notNull(ParcelUtils.<ViewTypeResolver<D>>readParcelableOrSerializable(in, cl));
         mLayoutId = ParcelUtils.readSparseIntArray(in);
     }
 }

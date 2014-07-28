@@ -18,7 +18,11 @@
         <attr name="adapterCursorAutoRequery" format="boolean|reference"/>
         <!-- layout for items -->
         <attr name="adapterLayoutId" format="reference"/>
+        <!-- array with the ids of layouts for items -->
+        <attr name="adapterLayoutIdsArray" format="reference"/>
         <!-- binder for items -->
         <attr name="adapterBinderClass" format="string|reference"/>
+        <!-- view-type resolver for items -->
+        <attr name="adapterViewTypeResolverClass" format="string|reference"/>
     </declare-styleable>
 </resources>

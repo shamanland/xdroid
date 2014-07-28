@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.os.Handler;
 import android.os.Looper;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 
 import static xdroid.core.BuildConfig.SNAPSHOT;
@@ -16,19 +17,44 @@ import static xdroid.core.BuildConfig.SNAPSHOT;
 public final class Global {
     private static Context sContext;
     private static Handler sUiHandler;
+    private static Handler sBackgroundHandler;
     private static HashMap<Class<?>, Object> sSingletons;
 
     private Global() {
         // disallow public access
     }
 
-    public static void init(Application app) {
-        sContext = Objects.notNull(app);
+    static {
         sUiHandler = new Handler(Looper.getMainLooper());
+        sBackgroundHandler = ThreadUtils.newThread(Global.class.getSimpleName(), null);
         sSingletons = new HashMap<Class<?>, Object>();
     }
 
+    public static void init(Application app) {
+        sContext = Objects.notNull(app);
+    }
+
     public static Context getContext() {
+        if (sContext == null) {
+            synchronized (Global.class) {
+                if (sContext == null) {
+                    Throwable exception = null;
+
+                    try {
+                        Class<?> clazz = Class.forName("android.app.ActivityThread");
+                        Method method = ReflectUtils.getMethod(clazz, "currentApplication");
+                        sContext = (Context) ReflectUtils.invokeStaticMethod(method);
+                    } catch (Throwable ex) {
+                        exception = ex;
+                    }
+
+                    if (sContext == null) {
+                        throw new IllegalStateException(exception);
+                    }
+                }
+            }
+        }
+
         return Objects.notNull(sContext);
     }
 
@@ -37,7 +63,11 @@ public final class Global {
     }
 
     public static Handler getUiHandler() {
-        return Objects.notNull(sUiHandler);
+        return sUiHandler;
+    }
+
+    public static Handler getBackgroundHandler() {
+        return sBackgroundHandler;
     }
 
     public static <T> void putSingleton(Class<T> clazz, T instance) {

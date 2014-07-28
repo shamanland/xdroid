@@ -70,6 +70,13 @@ public final class CustomService {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             SYSTEM.add(Context.BLUETOOTH_SERVICE);
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            SYSTEM.add(Context.APP_OPS_SERVICE);
+            SYSTEM.add(Context.CAPTIONING_SERVICE);
+            SYSTEM.add(Context.CONSUMER_IR_SERVICE);
+            SYSTEM.add(Context.PRINT_SERVICE);
+        }
     }
 
     public static boolean isCustom(String name) {

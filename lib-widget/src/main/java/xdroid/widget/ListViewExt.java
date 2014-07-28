@@ -4,16 +4,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.database.Cursor;
-import xdroid.adapter.AdapterExt;
-import xdroid.adapter.CursorAdapterExt;
-import xdroid.adapter.ViewBinder;
-import xdroid.collections.Indexed;
-import xdroid.collections.Prototypes;
-import xdroid.core.ParcelUtils;
-import xdroid.core.ReflectUtils;
-import xdroid.core.Strings;
-
-import xdroid.widget.R;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -24,6 +14,17 @@ import android.widget.ListView;
 import android.widget.WrapperListAdapter;
 
 import java.io.Serializable;
+
+import xdroid.adapter.AdapterExt;
+import xdroid.adapter.CursorAdapterExt;
+import xdroid.adapter.IAdapter;
+import xdroid.adapter.ViewBinder;
+import xdroid.adapter.ViewTypeResolver;
+import xdroid.collections.Indexed;
+import xdroid.collections.Prototypes;
+import xdroid.core.ParcelUtils;
+import xdroid.core.ReflectUtils;
+import xdroid.core.Strings;
 
 public class ListViewExt extends ListView {
     public static final int ADAPTER_DATA_NONE = 0;
@@ -82,25 +83,49 @@ public class ListViewExt extends ListView {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private void initAdapter(Context context, TypedArray a, AdapterExt adapter, Indexed data) {
+    private void initAdapter(Context context, TypedArray a, IAdapter adapter) {
         int layoutId = a.getResourceId(R.styleable.ListViewExt_adapterLayoutId, 0);
         if (layoutId != 0) {
             adapter.setLayoutId(layoutId);
         }
 
+        int layoutIdsArray = a.getResourceId(R.styleable.ListViewExt_adapterLayoutIdsArray, 0);
+        if (layoutIdsArray != 0) {
+            TypedArray layouts = context.getResources().obtainTypedArray(layoutIdsArray);
+            try {
+                int count = layouts.length();
+                for (int i = 0; i < count; ++i) {
+                    adapter.putLayoutId(i, layouts.getResourceId(i, 0));
+                }
+            } finally {
+                layouts.recycle();
+            }
+        }
+
         String binderClass = a.getString(R.styleable.ListViewExt_adapterBinderClass);
         if (Strings.isNotEmpty(binderClass)) {
+            //noinspection unchecked
             adapter.setBinder(ReflectUtils.<ViewBinder>newInstanceByClassName(ReflectUtils.fullClassName(context, binderClass)));
         }
 
+        String viewTypeResolverClass = a.getString(R.styleable.ListViewExt_adapterViewTypeResolverClass);
+        if (Strings.isNotEmpty(viewTypeResolverClass)) {
+            //noinspection unchecked
+            adapter.setViewTypeResolver(ReflectUtils.<ViewTypeResolver>newInstanceByClassName(ReflectUtils.fullClassName(context, viewTypeResolverClass)));
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void initAdapter(Context context, TypedArray a, AdapterExt adapter, Indexed data) {
         adapter.setData(data);
+
+        initAdapter(context, a, adapter);
         setAdapter(adapter);
     }
 
     @SuppressWarnings("unchecked")
     private void initCursorAdapter(Context context, TypedArray a) {
-        String uri = a.getString(R.styleable.ListViewExt_adapterCursorAutoRequery);
+        String uri = a.getString(R.styleable.ListViewExt_adapterCursorQuery);
         if (Strings.isEmpty(uri)) {
             return;
         }
@@ -111,17 +136,7 @@ public class ListViewExt extends ListView {
         }
 
         CursorAdapterExt adapter = new CursorAdapterExt(context, cursor, a.getBoolean(R.styleable.ListViewExt_adapterCursorAutoRequery, true));
-
-        int layoutId = a.getResourceId(R.styleable.ListViewExt_adapterLayoutId, 0);
-        if (layoutId != 0) {
-            adapter.setLayoutId(layoutId);
-        }
-
-        String binderClass = a.getString(R.styleable.ListViewExt_adapterBinderClass);
-        if (Strings.isNotEmpty(binderClass)) {
-            adapter.setBinder(ReflectUtils.<ViewBinder>newInstanceByClassName(ReflectUtils.fullClassName(context, binderClass)));
-        }
-
+        initAdapter(context, a, adapter);
         setAdapter(adapter);
     }
 

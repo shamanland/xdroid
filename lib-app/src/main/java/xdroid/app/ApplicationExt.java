@@ -3,15 +3,16 @@ package xdroid.app;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
+
+import java.util.Map;
+
 import xdroid.collections.Prototypes;
 import xdroid.core.ActivityStarter;
 import xdroid.core.ContextOwner;
 import xdroid.core.Global;
 import xdroid.customservice.CustomService;
 import xdroid.customservice.CustomServiceResolver;
-import android.util.Log;
-
-import java.util.Map;
 
 import static xdroid.app.BuildConfig.SNAPSHOT;
 
