@@ -1,6 +1,6 @@
 # Xdroid
 
-[![Build Status](https://travis-ci.org/shamanland/xdroid.svg?branch=snapshot)](https://travis-ci.org/shamanland/xdroid)
+[![Build Status](https://travis-ci.org/shamanland/xdroid.svg?branch=master)](https://travis-ci.org/shamanland/xdroid)
 
 Xdroid - extensions library for any Android app.
 
