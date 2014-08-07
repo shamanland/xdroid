@@ -1,17 +1,19 @@
 package xdroid.app;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+
+import java.util.Map;
+
 import xdroid.collections.Prototypes;
 import xdroid.core.ActivityStarter;
 import xdroid.core.ContextOwner;
 import xdroid.core.Objects;
 import xdroid.customservice.CustomServiceResolver;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-
-import java.util.Map;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
@@ -75,5 +77,14 @@ public class FragmentExt extends Fragment implements ActivityStarter, ContextOwn
     @SuppressWarnings("UnusedDeclaration")
     public LayoutInflater getLayoutInflater(Bundle state) {
         return LayoutInflater.from(getContext());
+    }
+
+    public ActionBar getActionBar() {
+        Activity activity = getActivity();
+        if (activity != null) {
+            return activity.getActionBar();
+        }
+
+        return null;
     }
 }
