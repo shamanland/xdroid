@@ -26,7 +26,7 @@ public final class ParcelUtils {
             out.writeInt(VAL_SERIALIZABLE);
             out.writeSerializable((Serializable) value);
         } else {
-            out.writeValue(VAL_NULL);
+            out.writeInt(VAL_NULL);
         }
     }
 
