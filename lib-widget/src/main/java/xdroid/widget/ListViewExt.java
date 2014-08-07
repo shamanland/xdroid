@@ -221,6 +221,8 @@ public class ListViewExt extends ListView {
 
         @Override
         public void writeToParcel(@SuppressWarnings("NullableProblems") Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+
             out.writeInt(firstVisiblePosition);
             out.writeInt(topItemPosition);
             out.writeInt(keepData ? 1 : 0);

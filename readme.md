@@ -1,6 +1,6 @@
 # Xdroid
 
-[![Build Status](https://travis-ci.org/shamanland/xdroid.svg?branch=master)](https://travis-ci.org/shamanland/xdroid)
+[![Build Status](https://travis-ci.org/shamanland/xdroid.svg?branch=release)](https://travis-ci.org/shamanland/xdroid)
 
 Xdroid - extensions library for any Android app.
 
@@ -28,7 +28,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.shamanland:xdroid:0.0.8'
+    compile 'com.shamanland:xdroid:0.0.9'
 }
 ```
 
@@ -42,7 +42,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.shamanland:xdroid:0.0.8-SNAPSHOT'
+    compile 'com.shamanland:xdroid:0.0.9-SNAPSHOT'
 }
 ```
 
