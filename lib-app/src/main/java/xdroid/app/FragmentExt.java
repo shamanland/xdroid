@@ -87,4 +87,47 @@ public class FragmentExt extends Fragment implements ActivityStarter, ContextOwn
 
         return null;
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        ActionBar ab = getActionBar();
+        if (ab != null) {
+            onInitActionBar(ab);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        ActionBar ab = getActionBar();
+        if (ab != null) {
+            onRestoreActionBar(ab);
+        }
+
+        super.onStop();
+    }
+
+    protected void invalidateActionBar() {
+        ActionBar ab = getActionBar();
+        if (ab != null) {
+            onRestoreActionBar(ab);
+            onInitActionBar(ab);
+        }
+    }
+
+    protected void onInitActionBar(ActionBar ab) {
+        // for inheritors
+    }
+
+    protected void onRestoreActionBar(ActionBar ab) {
+        // for inheritors
+    }
+
+    protected void invalidateOptionsMenu() {
+        Activity activity = getActivity();
+        if (activity != null) {
+            activity.invalidateOptionsMenu();
+        }
+    }
 }
