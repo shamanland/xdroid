@@ -20,29 +20,13 @@ For more information, please, see [the website][1].
 
 ## Gradle dependency
 
-**Release:**
-
 ```
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compile 'com.shamanland:xdroid:0.0.10'
-}
-```
-
-**Snapshot:**
-
-```
-repositories {
-    maven {
-        url 'https://oss.sonatype.org/content/groups/public'
-    }
-}
-
-dependencies {
-    compile 'com.shamanland:xdroid:0.0.10-SNAPSHOT'
+    compile 'com.shamanland:xdroid:0.0.11'
 }
 ```
 
