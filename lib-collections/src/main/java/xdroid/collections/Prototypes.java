@@ -13,6 +13,12 @@ public final class Prototypes {
         return ArrayListHolder.INSTANCE.clone();
     }
 
+    public static <T> ArrayListExt<T> newArrayList(int capacity) {
+        ArrayListExt<T> result = newArrayList();
+        result.ensureCapacity(capacity);
+        return result;
+    }
+
     @SuppressWarnings("unchecked")
     public static <T> LinkedListExt<T> newLinkedList() {
         return LinkedListHolder.INSTANCE.clone();
