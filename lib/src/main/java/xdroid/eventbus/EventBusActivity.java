@@ -26,7 +26,7 @@ public class EventBusActivity extends ActivityExt implements EventDispatcherOwne
     protected void onCreate(Bundle state) {
         super.onCreate(state);
 
-        EventDispatcherHelper.onCreate(this, state, allowKeepLastEvent());
+        EventDispatcherHelper.onCreate(this, state);
     }
 
     @Override

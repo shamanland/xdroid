@@ -2,9 +2,9 @@ package xdroid.eventbus;
 
 import android.app.Activity;
 import android.content.Intent;
-import xdroid.app.FragmentExt;
-
 import android.os.Bundle;
+
+import xdroid.app.FragmentExt;
 
 public class EventBusFragment extends FragmentExt implements EventDispatcherOwner {
     @Override
@@ -26,7 +26,7 @@ public class EventBusFragment extends FragmentExt implements EventDispatcherOwne
     public void onCreate(Bundle state) {
         super.onCreate(state);
 
-        EventDispatcherHelper.onCreate(this, state, allowKeepLastEvent());
+        EventDispatcherHelper.onCreate(this, state);
     }
 
     @Override

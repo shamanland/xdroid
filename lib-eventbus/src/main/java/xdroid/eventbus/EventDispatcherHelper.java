@@ -1,17 +1,15 @@
 package xdroid.eventbus;
 
-import xdroid.core.Objects;
 import android.os.Bundle;
+
+import static xdroid.core.Objects.notNull;
+
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
 public final class EventDispatcherHelper {
     public static void onCreate(EventDispatcherOwner owner, Bundle state) {
-        onCreate(owner, state, false);
-    }
-
-    public static void onCreate(EventDispatcherOwner owner, Bundle state, boolean keepLastEvent) {
         if (owner.getEventDispatcherXmlId() != 0) {
             final EventDispatcher dispatcher = EventDispatcherInflater.getInstance().inflate(owner.getContext(), owner.getEventDispatcherXmlId());
             owner.putCustomService(EventDispatcher.class.getName(), dispatcher);
@@ -21,21 +19,23 @@ public final class EventDispatcherHelper {
                 dispatcher.onNewEvent(EventBus.getEventId(event), event);
             }
 
-            if (keepLastEvent) {
-                owner.putCustomService(EventDispatcher.class.getName(), new KeepLastEventDispatcher(dispatcher, state));
+            if (owner.allowKeepLastEvent()) {
+                Object keeper = new KeepLastEventDispatcher(dispatcher, state);
+                owner.putCustomService(EventDispatcher.class.getName(), keeper);
+                owner.putCustomService(KeepLastEventDispatcher.class.getName(), keeper);
             }
         }
     }
 
     public static void onSaveInstanceState(EventDispatcherOwner owner, Bundle state) {
-        Object dispatcher = owner.getCustomService(EventDispatcher.class.getName());
+        Object dispatcher = owner.getCustomService(KeepLastEventDispatcher.class.getName());
         if (dispatcher instanceof KeepLastEventDispatcher) {
             ((KeepLastEventDispatcher) dispatcher).onSaveInstanceState(state);
         }
     }
 
     public static void resetLastEvent(EventDispatcherOwner owner) {
-        Object dispatcher = owner.getCustomService(EventDispatcher.class.getName());
+        Object dispatcher = owner.getCustomService(KeepLastEventDispatcher.class.getName());
         if (dispatcher instanceof KeepLastEventDispatcher) {
             ((KeepLastEventDispatcher) dispatcher).reset();
         }
@@ -52,7 +52,7 @@ public final class EventDispatcherHelper {
         private Bundle mLast;
 
         public KeepLastEventDispatcher(EventDispatcher base, Bundle state) {
-            mBase = Objects.notNull(base);
+            mBase = notNull(base);
 
             if (state != null) {
                 mLast = state.getBundle(KEY_LAST);
