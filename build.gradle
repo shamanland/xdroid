@@ -6,6 +6,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:0.12.2'
         classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.0'
+        classpath 'com.github.dcendents:android-maven-plugin:1.1'
         classpath 'org.robolectric:robolectric-gradle-plugin:0.11.0'
     }
 }
@@ -30,6 +31,13 @@ subprojects {
 
     if (name.startsWith('lib')) {
         apply plugin: 'com.android.library'
+        apply plugin: 'android-maven'
+
+        install {
+            repositories.mavenInstaller {
+                pom.artifactId = POM_ARTIFACT_ID
+            }
+        }
     } else {
         apply plugin: 'com.android.application'
     }
