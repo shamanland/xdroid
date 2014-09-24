@@ -14,9 +14,11 @@ public final class EventDispatcherHelper {
             final EventDispatcher dispatcher = EventDispatcherInflater.getInstance().inflate(owner.getContext(), owner.getEventDispatcherXmlId());
             owner.putCustomService(EventDispatcher.class.getName(), dispatcher);
 
-            Bundle event = owner.extractInitialEvent();
-            if (event != null) {
-                dispatcher.onNewEvent(EventBus.getEventId(event), event);
+            if (state == null || owner.raiseInitialEventWhenReCreating()) {
+                Bundle event = owner.extractInitialEvent();
+                if (event != null) {
+                    dispatcher.onNewEvent(EventBus.getEventId(event), event);
+                }
             }
 
             if (owner.allowKeepLastEvent()) {

@@ -18,6 +18,11 @@ public class EventBusFragment extends FragmentExt implements EventDispatcherOwne
     }
 
     @Override
+    public boolean raiseInitialEventWhenReCreating() {
+        return true;
+    }
+
+    @Override
     public Bundle extractInitialEvent() {
         return EventBus.extract(getArguments());
     }
