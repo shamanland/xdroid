@@ -1,7 +1,5 @@
 package xdroid.core;
 
-import static xdroid.core.BuildConfig.SNAPSHOT;
-
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
@@ -11,10 +9,8 @@ public final class Objects {
     }
 
     public static <T> T notNull(T object) {
-        if (SNAPSHOT) {
-            if (object == null) {
-                throw new NullPointerException();
-            }
+        if (object == null) {
+            throw new NullPointerException();
         }
 
         return object;
