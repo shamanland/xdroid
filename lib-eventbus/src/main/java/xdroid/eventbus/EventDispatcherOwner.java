@@ -1,8 +1,9 @@
 package xdroid.eventbus;
 
+import android.os.Bundle;
+
 import xdroid.core.ContextOwner;
 import xdroid.customservice.CustomServiceResolver;
-import android.os.Bundle;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
@@ -11,6 +12,8 @@ public interface EventDispatcherOwner extends ContextOwner, CustomServiceResolve
     int getEventDispatcherXmlId();
 
     boolean allowKeepLastEvent();
+
+    boolean raiseInitialEventWhenReCreating();
 
     Bundle extractInitialEvent();
 }

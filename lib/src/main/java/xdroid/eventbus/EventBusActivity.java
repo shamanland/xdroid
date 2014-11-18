@@ -2,9 +2,9 @@ package xdroid.eventbus;
 
 import android.app.Activity;
 import android.content.Intent;
-import xdroid.app.ActivityExt;
-
 import android.os.Bundle;
+
+import xdroid.app.ActivityExt;
 
 public class EventBusActivity extends ActivityExt implements EventDispatcherOwner {
     @Override
@@ -18,6 +18,11 @@ public class EventBusActivity extends ActivityExt implements EventDispatcherOwne
     }
 
     @Override
+    public boolean raiseInitialEventWhenReCreating() {
+        return true;
+    }
+
+    @Override
     public Bundle extractInitialEvent() {
         return EventBus.extract(getIntent());
     }
@@ -26,7 +31,7 @@ public class EventBusActivity extends ActivityExt implements EventDispatcherOwne
     protected void onCreate(Bundle state) {
         super.onCreate(state);
 
-        EventDispatcherHelper.onCreate(this, state, allowKeepLastEvent());
+        EventDispatcherHelper.onCreate(this, state);
     }
 
     @Override

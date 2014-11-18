@@ -1,6 +1,6 @@
 package xdroid.core;
 
-import static xdroid.core.BuildConfig.SNAPSHOT;
+import java.util.Arrays;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
@@ -83,90 +83,72 @@ public final class ArrayUtils {
     }
 
     public static <T> T[] notEmpty(T[] array) {
-        if (SNAPSHOT) {
-            if (isEmpty(array)) {
-                throw new IllegalArgumentException();
-            }
+        if (isEmpty(array)) {
+            throw new IllegalArgumentException(Arrays.toString(array));
         }
 
         return array;
     }
 
     public static boolean[] notEmpty(boolean[] array) {
-        if (SNAPSHOT) {
-            if (isEmpty(array)) {
-                throw new IllegalArgumentException();
-            }
+        if (isEmpty(array)) {
+            throw new IllegalArgumentException(Arrays.toString(array));
         }
 
         return array;
     }
 
     public static byte[] notEmpty(byte[] array) {
-        if (SNAPSHOT) {
-            if (isEmpty(array)) {
-                throw new IllegalArgumentException();
-            }
+        if (isEmpty(array)) {
+            throw new IllegalArgumentException(Arrays.toString(array));
         }
 
         return array;
     }
 
     public static char[] notEmpty(char[] array) {
-        if (SNAPSHOT) {
-            if (isEmpty(array)) {
-                throw new IllegalArgumentException();
-            }
+        if (isEmpty(array)) {
+            throw new IllegalArgumentException(Arrays.toString(array));
         }
 
         return array;
     }
 
     public static short[] notEmpty(short[] array) {
-        if (SNAPSHOT) {
-            if (isEmpty(array)) {
-                throw new IllegalArgumentException();
-            }
+        if (isEmpty(array)) {
+            throw new IllegalArgumentException(Arrays.toString(array));
         }
 
         return array;
     }
 
     public static int[] notEmpty(int[] array) {
-        if (SNAPSHOT) {
-            if (isEmpty(array)) {
-                throw new IllegalArgumentException();
-            }
+        if (isEmpty(array)) {
+            throw new IllegalArgumentException(Arrays.toString(array));
         }
 
         return array;
     }
 
     public static long[] notEmpty(long[] array) {
-        if (SNAPSHOT) {
-            if (isEmpty(array)) {
-                throw new IllegalArgumentException();
-            }
+        if (isEmpty(array)) {
+            throw new IllegalArgumentException(Arrays.toString(array));
         }
 
         return array;
     }
 
     public static float[] notEmpty(float[] array) {
-        if (SNAPSHOT) {
-            if (isEmpty(array)) {
-                throw new IllegalArgumentException();
-            }
+        if (isEmpty(array)) {
+            throw new IllegalArgumentException(Arrays.toString(array));
         }
 
         return array;
     }
 
     public static double[] notEmpty(double[] array) {
-        if (SNAPSHOT) {
-            if (isEmpty(array)) {
-                throw new IllegalArgumentException();
-            }
+        if (isEmpty(array)) {
+            throw new IllegalArgumentException(Arrays.toString(array));
         }
 
         return array;
