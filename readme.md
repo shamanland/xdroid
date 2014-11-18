@@ -1,6 +1,6 @@
 # Xdroid
 
-[![Build Status](https://travis-ci.org/shamanland/xdroid.svg?branch=snapshot)](https://travis-ci.org/shamanland/xdroid)
+[![Build Status](https://travis-ci.org/shamanland/xdroid.svg?branch=demo)](https://travis-ci.org/shamanland/xdroid)
 
 Xdroid - extensions library for any Android app.
 
@@ -20,29 +20,13 @@ For more information, please, see [the website][1].
 
 ## Gradle dependency
 
-**Release:**
-
 ```
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compile 'com.shamanland:xdroid:0.0.7'
-}
-```
-
-**Snapshot:**
-
-```
-repositories {
-    maven {
-        url 'https://oss.sonatype.org/content/groups/public'
-    }
-}
-
-dependencies {
-    compile 'com.shamanland:xdroid:0.0.7-SNAPSHOT'
+    compile 'com.shamanland:xdroid:0.0.11'
 }
 ```
 
