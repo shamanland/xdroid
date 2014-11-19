@@ -3,6 +3,7 @@ package xdroid.core;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
+import android.os.Message;
 import android.os.Process;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -12,7 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public final class ThreadUtils implements Runnable {
     private static AtomicInteger sCounter;
-    private static ThreadUtils sStopper;
+    private static Runnable sStopper;
 
     private ThreadUtils() {
         // disallow public access
@@ -86,7 +87,7 @@ public final class ThreadUtils implements Runnable {
      * @param asap    if true then method {@link Handler#postAtFrontOfQueue(Runnable)} will be used.
      */
     public static void stopThread(Handler handler, boolean asap) {
-        ThreadUtils stopper = sStopper;
+        Runnable stopper = sStopper;
         if (stopper == null) {
             stopper = new ThreadUtils();
             sStopper = stopper;
@@ -102,5 +103,23 @@ public final class ThreadUtils implements Runnable {
     @Override
     public void run() {
         Looper.myLooper().quit();
+    }
+
+    public static class ObjAsRunnableCallback implements Handler.Callback {
+        public static final ObjAsRunnableCallback INSTANCE = new ObjAsRunnableCallback();
+
+        private ObjAsRunnableCallback() {
+            // disallow public access
+        }
+
+        @Override
+        public boolean handleMessage(Message message) {
+            if (message.obj instanceof Runnable) {
+                ((Runnable) message.obj).run();
+                return true;
+            }
+
+            return false;
+        }
     }
 }
