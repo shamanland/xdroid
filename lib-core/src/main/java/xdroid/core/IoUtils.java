@@ -1,12 +1,17 @@
 package xdroid.core;
 
+import android.util.Log;
+
 import java.io.Closeable;
-import java.io.IOException;
+
+import static xdroid.core.BuildConfig.SNAPSHOT;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
 public final class IoUtils {
+    private static final String LOG_TAG = IoUtils.class.getSimpleName();
+
     private IoUtils() {
         // disallow public access
     }
@@ -15,8 +20,10 @@ public final class IoUtils {
         if (closeable != null) {
             try {
                 closeable.close();
-            } catch (IOException ex) {
-                // ignore
+            } catch (Throwable ex) {
+                if (SNAPSHOT) {
+                    Log.wtf(LOG_TAG, ex);
+                }
             }
         }
     }
