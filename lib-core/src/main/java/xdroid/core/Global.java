@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 
 import static xdroid.core.BuildConfig.SNAPSHOT;
+import static xdroid.core.ObjectUtils.notNull;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
@@ -31,7 +32,7 @@ public final class Global {
     }
 
     public static void init(Application app) {
-        sContext = Objects.notNull(app);
+        sContext = notNull(app);
     }
 
     public static Context getContext() {
@@ -55,11 +56,11 @@ public final class Global {
             }
         }
 
-        return Objects.notNull(sContext);
+        return notNull(sContext);
     }
 
     public static Resources getResources() {
-        return Objects.notNull(getContext().getResources());
+        return notNull(getContext().getResources());
     }
 
     public static Handler getUiHandler() {
@@ -82,7 +83,7 @@ public final class Global {
             }
         }
 
-        sSingletons.put(clazz, Objects.notNull(instance));
+        sSingletons.put(clazz, notNull(instance));
     }
 
     public static boolean hasSingleton(Class<?> clazz) {
@@ -90,6 +91,6 @@ public final class Global {
     }
 
     public static <T> T getSingleton(Class<T> clazz) {
-        return Objects.notNull(clazz.cast(sSingletons.get(clazz)));
+        return notNull(clazz.cast(sSingletons.get(clazz)));
     }
 }

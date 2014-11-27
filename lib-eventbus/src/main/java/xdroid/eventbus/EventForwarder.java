@@ -2,17 +2,18 @@ package xdroid.eventbus;
 
 import android.content.Context;
 import android.content.Intent;
-import xdroid.core.ActivityStarter;
-import xdroid.core.ContextActivityStarter;
-import xdroid.core.Objects;
-import xdroid.customservice.CustomService;
-import xdroid.inflater.Inflatable;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 
+import xdroid.core.ActivityStarter;
+import xdroid.core.ContextActivityStarter;
+import xdroid.customservice.CustomService;
+import xdroid.inflater.Inflatable;
+
+import static xdroid.core.ObjectUtils.notNull;
 import static xdroid.eventbus.BuildConfig.SNAPSHOT;
 
 /**
@@ -34,7 +35,7 @@ public class EventForwarder extends DefaultEventDispatcher implements Inflatable
     }
 
     public EventForwarder(Context context) {
-        mContext = Objects.notNull(context);
+        mContext = notNull(context);
 
         ActivityStarter starter = CustomService.get(mContext, ActivityStarter.class);
         mStarter = starter != null ? starter : new ContextActivityStarter(mContext);

@@ -2,9 +2,6 @@ package xdroid.eventbus;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import xdroid.eventbus.R;
-import xdroid.inflater.AbstractInflater;
-import xdroid.inflater.Inflatable;
 import android.util.AttributeSet;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -12,6 +9,9 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import xdroid.inflater.AbstractInflater;
+import xdroid.inflater.Inflatable;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)

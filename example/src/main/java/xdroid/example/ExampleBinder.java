@@ -1,10 +1,11 @@
 package xdroid.example;
 
-import xdroid.adapter.ViewBinder;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import xdroid.adapter.ViewBinder;
 
 public class ExampleBinder implements ViewBinder<ExampleData, View> {
     static class ViewHolder {

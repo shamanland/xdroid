@@ -1,10 +1,5 @@
 package xdroid.example.eventbus;
 
-import xdroid.core.BundleBuilder;
-import xdroid.eventbus.EventBus;
-import xdroid.eventbus.EventBusFragment;
-import xdroid.example.R;
-import xdroid.widget.ListViewExt;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +7,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import java.util.List;
+
+import xdroid.core.BundleBuilder;
+import xdroid.eventbus.EventBus;
+import xdroid.eventbus.EventBusFragment;
+import xdroid.example.R;
+import xdroid.widget.ListViewExt;
 
 public class BriefFragment extends EventBusFragment {
     @Override

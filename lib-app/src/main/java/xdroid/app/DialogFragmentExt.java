@@ -3,13 +3,15 @@ package xdroid.app;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Context;
-import xdroid.collections.Prototypes;
-import xdroid.core.ActivityStarter;
-import xdroid.core.ContextOwner;
-import xdroid.core.Objects;
-import xdroid.customservice.CustomServiceResolver;
 
 import java.util.Map;
+
+import xdroid.core.ActivityStarter;
+import xdroid.core.ContextOwner;
+import xdroid.customservice.CustomServiceResolver;
+
+import static xdroid.collections.Prototypes.newHashMap;
+import static xdroid.core.ObjectUtils.notNull;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
@@ -23,7 +25,7 @@ public class DialogFragmentExt extends DialogFragment implements ActivityStarter
     }
 
     public Context getContext() {
-        return Objects.notNull(mContext);
+        return notNull(mContext);
     }
 
     @Override
@@ -40,7 +42,7 @@ public class DialogFragmentExt extends DialogFragment implements ActivityStarter
 
     public void putCustomService(String name, Object instance) {
         if (mCustomServices == null) {
-            mCustomServices = Prototypes.newHashMap();
+            mCustomServices = newHashMap();
         }
 
         mCustomServices.put(name, instance);

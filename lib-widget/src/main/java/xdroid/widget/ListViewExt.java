@@ -21,10 +21,14 @@ import xdroid.adapter.IAdapter;
 import xdroid.adapter.ViewBinder;
 import xdroid.adapter.ViewTypeResolver;
 import xdroid.collections.Indexed;
-import xdroid.collections.Prototypes;
-import xdroid.core.ParcelUtils;
 import xdroid.core.ReflectUtils;
-import xdroid.core.Strings;
+
+import static xdroid.collections.Prototypes.newArrayList;
+import static xdroid.collections.Prototypes.newLinkedList;
+import static xdroid.core.ObjectUtils.isEmpty;
+import static xdroid.core.ObjectUtils.isNotEmpty;
+import static xdroid.core.ParcelUtils.readParcelableOrSerializable;
+import static xdroid.core.ParcelUtils.writeParcelableOrSerializable;
 
 public class ListViewExt extends ListView {
     public static final int ADAPTER_DATA_NONE = 0;
@@ -81,10 +85,10 @@ public class ListViewExt extends ListView {
         try {
             switch (a.getInt(R.styleable.ListViewExt_adapterData, ADAPTER_DATA_NONE)) {
                 case ADAPTER_DATA_ARRAY_LIST:
-                    initAdapter(context, a, new AdapterExt(), Prototypes.newArrayList());
+                    initAdapter(context, a, new AdapterExt(), newArrayList());
                     break;
                 case ADAPTER_DATA_LINKED_LIST:
-                    initAdapter(context, a, new AdapterExt(), Prototypes.newLinkedList());
+                    initAdapter(context, a, new AdapterExt(), newLinkedList());
                     break;
                 case ADAPTER_DATA_CURSOR:
                     initCursorAdapter(context, a);
@@ -115,13 +119,13 @@ public class ListViewExt extends ListView {
         }
 
         String binderClass = a.getString(R.styleable.ListViewExt_adapterBinderClass);
-        if (Strings.isNotEmpty(binderClass)) {
+        if (isNotEmpty(binderClass)) {
             //noinspection unchecked
             adapter.setBinder(ReflectUtils.<ViewBinder>newInstanceByClassName(ReflectUtils.fullClassName(context, binderClass)));
         }
 
         String viewTypeResolverClass = a.getString(R.styleable.ListViewExt_adapterViewTypeResolverClass);
-        if (Strings.isNotEmpty(viewTypeResolverClass)) {
+        if (isNotEmpty(viewTypeResolverClass)) {
             //noinspection unchecked
             adapter.setViewTypeResolver(ReflectUtils.<ViewTypeResolver>newInstanceByClassName(ReflectUtils.fullClassName(context, viewTypeResolverClass)));
         }
@@ -138,7 +142,7 @@ public class ListViewExt extends ListView {
     @SuppressWarnings("unchecked")
     private void initCursorAdapter(Context context, TypedArray a) {
         String uri = a.getString(R.styleable.ListViewExt_adapterCursorQuery);
-        if (Strings.isEmpty(uri)) {
+        if (isEmpty(uri)) {
             return;
         }
 
@@ -226,7 +230,7 @@ public class ListViewExt extends ListView {
             out.writeInt(firstVisiblePosition);
             out.writeInt(topItemPosition);
             out.writeInt(keepData ? 1 : 0);
-            ParcelUtils.writeParcelableOrSerializable(out, flags, data);
+            writeParcelableOrSerializable(out, flags, data);
         }
 
         public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
@@ -249,7 +253,7 @@ public class ListViewExt extends ListView {
             firstVisiblePosition = in.readInt();
             topItemPosition = in.readInt();
             keepData = in.readInt() == 1;
-            data = ParcelUtils.readParcelableOrSerializable(in, cl);
+            data = readParcelableOrSerializable(in, cl);
         }
     }
 }

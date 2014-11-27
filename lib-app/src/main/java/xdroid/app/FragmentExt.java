@@ -10,11 +10,12 @@ import android.view.LayoutInflater;
 
 import java.util.Map;
 
-import xdroid.collections.Prototypes;
 import xdroid.core.ActivityStarter;
 import xdroid.core.ContextOwner;
-import xdroid.core.Objects;
 import xdroid.customservice.CustomServiceResolver;
+
+import static xdroid.collections.Prototypes.newHashMap;
+import static xdroid.core.ObjectUtils.notNull;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
@@ -28,7 +29,7 @@ public class FragmentExt extends Fragment implements ActivityStarter, ContextOwn
     }
 
     public Context getContext() {
-        return Objects.notNull(mContext);
+        return notNull(mContext);
     }
 
     @Override
@@ -45,7 +46,7 @@ public class FragmentExt extends Fragment implements ActivityStarter, ContextOwn
 
     public void putCustomService(String name, Object instance) {
         if (mCustomServices == null) {
-            mCustomServices = Prototypes.newHashMap();
+            mCustomServices = newHashMap();
         }
 
         mCustomServices.put(name, instance);

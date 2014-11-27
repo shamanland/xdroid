@@ -2,9 +2,10 @@ package xdroid.eventbus;
 
 import android.app.Activity;
 import android.content.Context;
-import xdroid.customservice.CustomService;
 import android.os.Bundle;
 import android.util.Log;
+
+import xdroid.customservice.CustomService;
 
 import static xdroid.eventbus.BuildConfig.SNAPSHOT;
 

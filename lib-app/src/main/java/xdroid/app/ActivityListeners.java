@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import static java.util.Collections.emptyList;
 import static xdroid.collections.Prototypes.newArrayList;
-import static xdroid.core.Objects.notNull;
+import static xdroid.core.ObjectUtils.notNull;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)

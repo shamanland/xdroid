@@ -1,8 +1,9 @@
 package xdroid.example.eventbus;
 
-import xdroid.adapter.ViewBinder;
 import android.view.View;
 import android.widget.TextView;
+
+import xdroid.adapter.ViewBinder;
 
 public class BriefBinder implements ViewBinder<DataItem, View> {
     @Override

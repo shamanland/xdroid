@@ -1,12 +1,13 @@
 package xdroid.example;
 
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+
 import xdroid.app.ActivityExt;
 import xdroid.eventbus.EventBus;
 import xdroid.eventbus.EventDispatcher;
 import xdroid.eventbus.EventDispatcherInflater;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 public class ExampleActivity extends ActivityExt {
     @Override

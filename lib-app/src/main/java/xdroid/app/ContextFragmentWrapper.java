@@ -2,12 +2,13 @@ package xdroid.app;
 
 import android.app.Fragment;
 import android.content.ContextWrapper;
-import xdroid.core.Objects;
-import xdroid.customservice.CustomService;
-import xdroid.customservice.CustomServiceResolver;
 import android.view.LayoutInflater;
 
+import xdroid.customservice.CustomService;
+import xdroid.customservice.CustomServiceResolver;
+
 import static xdroid.app.BuildConfig.SNAPSHOT;
+import static xdroid.core.ObjectUtils.notNull;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
@@ -17,12 +18,12 @@ public class ContextFragmentWrapper extends ContextWrapper {
     private LayoutInflater mInflater;
 
     public ContextFragmentWrapper(FragmentExt fragment) {
-        super(Objects.notNull(fragment.getActivity()));
+        super(notNull(fragment.getActivity()));
         mFragment = fragment;
     }
 
     public ContextFragmentWrapper(DialogFragmentExt fragment) {
-        super(Objects.notNull(fragment.getActivity()));
+        super(notNull(fragment.getActivity()));
         mFragment = fragment;
     }
 

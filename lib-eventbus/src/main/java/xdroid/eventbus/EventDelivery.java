@@ -3,16 +3,17 @@ package xdroid.eventbus;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
-import xdroid.core.Objects;
-import xdroid.customservice.CustomService;
-import xdroid.customservice.CustomServiceResolver;
-import xdroid.inflater.Inflatable;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 
+import xdroid.customservice.CustomService;
+import xdroid.customservice.CustomServiceResolver;
+import xdroid.inflater.Inflatable;
+
+import static xdroid.core.ObjectUtils.notNull;
 import static xdroid.eventbus.BuildConfig.SNAPSHOT;
 import static xdroid.eventbus.EventBus.getEventName;
 
@@ -35,8 +36,8 @@ public class EventDelivery extends DefaultEventDispatcher implements Inflatable 
     }
 
     public EventDelivery(Context context) {
-        mContext = Objects.notNull(context);
-        mManager = Objects.notNull(CustomService.get(context, FragmentManager.class));
+        mContext = notNull(context);
+        mManager = notNull(CustomService.get(context, FragmentManager.class));
     }
 
     @Override

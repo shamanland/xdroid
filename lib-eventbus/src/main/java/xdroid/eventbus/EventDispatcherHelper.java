@@ -2,7 +2,7 @@ package xdroid.eventbus;
 
 import android.os.Bundle;
 
-import static xdroid.core.Objects.notNull;
+import static xdroid.core.ObjectUtils.notNull;
 
 
 /**

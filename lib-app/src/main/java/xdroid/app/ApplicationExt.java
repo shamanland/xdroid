@@ -7,7 +7,6 @@ import android.util.Log;
 
 import java.util.Map;
 
-import xdroid.collections.Prototypes;
 import xdroid.core.ActivityStarter;
 import xdroid.core.ContextOwner;
 import xdroid.core.Global;
@@ -15,6 +14,7 @@ import xdroid.customservice.CustomService;
 import xdroid.customservice.CustomServiceResolver;
 
 import static xdroid.app.BuildConfig.SNAPSHOT;
+import static xdroid.collections.Prototypes.newHashMap;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
@@ -41,7 +41,7 @@ public class ApplicationExt extends Application implements ActivityStarter, Cont
 
     public void putCustomService(String name, Object instance) {
         if (mCustomServices == null) {
-            mCustomServices = Prototypes.newHashMap();
+            mCustomServices = newHashMap();
         }
 
         mCustomServices.put(name, instance);

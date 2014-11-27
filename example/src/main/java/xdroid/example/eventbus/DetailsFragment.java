@@ -1,14 +1,15 @@
 package xdroid.example.eventbus;
 
-import xdroid.eventbus.EventBus;
-import xdroid.eventbus.EventBusFragment;
-import xdroid.eventbus.EventDispatcher;
-import xdroid.example.R;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import xdroid.eventbus.EventBus;
+import xdroid.eventbus.EventBusFragment;
+import xdroid.eventbus.EventDispatcher;
+import xdroid.example.R;
 
 public class DetailsFragment extends EventBusFragment {
     private TextView mTitleView;

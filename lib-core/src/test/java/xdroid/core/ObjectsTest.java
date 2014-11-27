@@ -12,12 +12,12 @@ import static org.junit.Assert.assertSame;
 public class ObjectsTest {
     @Test(expected = NullPointerException.class)
     public void notNullWithNull() throws Exception {
-        Objects.notNull(null);
+        ObjectUtils.notNull(null);
     }
 
     @Test
     public void notNullWithObject() throws Exception {
         Object obj = new Object();
-        assertSame(obj, Objects.notNull(obj));
+        assertSame(obj, ObjectUtils.notNull(obj));
     }
 }

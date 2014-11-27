@@ -10,11 +10,12 @@ import android.os.Bundle;
 
 import java.util.Map;
 
-import xdroid.collections.Prototypes;
 import xdroid.core.ActivityStarter;
 import xdroid.core.ContextOwner;
 import xdroid.customservice.CustomService;
 import xdroid.customservice.CustomServiceResolver;
+
+import static xdroid.collections.Prototypes.newHashMap;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
@@ -45,7 +46,7 @@ public class ActivityExt extends Activity implements ActivityStarter, ContextOwn
 
     public void putCustomService(String name, Object instance) {
         if (mCustomServices == null) {
-            mCustomServices = Prototypes.newHashMap();
+            mCustomServices = newHashMap();
             mCustomServices.put(Activity.class.getName(), this);
             mCustomServices.put(ActivityStarter.class.getName(), this);
             mCustomServices.put(FragmentManager.class.getName(), getFragmentManager());
