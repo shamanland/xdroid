@@ -77,6 +77,19 @@ public final class CustomService {
             SYSTEM.add(Context.CONSUMER_IR_SERVICE);
             SYSTEM.add(Context.PRINT_SERVICE);
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            SYSTEM.add(Context.APPWIDGET_SERVICE);
+            SYSTEM.add(Context.BATTERY_SERVICE);
+            SYSTEM.add(Context.CAMERA_SERVICE);
+            SYSTEM.add(Context.JOB_SCHEDULER_SERVICE);
+            SYSTEM.add(Context.LAUNCHER_APPS_SERVICE);
+            SYSTEM.add(Context.MEDIA_PROJECTION_SERVICE);
+            SYSTEM.add(Context.MEDIA_SESSION_SERVICE);
+            SYSTEM.add(Context.RESTRICTIONS_SERVICE);
+            SYSTEM.add(Context.TELECOM_SERVICE);
+            SYSTEM.add(Context.TV_INPUT_SERVICE);
+        }
     }
 
     public static boolean isCustom(String name) {
