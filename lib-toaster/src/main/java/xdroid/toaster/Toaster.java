@@ -25,7 +25,6 @@ public final class Toaster implements Handler.Callback {
     }
 
     private static void sendMessage(CharSequence text, int length) {
-        //noinspection ConstantConditions
         Message.obtain(sHandler, length, text).sendToTarget();
     }
 
