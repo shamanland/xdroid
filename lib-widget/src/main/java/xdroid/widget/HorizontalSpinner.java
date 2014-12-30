@@ -108,10 +108,20 @@ public class HorizontalSpinner extends FrameLayout {
 
         mScrollView = new HorizontalScrollView(getContext());
         mScrollView.addView(mLinearLayout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        mScrollView.setHorizontalScrollBarEnabled(isHorizontalScrollBarEnabled());
 
         addView(mScrollView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         updateState();
+    }
+
+    @Override
+    public void setHorizontalScrollBarEnabled(boolean horizontalScrollBarEnabled) {
+        super.setHorizontalScrollBarEnabled(horizontalScrollBarEnabled);
+
+        if (mScrollView != null) {
+            mScrollView.setHorizontalScrollBarEnabled(horizontalScrollBarEnabled);
+        }
     }
 
     public void setAdapter(Adapter adapter) {
