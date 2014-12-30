@@ -224,7 +224,7 @@ public class HorizontalSpinner extends FrameLayout {
             mCurrentView.setOnClickListener(null);
         }
 
-        mCurrentView = mAdapter.getView(mCurrentIndex, mCurrentView, mLinearLayout);
+        mCurrentView = mAdapter.getView(mCurrentIndex, mCurrentView, this);
 
         if (mCurrentView != null) {
             if (mCurrentView.getParent() == null) {
