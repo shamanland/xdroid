@@ -27,6 +27,14 @@ public class HorizontalSpinner extends FrameLayout {
     private final OnClickListener mOnClickListener;
     private final OnClickListener mOnSwitchListener;
 
+    public HorizontalScrollView getScrollView() {
+        return mScrollView;
+    }
+
+    public LinearLayout getLinearLayout() {
+        return mLinearLayout;
+    }
+
     public Adapter getAdapter() {
         return mAdapter;
     }
@@ -161,44 +169,29 @@ public class HorizontalSpinner extends FrameLayout {
                     }
                 }
             }
-
-            if (mCurrentIndex == i) {
-                updateCurrentView();
-            }
         }
 
+        updateCurrentView();
         updateState();
     }
 
     protected void onItemClicked(View view) {
-        int newIndex = mLinearLayout.indexOfChild(view);
+        setCurrentItem(mLinearLayout.indexOfChild(view));
 
-        boolean handled = false;
-
-        if (mListener != null) {
-            handled = mListener.onItemClick(this, view, newIndex, mAdapter.getItemId(newIndex));
-        }
-
-        if (!handled) {
-            setCurrentItem(newIndex);
-            switchState();
-        }
+        // NOTE this may be customized by attributes
+        switchState();
     }
 
     protected void onSwitchClicked() {
-        boolean handled = false;
-
-        if (mListener != null) {
-            handled = mListener.onSwitchClick(this, mOpened);
-        }
-
-        if (!handled) {
-            switchState();
-        }
+        switchState();
     }
 
     public void switchState() {
         mOpened = !mOpened;
+
+        if (mListener != null) {
+            mListener.onSwitched(this, mOpened);
+        }
 
         updateState();
     }
@@ -225,6 +218,10 @@ public class HorizontalSpinner extends FrameLayout {
         mCurrentIndex = position;
 
         if (changed) {
+            if (mListener != null) {
+                mListener.onCurrentItemChanged(this, mCurrentIndex);
+            }
+
             updateCurrentView();
         }
     }
@@ -246,8 +243,8 @@ public class HorizontalSpinner extends FrameLayout {
     }
 
     public interface Listener {
-        boolean onItemClick(HorizontalSpinner parent, View view, int position, long id);
+        void onCurrentItemChanged(HorizontalSpinner parent, int position);
 
-        boolean onSwitchClick(HorizontalSpinner parent, boolean opened);
+        void onSwitched(HorizontalSpinner parent, boolean opened);
     }
 }
