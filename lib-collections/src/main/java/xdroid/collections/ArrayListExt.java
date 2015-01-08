@@ -22,6 +22,18 @@ public class ArrayListExt<E> extends ArrayList<E> implements Indexed<E>, Parcela
         super(collection);
     }
 
+    public boolean addAll(E[] array) {
+        return super.addAll(new ArrayCollection<E>(array));
+    }
+
+    public boolean addAll(Indexed<E> indexed) {
+        if (indexed instanceof Collection) {
+            return super.addAll((Collection) indexed);
+        } else {
+            return super.addAll(new IndexedCollection<E>(indexed));
+        }
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public ArrayListExt<E> clone() {

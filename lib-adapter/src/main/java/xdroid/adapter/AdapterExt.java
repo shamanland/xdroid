@@ -13,7 +13,6 @@ import java.util.List;
 
 import xdroid.collections.Indexed;
 import xdroid.collections.IndexedIterator;
-import xdroid.core.Objects;
 import xdroid.core.ParcelUtils;
 
 /**
@@ -101,8 +100,7 @@ public class AdapterExt<D, V extends View> extends BaseAdapter implements IAdapt
         final V result;
 
         if (convertView == null) {
-            result = (V) LayoutInflater.from(Objects.notNull(parent.getContext()))
-                    .inflate(mLayoutId.get(getItemViewType(position)), parent, false);
+            result = (V) LayoutInflater.from(parent.getContext()).inflate(mLayoutId.get(getItemViewType(position)), parent, false);
 
             if (mBinder != null) {
                 mBinder.onNewView(position, result);
@@ -171,8 +169,8 @@ public class AdapterExt<D, V extends View> extends BaseAdapter implements IAdapt
     protected AdapterExt(Parcel in) {
         ClassLoader cl = ((Object) this).getClass().getClassLoader();
         mData = ParcelUtils.readParcelableOrSerializable(in, cl);
-        mBinder = Objects.notNull(ParcelUtils.<ViewBinder<D, V>>readParcelableOrSerializable(in, cl));
-        mViewTypeResolver = Objects.notNull(ParcelUtils.<ViewTypeResolver<D>>readParcelableOrSerializable(in, cl));
+        mBinder = ParcelUtils.<ViewBinder<D, V>>readParcelableOrSerializable(in, cl);
+        mViewTypeResolver = ParcelUtils.<ViewTypeResolver<D>>readParcelableOrSerializable(in, cl);
         mLayoutId = ParcelUtils.readSparseIntArray(in);
     }
 }

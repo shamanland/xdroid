@@ -58,6 +58,10 @@ public class ListViewExt extends ListView {
     }
 
     private void init(Context context, AttributeSet attrs, @SuppressWarnings("unused") int defStyle) {
+        if (isInEditMode()) {
+            return;
+        }
+
         mKeepData = true;
 
         if (attrs == null) {
