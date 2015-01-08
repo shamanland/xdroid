@@ -212,17 +212,17 @@ public class HorizontalSpinner extends FrameLayout {
         }
     }
 
-    public void setCurrentItem(int position) {
-        boolean changed = mCurrentIndex != position;
+    public void setCurrentItem(int index) {
+        final int oldPosition = mCurrentIndex;
+        mCurrentIndex = index;
 
-        mCurrentIndex = position;
-
-        if (changed) {
+        if (oldPosition != index) {
             if (mListener != null) {
-                mListener.onCurrentItemChanged(this, mCurrentIndex);
+                mListener.onCurrentItemChanged(this, index);
             }
 
             updateCurrentView();
+            updateCurrentChildViews(oldPosition);
         }
     }
 
@@ -242,8 +242,27 @@ public class HorizontalSpinner extends FrameLayout {
         }
     }
 
+    private void updateCurrentChildViews(int oldIndex) {
+        refreshChildItem(oldIndex);
+        refreshChildItem(mCurrentIndex);
+    }
+
+    private void refreshChildItem(int index) {
+        View convertView = mLinearLayout.getChildAt(index);
+        View view = mAdapter.getView(index, convertView, mLinearLayout);
+
+        if (convertView != null) {
+            if (convertView != view) {
+                mLinearLayout.removeViewAt(index);
+                mLinearLayout.addView(view, index);
+            }
+        } else {
+            mLinearLayout.addView(view, index);
+        }
+    }
+
     public interface Listener {
-        void onCurrentItemChanged(HorizontalSpinner parent, int position);
+        void onCurrentItemChanged(HorizontalSpinner parent, int index);
 
         void onSwitched(HorizontalSpinner parent, boolean opened);
     }
