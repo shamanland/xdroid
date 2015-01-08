@@ -26,7 +26,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.shamanland:xdroid:0.0.13'
+    compile 'com.shamanland:xdroid:0.0.14'
 }
 ```
 
