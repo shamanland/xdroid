@@ -153,6 +153,7 @@ public class AdapterExt<D, V extends View> extends BaseAdapter implements IAdapt
     public void writeToParcel(Parcel out, int flags) {
         ParcelUtils.writeParcelableOrSerializable(out, flags, mData);
         ParcelUtils.writeParcelableOrSerializable(out, flags, mBinder);
+        ParcelUtils.writeParcelableOrSerializable(out, flags, mViewTypeResolver);
         ParcelUtils.writeSparseIntArray(out, mLayoutId);
     }
 
