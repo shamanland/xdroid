@@ -2,14 +2,13 @@ package xdroid.app;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.DialogFragment;
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 
 import java.util.Map;
 
+import xdroid.api.Fragment;
 import xdroid.collections.Prototypes;
 import xdroid.core.ActivityStarter;
 import xdroid.core.ContextOwner;
@@ -130,9 +129,5 @@ public class FragmentExt extends Fragment implements ActivityStarter, ContextOwn
         if (activity != null) {
             activity.invalidateOptionsMenu();
         }
-    }
-
-    public <T extends DialogFragment> void showDialog(Class<T> fragmentClass, String tag, Bundle args) {
-        ActivityExt.showDialog(getContext(), getFragmentManager(), fragmentClass, tag, args);
     }
 }

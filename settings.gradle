@@ -1,5 +1,7 @@
 include ':lib'
 include ':lib-adapter'
+include ':lib-api-latest'
+include ':lib-api-support'
 include ':lib-app'
 include ':lib-collections'
 include ':lib-core'

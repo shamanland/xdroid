@@ -1,15 +1,12 @@
 package xdroid.app;
 
-import android.app.Activity;
 import android.app.Application;
-import android.app.DialogFragment;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
-import android.os.Bundle;
 
 import java.util.Map;
 
+import xdroid.api.Activity;
 import xdroid.collections.Prototypes;
 import xdroid.core.ActivityStarter;
 import xdroid.core.ContextOwner;
@@ -138,14 +135,5 @@ public class ActivityExt extends Activity implements ActivityStarter, ContextOwn
 
     public void removeOnFinishListener(OnFinishListener listener) {
         getListeners().remove(listener);
-    }
-
-    public <T extends DialogFragment> void showDialog(Class<T> fragmentClass, String tag, Bundle args) {
-        showDialog(getContext(), getFragmentManager(), fragmentClass, tag, args);
-    }
-
-    public static <T extends DialogFragment> void showDialog(Context context, FragmentManager fragmentManager, Class<T> fragmentClass, String tag, Bundle args) {
-        Fragment fragment = Fragment.instantiate(context, fragmentClass.getName(), args);
-        ((DialogFragment) fragment).show(fragmentManager, tag);
     }
 }

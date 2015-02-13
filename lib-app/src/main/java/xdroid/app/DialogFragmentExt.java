@@ -1,15 +1,16 @@
 package xdroid.app;
 
 import android.app.Activity;
-import android.app.DialogFragment;
 import android.content.Context;
+
+import java.util.Map;
+
+import xdroid.api.DialogFragment;
 import xdroid.collections.Prototypes;
 import xdroid.core.ActivityStarter;
 import xdroid.core.ContextOwner;
 import xdroid.core.Objects;
 import xdroid.customservice.CustomServiceResolver;
-
-import java.util.Map;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)

@@ -1,11 +1,11 @@
 package xdroid.app;
 
-import android.app.Fragment;
 import android.content.ContextWrapper;
+import android.view.LayoutInflater;
+
 import xdroid.core.Objects;
 import xdroid.customservice.CustomService;
 import xdroid.customservice.CustomServiceResolver;
-import android.view.LayoutInflater;
 
 import static xdroid.app.BuildConfig.SNAPSHOT;
 
@@ -13,7 +13,7 @@ import static xdroid.app.BuildConfig.SNAPSHOT;
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
 public class ContextFragmentWrapper extends ContextWrapper {
-    private final Fragment mFragment;
+    private final Object mFragment;
     private LayoutInflater mInflater;
 
     public ContextFragmentWrapper(FragmentExt fragment) {
