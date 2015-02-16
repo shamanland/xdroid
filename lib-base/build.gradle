@@ -1,0 +1,11 @@
+dependencies {
+    compile project(':lib-adapter')
+    compile project(':lib-collections')
+    compile project(':lib-core')
+    compile project(':lib-eventbus')
+    compile project(':lib-inflater')
+    compile project(':lib-toaster')
+    compile project(':lib-widget')
+}
+
+apply from: GRADLE_MVN_PUSH
