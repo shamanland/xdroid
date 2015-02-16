@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import xdroid.core.ActivityStarter;
+import xdroid.core.FragmentManagerHelper;
 import xdroid.customservice.CustomService;
 import xdroid.customservice.CustomServiceResolver;
 
@@ -22,6 +23,7 @@ public class ActivityExt extends Activity implements AppEntity {
         mImpl.getCustomServices().putCustomService(Activity.class.getName(), this);
         mImpl.getCustomServices().putCustomService(ActivityStarter.class.getName(), this);
         mImpl.getCustomServices().putCustomService(FragmentManager.class.getName(), getFm());
+        mImpl.getCustomServices().putCustomService(FragmentManagerHelper.class.getName(), new FragmentManagerHelperImpl(getFm()));
     }
 
     public <T extends DialogFragment> void showDialog(Class<T> fragmentClass, String tag, Bundle args) {

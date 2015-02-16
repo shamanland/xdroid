@@ -1,8 +1,5 @@
 package xdroid.eventbus;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcel;
@@ -10,9 +7,12 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 
+import xdroid.core.FragmentManagerHelper;
 import xdroid.core.Objects;
 
+import static xdroid.collections.Prototypes.newHashMap;
 import static xdroid.eventbus.BuildConfig.SNAPSHOT;
 
 /**
@@ -93,40 +93,40 @@ public class EventDeliveryOptions implements Parcelable {
         customAnimations = useCustomAnimations();
     }
 
-    public void performTransaction(FragmentManager manager, Fragment fragment) {
-        FragmentTransaction transaction = manager.beginTransaction();
+    public void performTransaction(FragmentManagerHelper manager, Object fragment) {
+        Object transaction = manager.beginTransaction();
 
         switch (transition) {
             case TRANSITION_NONE:
             case TRANSITION_OPEN:
             case TRANSITION_CLOSE:
             case TRANSITION_FADE:
-                transaction.setTransition(transition);
+                manager.transactionSetTransition(transaction, transition);
                 break;
         }
 
         if (transitionStyle != 0) {
-            transaction.setTransitionStyle(transitionStyle);
+            manager.transactionSetTransitionStyle(transaction, transitionStyle);
         }
 
         if (customAnimations) {
-            transaction.setCustomAnimations(enterAnimation, exitAnimation, popEnterAnimation, popExitAnimation);
+            manager.transactionSetCustomAnimations(transaction, enterAnimation, exitAnimation, popEnterAnimation, popExitAnimation);
         }
 
         switch (appearance) {
             case APPEARANCE_REPLACE:
-                transaction.replace(container, fragment, tag);
+                manager.transactionReplace(transaction, container, fragment, tag);
                 break;
 
             case APPEARANCE_ADD:
-                transaction.add(container, fragment, tag);
+                manager.transactionAdd(transaction, container, fragment, tag);
                 break;
         }
 
         boolean forcedBackStack = false;
 
         if (!backStack && appearance == APPEARANCE_REPLACE) {
-            Fragment old = manager.findFragmentById(container);
+            Object old = manager.findFragmentById(container);
             if (old != null) {
                 if (MethodIsInBackStack.invoke(old)) {
                     if (manager.getBackStackEntryCount() == 1) {
@@ -145,18 +145,18 @@ public class EventDeliveryOptions implements Parcelable {
         }
 
         if (backStack || forcedBackStack) {
-            transaction.addToBackStack(backStackState);
+            manager.transactionAddToBackStack(transaction, backStackState);
         }
 
         if (breadCrumbShortTitle != 0) {
-            transaction.setBreadCrumbShortTitle(breadCrumbShortTitle);
+            manager.transactionSetBreadCrumbShortTitle(transaction, breadCrumbShortTitle);
         }
 
         if (breadCrumbTitle != 0) {
-            transaction.setBreadCrumbTitle(breadCrumbTitle);
+            manager.transactionSetBreadCrumbTitle(transaction, breadCrumbTitle);
         }
 
-        transaction.commit();
+        manager.transactionCommit(transaction);
     }
 
     public int describeContents() {
@@ -228,15 +228,19 @@ public class EventDeliveryOptions implements Parcelable {
     }
 
     static class MethodIsInBackStack {
-        private static final Method sMethod = getMethod();
+        private static final Map<String, Method> sMethods = newHashMap();
 
-        static Method getMethod() {
+        static Method getMethod(Class clazz) {
             try {
-                Method result = Fragment.class.getDeclaredMethod("isInBackStack");
+                //noinspection unchecked
+                Method result = clazz.getDeclaredMethod("isInBackStack");
                 result.setAccessible(true);
                 return result;
             } catch (Throwable ex) {
-                if (SNAPSHOT) {
+                clazz = clazz.getSuperclass();
+                if (clazz != null) {
+                    return getMethod(clazz);
+                } else if (SNAPSHOT) {
                     throw new AssertionError(ex);
                 }
 
@@ -244,15 +248,21 @@ public class EventDeliveryOptions implements Parcelable {
             }
         }
 
-        static boolean invoke(Fragment fragment) {
-            if (sMethod == null) {
-                return false;
+        static boolean invoke(Object fragment) {
+            Method m = sMethods.get(fragment.getClass().getName());
+            if (m == null) {
+                m = getMethod(fragment.getClass());
+                if (m == null) {
+                    return false;
+                }
+
+                sMethods.put(fragment.getClass().getName(), m);
             }
 
             Object result;
 
             try {
-                result = sMethod.invoke(fragment);
+                result = m.invoke(fragment);
             } catch (Throwable ex) {
                 if (SNAPSHOT) {
                     throw new AssertionError(ex);

@@ -1,18 +1,18 @@
 package xdroid.eventbus;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Context;
-import xdroid.core.Objects;
-import xdroid.customservice.CustomService;
-import xdroid.customservice.CustomServiceResolver;
-import xdroid.inflater.Inflatable;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 
+import xdroid.core.FragmentManagerHelper;
+import xdroid.customservice.CustomService;
+import xdroid.customservice.CustomServiceResolver;
+import xdroid.inflater.Inflatable;
+
+import static xdroid.core.Objects.notNull;
 import static xdroid.eventbus.BuildConfig.SNAPSHOT;
 import static xdroid.eventbus.EventBus.getEventName;
 
@@ -23,7 +23,7 @@ public class EventDelivery extends DefaultEventDispatcher implements Inflatable 
     private static final String LOG_TAG = EventDelivery.class.getSimpleName();
 
     private final Context mContext;
-    private final FragmentManager mManager;
+    private final FragmentManagerHelper mManager;
     private EventDeliveryOptions mOptions;
 
     public EventDeliveryOptions getOptions() {
@@ -35,15 +35,15 @@ public class EventDelivery extends DefaultEventDispatcher implements Inflatable 
     }
 
     public EventDelivery(Context context) {
-        mContext = Objects.notNull(context);
-        mManager = Objects.notNull(CustomService.get(context, FragmentManager.class));
+        mContext = notNull(context);
+        mManager = notNull(CustomService.get(context, FragmentManagerHelper.class));
     }
 
     @Override
     protected boolean performOnNewEvent(int eventId, Bundle event) {
-        Fragment fragment = mManager.findFragmentByTag(mOptions.tag);
+        Object fragment = mManager.findFragmentByTag(mOptions.tag);
         if (fragment != null) {
-            if (!fragment.isVisible()) {
+            if (!mManager.fragmentIsVisible(fragment)) {
                 mOptions.performTransaction(mManager, fragment);
             }
 
@@ -75,7 +75,7 @@ public class EventDelivery extends DefaultEventDispatcher implements Inflatable 
                 Log.v(LOG_TAG, "performOnNewEvent: " + getEventName(eventId) + " instantiating of " + mOptions.fragment + debugThis());
             }
 
-            mOptions.performTransaction(mManager, Fragment.instantiate(mContext, mOptions.fragment, EventBus.prepare(eventId, event)));
+            mOptions.performTransaction(mManager, mManager.fragmentInstantiate(mContext, mOptions.fragment, EventBus.prepare(eventId, event)));
             return true;
         }
     }
