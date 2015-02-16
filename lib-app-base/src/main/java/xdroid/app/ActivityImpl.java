@@ -33,7 +33,7 @@ public class ActivityImpl {
 
     public ActivityImpl(Activity activity) {
         mActivity = notNull(activity);
-        mCustomServices = new CustomServices(asCustomServiceResolver(activity));
+        mCustomServices = new CustomServices(asCustomServiceResolver(activity.getApplication()));
     }
 
     public boolean onBackPressed() {
