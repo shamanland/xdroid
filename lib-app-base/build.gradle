@@ -1,5 +1,5 @@
 dependencies {
-    compile project(':lib-adapter')
+    compile project(':lib-customservice')
 }
 
 apply from: GRADLE_MVN_PUSH

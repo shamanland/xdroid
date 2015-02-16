@@ -101,6 +101,10 @@ public final class CustomService {
         return clazz.cast(context.getSystemService(clazz.getName()));
     }
 
+    public static CustomServiceResolver asCustomServiceResolver(Object object) {
+        return object instanceof CustomServiceResolver ? (CustomServiceResolver) object : null;
+    }
+
     private CustomService() {
         // disallow public access
     }

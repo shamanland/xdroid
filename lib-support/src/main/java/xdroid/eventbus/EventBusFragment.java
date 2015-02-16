@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import xdroid.app.ActivityExt;
+import xdroid.app.FragmentExt;
 
-public class EventBusActivity extends ActivityExt implements EventDispatcherOwner {
+public class EventBusFragment extends FragmentExt implements EventDispatcherOwner {
     @Override
     public int getEventDispatcherXmlId() {
         return 0;
@@ -24,7 +24,7 @@ public class EventBusActivity extends ActivityExt implements EventDispatcherOwne
 
     @Override
     public Bundle extractInitialEvent() {
-        return EventBus.extract(getIntent());
+        return EventBus.extract(getArguments());
     }
 
     @Override
@@ -35,14 +35,14 @@ public class EventBusActivity extends ActivityExt implements EventDispatcherOwne
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle state) {
+    public void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
 
         EventDispatcherHelper.onSaveInstanceState(this, state);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (EventBus.onActivityResult(getContext(), data)) {
             return;
         }

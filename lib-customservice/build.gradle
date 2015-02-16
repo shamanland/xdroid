@@ -1,5 +1,5 @@
 dependencies {
-    compile project(':lib-core')
+    compile project(':lib-collections')
 }
 
 apply from: GRADLE_MVN_PUSH

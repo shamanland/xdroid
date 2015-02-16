@@ -1,21 +1,22 @@
 package xdroid.example;
 
-import xdroid.app.ActivityExt;
-import xdroid.eventbus.EventBus;
-import xdroid.eventbus.EventDispatcher;
-import xdroid.eventbus.EventDispatcherInflater;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import xdroid.app.ActivityExt;
+import xdroid.eventbus.EventBus;
+import xdroid.eventbus.EventDispatcher;
+import xdroid.eventbus.EventDispatcherInflater;
+
 public class ExampleActivity extends ActivityExt {
     @Override
-    protected void onCreate(Bundle state) {
+    public void onCreate(Bundle state) {
         super.onCreate(state);
         setContentView(R.layout.a_example);
 
         if (state == null) {
-            getFragmentManager().beginTransaction()
+            getFm().beginTransaction()
                     .add(R.id.container, new ExampleListFragment())
                     .commit();
         }
