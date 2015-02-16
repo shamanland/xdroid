@@ -2,16 +2,16 @@ package xdroid.app;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.DialogFragment;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 
 import xdroid.core.ActivityStarter;
 import xdroid.customservice.CustomServiceResolver;
 
-public class FragmentExt extends Fragment implements AppEntity {
+public class DialogFragmentExt extends DialogFragment implements AppEntity {
     private FragmentImpl mImpl;
 
     @Override
@@ -28,6 +28,11 @@ public class FragmentExt extends Fragment implements AppEntity {
         super.onDetach();
 
         mImpl = null;
+    }
+
+    public static <T extends DialogFragment> void showDialog(Context context, FragmentManager fragmentManager, Class<T> fragmentClass, String tag, Bundle args) {
+        Fragment fragment = Fragment.instantiate(context, fragmentClass.getName(), args);
+        ((DialogFragment) fragment).show(fragmentManager, tag);
     }
 
     public <T extends DialogFragment> void showDialog(Class<T> fragmentClass, String tag, Bundle args) {

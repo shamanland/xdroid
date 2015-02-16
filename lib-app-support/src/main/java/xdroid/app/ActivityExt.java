@@ -1,17 +1,18 @@
 package xdroid.app;
 
-import android.app.ActionBar;
 import android.app.Activity;
-import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 
 import xdroid.core.ActivityStarter;
 import xdroid.customservice.CustomService;
 import xdroid.customservice.CustomServiceResolver;
 
-public class ActivityExt extends Activity implements AppEntity {
+public class ActivityExt extends ActionBarActivity implements AppEntity {
     private ActivityImpl mImpl;
 
     @Override
@@ -30,12 +31,12 @@ public class ActivityExt extends Activity implements AppEntity {
 
     @Override
     public FragmentManager getFm() {
-        return getFragmentManager();
+        return getSupportFragmentManager();
     }
 
     @Override
     public ActionBar getAb() {
-        return getActionBar();
+        return getSupportActionBar();
     }
 
     @Override

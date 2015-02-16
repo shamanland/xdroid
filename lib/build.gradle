@@ -1,6 +1,6 @@
 dependencies {
     compile project(':lib-adapter')
-    compile project(':lib-app')
+    compile project(':lib-app-support')
     compile project(':lib-collections')
     compile project(':lib-core')
     compile project(':lib-eventbus')

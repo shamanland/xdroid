@@ -1,72 +1,72 @@
 package xdroid.app;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
+import android.os.Bundle;
 
-import java.util.Map;
-
-import xdroid.api.DialogFragment;
-import xdroid.collections.Prototypes;
 import xdroid.core.ActivityStarter;
-import xdroid.core.ContextOwner;
-import xdroid.core.Objects;
 import xdroid.customservice.CustomServiceResolver;
 
-/**
- * @author Oleksii Kropachov (o.kropachov@shamanland.com)
- */
-public class DialogFragmentExt extends DialogFragment implements ActivityStarter, ContextOwner, CustomServiceResolver {
-    private Context mContext;
-    private Map<String, Object> mCustomServices;
 
-    public DialogFragmentExt() {
-        // empty
-    }
-
-    public Context getContext() {
-        return Objects.notNull(mContext);
-    }
+public class DialogFragmentExt extends DialogFragment implements AppEntity {
+    private FragmentImpl mImpl;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mContext = new ContextFragmentWrapper(this);
+
+        mImpl = new FragmentImpl(this, activity);
+        mImpl.getCustomServices().putCustomService(ActivityStarter.class.getName(), this);
+        mImpl.getCustomServices().putCustomService(FragmentManager.class.getName(), getFm());
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mContext = null;
+
+        mImpl = null;
     }
 
+    public static <T extends DialogFragment> void showDialog(Context context, FragmentManager fragmentManager, Class<T> fragmentClass, String tag, Bundle args) {
+        Fragment fragment = Fragment.instantiate(context, fragmentClass.getName(), args);
+        ((DialogFragment) fragment).show(fragmentManager, tag);
+    }
+
+    public <T extends DialogFragment> void showDialog(Class<T> fragmentClass, String tag, Bundle args) {
+        DialogFragmentExt.showDialog(getContext(), getFm(), fragmentClass, tag, args);
+    }
+
+    @Override
+    public FragmentManager getFm() {
+        return getFragmentManager();
+    }
+
+    @Override
+    public ActionBar getAb() {
+        return getActivity().getActionBar();
+    }
+
+    @Override
+    public Context getContext() {
+        return mImpl;
+    }
+
+    @Override
     public void putCustomService(String name, Object instance) {
-        if (mCustomServices == null) {
-            mCustomServices = Prototypes.newHashMap();
-        }
-
-        mCustomServices.put(name, instance);
+        mImpl.getCustomServices().putCustomService(name, instance);
     }
 
+    @Override
     public Object getCustomService(String name) {
-        if (ActivityStarter.class.getName().equals(name)) {
-            return this;
-        }
-
-        if (mCustomServices != null) {
-            return mCustomServices.get(name);
-        }
-
-        return null;
+        return mImpl.getCustomServices().getCustomService(name);
     }
 
     @Override
     public CustomServiceResolver getParentResolver() {
-        Activity result = getActivity();
-
-        if (result instanceof CustomServiceResolver) {
-            return (CustomServiceResolver) result;
-        }
-
-        return null;
+        return mImpl.getCustomServices().getParentResolver();
     }
 }

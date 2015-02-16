@@ -1,8 +1,5 @@
 dependencies {
-    compile project(':lib-api-latest')
-    compile project(':lib-collections')
-    compile project(':lib-core')
-    compile project(':lib-customservice')
+    compile project(':lib-app-base')
 }
 
 apply from: GRADLE_MVN_PUSH

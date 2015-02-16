@@ -9,11 +9,11 @@ import static xdroid.core.Objects.notNull;
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
-class ActivityListeners {
+public class ActivityListeners {
     private Collection<OnBackPressedListener> mBackPressed;
     private Collection<OnFinishListener> mFinish;
 
-    public Iterable<OnBackPressedListener> getBackPressed() {
+    protected Iterable<OnBackPressedListener> getBackPressed() {
         if (mBackPressed != null) {
             return mBackPressed;
         }
@@ -21,7 +21,7 @@ class ActivityListeners {
         return emptyList();
     }
 
-    public Iterable<OnFinishListener> getFinish() {
+    protected Iterable<OnFinishListener> getFinish() {
         if (mFinish != null) {
             return mFinish;
         }

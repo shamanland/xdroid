@@ -11,7 +11,7 @@ import xdroid.eventbus.EventDispatcherInflater;
 
 public class ExampleActivity extends ActivityExt {
     @Override
-    protected void onCreate(Bundle state) {
+    public void onCreate(Bundle state) {
         super.onCreate(state);
         setContentView(R.layout.a_example);
 
