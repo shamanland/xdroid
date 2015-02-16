@@ -9,6 +9,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import xdroid.core.ActivityStarter;
+import xdroid.core.ReflectUtils;
 import xdroid.customservice.CustomServiceResolver;
 
 public class FragmentExt extends Fragment implements AppEntity {
@@ -62,5 +63,13 @@ public class FragmentExt extends Fragment implements AppEntity {
     @Override
     public CustomServiceResolver getParentResolver() {
         return mImpl.getCustomServices().getParentResolver();
+    }
+
+    public String getWho() {
+        return (String) ReflectUtils.getFieldValue(this, "mWho");
+    }
+
+    public void invalidateOptionsMenu() {
+        getActivity().invalidateOptionsMenu();
     }
 }

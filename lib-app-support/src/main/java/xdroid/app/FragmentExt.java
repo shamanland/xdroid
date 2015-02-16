@@ -1,14 +1,17 @@
 package xdroid.app;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 
 import xdroid.core.ActivityStarter;
+import xdroid.core.ReflectUtils;
 import xdroid.customservice.CustomServiceResolver;
 
 public class FragmentExt extends Fragment implements AppEntity {
@@ -41,7 +44,12 @@ public class FragmentExt extends Fragment implements AppEntity {
 
     @Override
     public ActionBar getAb() {
-        return getActivity().getActionBar();
+        FragmentActivity activity = getActivity();
+        if (activity instanceof ActionBarActivity) {
+            return ((ActionBarActivity) activity).getSupportActionBar();
+        }
+
+        return null;
     }
 
     @Override
@@ -62,5 +70,13 @@ public class FragmentExt extends Fragment implements AppEntity {
     @Override
     public CustomServiceResolver getParentResolver() {
         return mImpl.getCustomServices().getParentResolver();
+    }
+
+    public String getWho() {
+        return (String) ReflectUtils.getFieldValue(this, "mWho");
+    }
+
+    public void invalidateOptionsMenu() {
+        getActivity().supportInvalidateOptionsMenu();
     }
 }
