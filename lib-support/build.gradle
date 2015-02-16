@@ -1,0 +1,6 @@
+dependencies {
+    compile project(':lib-app-support')
+    compile project(':lib-base')
+}
+
+apply from: GRADLE_MVN_PUSH

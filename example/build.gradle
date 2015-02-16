@@ -23,5 +23,5 @@ repositories {
 }
 
 dependencies {
-    compile 'com.shamanland:xdroid:' + VERSION_NAME
+    compile 'com.shamanland:xdroid' + BUILD_API + ':' + VERSION_NAME
 }
