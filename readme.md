@@ -21,12 +21,16 @@ For more information, please, see [the website][1].
 ## Gradle dependency
 
 ```
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-    compile 'com.shamanland:xdroid:0.0.15'
+    compile 'com.shamanland:xdroid:0.1.0'
+}
+```
+
+In case of using `ActionBarActivity` or `FragmentActivity` from support libraries:
+
+```
+dependencies {
+    compile 'com.shamanland:xdroid-support:0.1.0'
 }
 ```
 
