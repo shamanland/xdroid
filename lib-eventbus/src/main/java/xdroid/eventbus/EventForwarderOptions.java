@@ -2,13 +2,11 @@ package xdroid.eventbus;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import xdroid.core.Objects;
-
-import xdroid.eventbus.R;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 
+import static xdroid.core.ObjectUtils.notNull;
 import static xdroid.eventbus.EventDispatcherInflater.readClass;
 
 /**
@@ -20,7 +18,7 @@ public class EventForwarderOptions implements Parcelable {
     public final int requestCode;
 
     public EventForwarderOptions(Context context, AttributeSet attrs) {
-        TypedArray a = Objects.notNull(context.obtainStyledAttributes(attrs, R.styleable.EventForwarder));
+        TypedArray a = notNull(context.obtainStyledAttributes(attrs, R.styleable.EventForwarder));
 
         try {
             activity = readClass(context, a, R.styleable.EventForwarder_activity);

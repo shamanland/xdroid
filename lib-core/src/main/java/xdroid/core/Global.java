@@ -31,7 +31,7 @@ public final class Global {
     }
 
     public static void init(Application app) {
-        sContext = Objects.notNull(app);
+        sContext = ObjectUtils.notNull(app);
     }
 
     public static Context getContext() {
@@ -55,11 +55,11 @@ public final class Global {
             }
         }
 
-        return Objects.notNull(sContext);
+        return ObjectUtils.notNull(sContext);
     }
 
     public static Resources getResources() {
-        return Objects.notNull(getContext().getResources());
+        return ObjectUtils.notNull(getContext().getResources());
     }
 
     public static Handler getUiHandler() {
@@ -82,7 +82,7 @@ public final class Global {
             }
         }
 
-        sSingletons.put(clazz, Objects.notNull(instance));
+        sSingletons.put(clazz, ObjectUtils.notNull(instance));
     }
 
     public static boolean hasSingleton(Class<?> clazz) {
@@ -90,6 +90,6 @@ public final class Global {
     }
 
     public static <T> T getSingleton(Class<T> clazz) {
-        return Objects.notNull(clazz.cast(sSingletons.get(clazz)));
+        return ObjectUtils.notNull(clazz.cast(sSingletons.get(clazz)));
     }
 }

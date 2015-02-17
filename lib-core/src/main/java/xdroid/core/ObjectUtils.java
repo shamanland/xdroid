@@ -5,44 +5,53 @@ import java.util.Arrays;
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
-public final class ArrayUtils {
-    private ArrayUtils() {
+public final class ObjectUtils {
+    private ObjectUtils() {
         // disallow public access
     }
 
-    public static <T> T[] fromObjects(T... args) {
+    public static <T> T notNull(T object) {
+        if (object == null) {
+            throw new NullPointerException();
+        }
+
+        return object;
+    }
+
+    @SafeVarargs
+    public static <T> T[] asArrayOf(T... args) {
         return args;
     }
 
-    public static boolean[] from(boolean... args) {
+    public static boolean[] asArray(boolean... args) {
         return args;
     }
 
-    public static byte[] from(byte... args) {
+    public static byte[] asArray(byte... args) {
         return args;
     }
 
-    public static char[] from(char... args) {
+    public static char[] asArray(char... args) {
         return args;
     }
 
-    public static short[] from(short... args) {
+    public static short[] asArray(short... args) {
         return args;
     }
 
-    public static int[] from(int... args) {
+    public static int[] asArray(int... args) {
         return args;
     }
 
-    public static long[] from(long... args) {
+    public static long[] asArray(long... args) {
         return args;
     }
 
-    public static float[] from(float... args) {
+    public static float[] asArray(float... args) {
         return args;
     }
 
-    public static double[] from(double... args) {
+    public static double[] asArray(double... args) {
         return args;
     }
 
@@ -152,5 +161,37 @@ public final class ArrayUtils {
         }
 
         return array;
+    }
+
+    public static boolean isEmpty(CharSequence text) {
+        return text == null || text.length() == 0;
+    }
+
+    public static boolean isNotEmpty(CharSequence text) {
+        return !isEmpty(text);
+    }
+
+    public static CharSequence notEmpty(CharSequence text) {
+        if (isEmpty(text)) {
+            throw new IllegalArgumentException();
+        }
+
+        return text;
+    }
+
+    public static boolean isEmpty(String text) {
+        return text == null || text.trim().length() == 0;
+    }
+
+    public static boolean isNotEmpty(String text) {
+        return !isEmpty(text);
+    }
+
+    public static String notEmpty(String text) {
+        if (isEmpty(text)) {
+            throw new IllegalArgumentException();
+        }
+
+        return text.trim();
     }
 }

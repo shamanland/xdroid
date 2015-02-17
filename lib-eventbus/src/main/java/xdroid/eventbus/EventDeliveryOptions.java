@@ -10,9 +10,9 @@ import java.lang.reflect.Method;
 import java.util.Map;
 
 import xdroid.core.FragmentManagerHelper;
-import xdroid.core.Objects;
 
 import static xdroid.collections.Prototypes.newHashMap;
+import static xdroid.core.ObjectUtils.notNull;
 import static xdroid.eventbus.BuildConfig.SNAPSHOT;
 
 /**
@@ -53,7 +53,7 @@ public class EventDeliveryOptions implements Parcelable {
     public final boolean customAnimations;
 
     public EventDeliveryOptions(Context context, AttributeSet attrs) {
-        TypedArray a = Objects.notNull(context.obtainStyledAttributes(attrs, R.styleable.EventDelivery));
+        TypedArray a = notNull(context.obtainStyledAttributes(attrs, R.styleable.EventDelivery));
 
         try {
             fragment = EventDispatcherInflater.readClass(context, a, R.styleable.EventDelivery_fragment);

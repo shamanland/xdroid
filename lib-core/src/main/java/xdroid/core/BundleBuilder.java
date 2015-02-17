@@ -22,7 +22,7 @@ public final class BundleBuilder {
     }
 
     public BundleBuilder(Bundle base, boolean copy) {
-        mBase = copy ? new Bundle(Objects.notNull(base)) : Objects.notNull(base);
+        mBase = copy ? new Bundle(ObjectUtils.notNull(base)) : ObjectUtils.notNull(base);
     }
 
     public BundleBuilder(Bundle base) {

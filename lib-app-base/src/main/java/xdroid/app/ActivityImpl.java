@@ -4,7 +4,7 @@ import android.app.Activity;
 
 import xdroid.customservice.CustomServices;
 
-import static xdroid.core.Objects.notNull;
+import static xdroid.core.ObjectUtils.notNull;
 import static xdroid.customservice.CustomService.asCustomServiceResolver;
 
 /**

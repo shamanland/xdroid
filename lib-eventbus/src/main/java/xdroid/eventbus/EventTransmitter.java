@@ -1,10 +1,10 @@
 package xdroid.eventbus;
 
-import xdroid.core.Objects;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
 
+import static xdroid.core.ObjectUtils.notNull;
 import static xdroid.eventbus.BuildConfig.SNAPSHOT;
 import static xdroid.eventbus.EventBus.getEventName;
 
@@ -21,7 +21,7 @@ public class EventTransmitter extends DefaultEventDispatcher {
     }
 
     public void put(int eventId, EventDispatcher target) {
-        mTargets.put(eventId, Objects.notNull(target));
+        mTargets.put(eventId, notNull(target));
     }
 
     @Override

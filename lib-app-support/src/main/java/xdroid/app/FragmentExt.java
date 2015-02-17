@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 
 import xdroid.core.ActivityStarter;
+import xdroid.core.FragmentManagerHelper;
 import xdroid.core.ReflectUtils;
 import xdroid.customservice.CustomServiceResolver;
 
@@ -24,6 +25,7 @@ public class FragmentExt extends Fragment implements AppEntity {
         mImpl = new FragmentImpl(this, activity);
         mImpl.getCustomServices().putCustomService(ActivityStarter.class.getName(), this);
         mImpl.getCustomServices().putCustomService(FragmentManager.class.getName(), getFm());
+        mImpl.getCustomServices().putCustomService(FragmentManagerHelper.class.getName(), new FragmentManagerHelperImpl(getFm()));
     }
 
     @Override
@@ -37,9 +39,12 @@ public class FragmentExt extends Fragment implements AppEntity {
         DialogFragmentExt.showDialog(getContext(), getFm(), fragmentClass, tag, args);
     }
 
+    /**
+     * This method returns <code>getChildFragmentManager().
+     */
     @Override
     public FragmentManager getFm() {
-        return getFragmentManager();
+        return getChildFragmentManager();
     }
 
     @Override

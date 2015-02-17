@@ -2,7 +2,7 @@ package xdroid.collections;
 
 import java.util.Iterator;
 
-import static xdroid.core.Objects.notNull;
+import static xdroid.core.ObjectUtils.notNull;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
