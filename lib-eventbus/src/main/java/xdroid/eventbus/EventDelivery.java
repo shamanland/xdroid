@@ -12,7 +12,7 @@ import xdroid.customservice.CustomService;
 import xdroid.customservice.CustomServiceResolver;
 import xdroid.inflater.Inflatable;
 
-import static xdroid.core.Objects.notNull;
+import static xdroid.core.ObjectUtils.notNull;
 import static xdroid.eventbus.BuildConfig.SNAPSHOT;
 import static xdroid.eventbus.EventBus.getEventName;
 

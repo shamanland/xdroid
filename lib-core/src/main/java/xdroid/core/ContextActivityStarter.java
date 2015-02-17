@@ -10,7 +10,7 @@ public class ContextActivityStarter implements ActivityStarter {
     private final Context mContext;
 
     public ContextActivityStarter(Context context) {
-        mContext = Objects.notNull(context);
+        mContext = ObjectUtils.notNull(context);
     }
 
     @Override

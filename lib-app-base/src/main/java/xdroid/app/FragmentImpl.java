@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import xdroid.customservice.CustomService;
 import xdroid.customservice.CustomServices;
 
-import static xdroid.core.Objects.notNull;
+import static xdroid.core.ObjectUtils.notNull;
 import static xdroid.customservice.CustomService.asCustomServiceResolver;
 
 /**

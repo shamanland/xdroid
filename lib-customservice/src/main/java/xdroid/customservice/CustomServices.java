@@ -4,7 +4,7 @@ import java.util.Map;
 
 import xdroid.collections.Prototypes;
 
-import static xdroid.core.Objects.notNull;
+import static xdroid.core.ObjectUtils.notNull;
 
 public class CustomServices implements CustomServiceResolver {
     private final CustomServiceResolver mParentResolver;

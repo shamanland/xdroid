@@ -25,8 +25,8 @@ import xdroid.collections.Prototypes;
 import xdroid.core.ParcelUtils;
 import xdroid.core.ReflectUtils;
 
-import static xdroid.core.Objects.isEmpty;
-import static xdroid.core.Objects.isNotEmpty;
+import static xdroid.core.ObjectUtils.isEmpty;
+import static xdroid.core.ObjectUtils.isNotEmpty;
 
 public class ListViewExt extends ListView {
     public static final int ADAPTER_DATA_NONE = 0;

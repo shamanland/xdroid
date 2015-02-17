@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 
-import xdroid.core.Objects;
+import static xdroid.core.ObjectUtils.notNull;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
@@ -75,7 +75,7 @@ public class CursorAdapterExt<V extends View> extends CursorAdapter implements I
     @Override
     @SuppressWarnings("unchecked")
     public V newView(Context context, Cursor cursor, ViewGroup parent) {
-        V result = (V) LayoutInflater.from(Objects.notNull(parent.getContext()))
+        V result = (V) LayoutInflater.from(notNull(parent.getContext()))
                 .inflate(mLayoutId.get(getItemViewType(cursor.getPosition())), parent, false);
         mBinder.onNewView(cursor.getPosition(), result);
         return result;

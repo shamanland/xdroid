@@ -1,8 +1,8 @@
 package xdroid.collections;
 
-import xdroid.core.Objects;
-
 import java.util.Iterator;
+
+import static xdroid.core.ObjectUtils.notNull;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
@@ -12,7 +12,7 @@ public class IndexedIterator<E> implements Iterator<E> {
     private int mCursor;
 
     public IndexedIterator(Indexed<E> indexed) {
-        mIndexed = Objects.notNull(indexed);
+        mIndexed = notNull(indexed);
         mCursor = -1;
     }
 

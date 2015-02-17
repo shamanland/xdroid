@@ -11,7 +11,7 @@ import android.view.View;
 
 import xdroid.core.FragmentManagerHelper;
 
-import static xdroid.core.Objects.notNull;
+import static xdroid.core.ObjectUtils.notNull;
 
 public class FragmentManagerHelperImpl implements FragmentManagerHelper {
     private final FragmentManager mBase;

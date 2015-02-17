@@ -11,8 +11,8 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 
-import static xdroid.core.Objects.isEmpty;
-import static xdroid.core.Objects.notNull;
+import static xdroid.core.ObjectUtils.isEmpty;
+import static xdroid.core.ObjectUtils.notNull;
 import static xdroid.inflater.BuildConfig.SNAPSHOT;
 
 /**

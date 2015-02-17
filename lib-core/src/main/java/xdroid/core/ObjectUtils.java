@@ -5,8 +5,8 @@ import java.util.Arrays;
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
-public final class Objects {
-    private Objects() {
+public final class ObjectUtils {
+    private ObjectUtils() {
         // disallow public access
     }
 
