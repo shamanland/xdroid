@@ -8,6 +8,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 
 import xdroid.core.ActivityStarter;
 import xdroid.core.FragmentManagerHelper;
@@ -73,6 +74,15 @@ public class FragmentExt extends Fragment implements AppEntity {
     @Override
     public CustomServiceResolver getParentResolver() {
         return mImpl.getCustomServices().getParentResolver();
+    }
+
+    /**
+     * This method overrides hidden method in order to propagate custom context deeper.
+     * The same method is not required for DialogFragment.
+     */
+    // @Override
+    public LayoutInflater getLayoutInflater(Bundle state) {
+        return LayoutInflater.from(getContext());
     }
 
     public String getWho() {
