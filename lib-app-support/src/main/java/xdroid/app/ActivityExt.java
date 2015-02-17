@@ -48,7 +48,7 @@ public class ActivityExt extends ActionBarActivity implements AppEntity {
 
     @Override
     public Object getSystemService(@SuppressWarnings("NullableProblems") String name) {
-        if (CustomService.isCustom(name)) {
+        if (CustomService.isCustom(name) && mImpl != null) {
             Object result = CustomService.resolve(mImpl.getCustomServices(), name);
             if (result != null) {
                 return result;
