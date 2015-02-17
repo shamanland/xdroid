@@ -23,7 +23,6 @@ public class DialogFragmentExt extends DialogFragment implements AppEntity {
 
         mImpl = new FragmentImpl(this, activity);
         mImpl.getCustomServices().putCustomService(ActivityStarter.class.getName(), this);
-        mImpl.getCustomServices().putCustomService(FragmentManager.class.getName(), getFm());
     }
 
     @Override
@@ -42,6 +41,9 @@ public class DialogFragmentExt extends DialogFragment implements AppEntity {
         DialogFragmentExt.showDialog(getContext(), getFm(), fragmentClass, tag, args);
     }
 
+    /**
+     * This method returns <code>getFragmentManager()</code>.
+     */
     @Override
     public FragmentManager getFm() {
         return getFragmentManager();

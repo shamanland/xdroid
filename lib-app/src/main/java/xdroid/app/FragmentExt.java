@@ -6,9 +6,11 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 
 import xdroid.core.ActivityStarter;
+import xdroid.core.FragmentManagerHelper;
 import xdroid.core.ReflectUtils;
 import xdroid.customservice.CustomServiceResolver;
 
@@ -22,6 +24,7 @@ public class FragmentExt extends Fragment implements AppEntity {
         mImpl = new FragmentImpl(this, activity);
         mImpl.getCustomServices().putCustomService(ActivityStarter.class.getName(), this);
         mImpl.getCustomServices().putCustomService(FragmentManager.class.getName(), getFm());
+        mImpl.getCustomServices().putCustomService(FragmentManagerHelper.class.getName(), new FragmentManagerHelperImpl(getFm()));
     }
 
     @Override
@@ -35,8 +38,15 @@ public class FragmentExt extends Fragment implements AppEntity {
         DialogFragmentExt.showDialog(getContext(), getFm(), fragmentClass, tag, args);
     }
 
+    /**
+     * This method returns <code>getChildFragmentManager()</code> for API 17 and higher, <code>getFragmentManager()</code> otherwise.
+     */
     @Override
     public FragmentManager getFm() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            return getChildFragmentManager();
+        }
+
         return getFragmentManager();
     }
 
