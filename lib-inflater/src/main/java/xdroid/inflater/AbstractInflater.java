@@ -3,8 +3,6 @@ package xdroid.inflater;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
-import xdroid.core.ArrayUtils;
-import xdroid.core.Objects;
 import android.util.AttributeSet;
 import android.view.InflateException;
 
@@ -13,6 +11,8 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 
+import static xdroid.core.Objects.isEmpty;
+import static xdroid.core.Objects.notNull;
 import static xdroid.inflater.BuildConfig.SNAPSHOT;
 
 /**
@@ -24,7 +24,7 @@ public abstract class AbstractInflater<T, C extends T> {
     protected abstract T createFromTag(Context context, XmlPullParser parser, C parent, AttributeSet attrs) throws XmlPullParserException;
 
     protected AbstractInflater(Class<C> compositeClazz) {
-        mCompositeClazz = Objects.notNull(compositeClazz);
+        mCompositeClazz = notNull(compositeClazz);
     }
 
     public T inflate(Context context, int xmlId) {
@@ -43,7 +43,7 @@ public abstract class AbstractInflater<T, C extends T> {
                 throw new InflateException(parser.getPositionDescription());
             }
 
-            T result = Objects.notNull(createFromTag(context, parser, null, parser));
+            T result = notNull(createFromTag(context, parser, null, parser));
 
             if (mCompositeClazz.isInstance(result)) {
                 inflateRec(context, parser, mCompositeClazz.cast(result), parser);
@@ -66,7 +66,7 @@ public abstract class AbstractInflater<T, C extends T> {
                 continue;
             }
 
-            T item = Objects.notNull(createFromTag(context, parser, parent, attrs));
+            T item = notNull(createFromTag(context, parser, parent, attrs));
 
             if (mCompositeClazz.isInstance(item)) {
                 inflateRec(context, parser, mCompositeClazz.cast(item), attrs);
@@ -81,7 +81,7 @@ public abstract class AbstractInflater<T, C extends T> {
 
         public static String createMessage(Context context, int[] styleableArray, int... attrIndices) {
             if (SNAPSHOT) {
-                if (ArrayUtils.isEmpty(attrIndices)) {
+                if (isEmpty(attrIndices)) {
                     return null;
                 }
 
