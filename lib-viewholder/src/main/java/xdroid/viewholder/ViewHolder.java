@@ -24,7 +24,7 @@ public final class ViewHolder {
     private ViewHolder(View view) {
         view.setTag(this);
         mView = view;
-        mViews = new SparseArray<Object>();
+        mViews = new SparseArray<>();
     }
 
     public int getInt() {
