@@ -10,6 +10,11 @@ public final class ObjectUtils {
         // disallow public access
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T> T cast(Object object) {
+        return (T) object;
+    }
+
     public static <T> T notNull(T object) {
         if (object == null) {
             throw new NullPointerException();

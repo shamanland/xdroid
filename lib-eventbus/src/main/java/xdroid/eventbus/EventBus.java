@@ -2,11 +2,12 @@ package xdroid.eventbus;
 
 import android.content.Context;
 import android.content.Intent;
-import xdroid.customservice.CustomService;
 import android.os.Bundle;
 import android.util.Log;
 
 import java.util.Locale;
+
+import xdroid.customservice.CustomService;
 
 import static xdroid.core.Global.getResources;
 import static xdroid.eventbus.BuildConfig.SNAPSHOT;
@@ -133,28 +134,11 @@ public final class EventBus {
             return false;
         }
 
+        if (SNAPSHOT) {
+            Log.d(LOG_TAG, "send: " + getEventName(eventId) + " handling by " + dispatcher);
+        }
+
         return dispatcher.onNewEvent(eventId, args != null ? args : Bundle.EMPTY);
-    }
-
-    public static boolean onActivityResult(Context context, Intent data) {
-        if (data == null) {
-            if (SNAPSHOT) {
-                Log.v(LOG_TAG, "onActivityResult: data is null");
-            }
-
-            return false;
-        }
-
-        Bundle event = extract(data);
-        if (event == null) {
-            if (SNAPSHOT) {
-                Log.v(LOG_TAG, "onActivityResult: no event in data");
-            }
-
-            return false;
-        }
-
-        return send(context, event.getInt(EVENT_ID), event);
     }
 
     public static String getEventName(int eventId) {

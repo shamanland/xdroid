@@ -17,7 +17,7 @@ public class EventTransmitter extends DefaultEventDispatcher {
     private final SparseArray<EventDispatcher> mTargets;
 
     public EventTransmitter() {
-        mTargets = new SparseArray<EventDispatcher>();
+        mTargets = new SparseArray<>();
     }
 
     public void put(int eventId, EventDispatcher target) {
