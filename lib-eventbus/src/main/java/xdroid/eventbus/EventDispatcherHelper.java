@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import xdroid.core.BundleBuilder;
+
 import static xdroid.core.ObjectUtils.notNull;
 
 
@@ -44,11 +46,9 @@ public final class EventDispatcherHelper {
         if (options.activityResultInvoked) {
             if (!options.activityResultHasData) {
                 if (dispatcher instanceof KeepLastEventDispatcher) {
-                    ((KeepLastEventDispatcher) dispatcher).reset();
+                    ((KeepLastEventDispatcher) dispatcher).resetIfForwarder();
                 }
             }
-
-            return;
         }
 
         if (options.activityReCreating) {
@@ -94,7 +94,7 @@ public final class EventDispatcherHelper {
         // disallow public access
     }
 
-    static class KeepLastEventDispatcher implements EventDispatcher {
+    static class KeepLastEventDispatcher implements EventDispatcher, Internal {
         private static final String KEY_LAST = KeepLastEventDispatcher.class.getName() + ".last";
 
         private final EventDispatcher mBase;
@@ -114,8 +114,12 @@ public final class EventDispatcherHelper {
             }
         }
 
-        public void reset() {
-            mLast = null;
+        public void resetIfForwarder() {
+            if (mLast != null) {
+                if (mBase.onNewEvent(HELPER_EVENT_IS_FORWARDER, new BundleBuilder(ORIGINAL_EVENT_ID, EventBus.getEventId(mLast)).get())) {
+                    mLast = null;
+                }
+            }
         }
 
         @Override

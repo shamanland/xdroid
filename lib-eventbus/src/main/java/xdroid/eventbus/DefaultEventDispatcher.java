@@ -8,12 +8,14 @@ import static xdroid.eventbus.BuildConfig.SNAPSHOT;
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
-public abstract class DefaultEventDispatcher implements EventDispatcher {
+public abstract class DefaultEventDispatcher implements EventDispatcher, Internal {
     private static final String LOG_TAG = DefaultEventDispatcher.class.getSimpleName();
 
     private int mHandling;
 
     protected abstract boolean performOnNewEvent(int eventId, Bundle event);
+
+    protected abstract boolean isForwarder(int eventId, Bundle event);
 
     @Override
     public final boolean onNewEvent(int eventId, Bundle event) {
@@ -27,6 +29,11 @@ public abstract class DefaultEventDispatcher implements EventDispatcher {
 
         try {
             mHandling = eventId;
+
+            if (eventId == HELPER_EVENT_IS_FORWARDER) {
+                return isForwarder(eventId, event);
+            }
+
             return performOnNewEvent(eventId, event);
         } finally {
             mHandling = 0;
@@ -36,17 +43,25 @@ public abstract class DefaultEventDispatcher implements EventDispatcher {
     protected String debugThis() {
         if (SNAPSHOT) {
             return ", this: @" + Integer.toHexString(System.identityHashCode(this));
-        } else {
-            return null;
         }
+
+        return null;
+    }
+
+    protected String debugToStringTail() {
+        if (SNAPSHOT) {
+            return Integer.toHexString(System.identityHashCode(this));
+        }
+
+        return null;
     }
 
     @Override
     public String toString() {
         if (SNAPSHOT) {
-            return getClass().getSimpleName() + '@' + Integer.toHexString(System.identityHashCode(this));
-        } else {
-            return super.toString();
+            return getClass().getSimpleName() + '@' + debugToStringTail();
         }
+
+        return super.toString();
     }
 }

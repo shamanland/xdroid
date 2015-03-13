@@ -81,7 +81,21 @@ public class EventDelivery extends DefaultEventDispatcher implements Inflatable 
     }
 
     @Override
+    protected boolean isForwarder(int eventId, Bundle event) {
+        return false;
+    }
+
+    @Override
     public void inflate(Context context, XmlPullParser parser, AttributeSet attrs) {
         setOptions(new EventDeliveryOptions(context, attrs));
+    }
+
+    @Override
+    protected String debugToStringTail() {
+        if (SNAPSHOT) {
+            return mOptions.toString();
+        }
+
+        return super.debugToStringTail();
     }
 }

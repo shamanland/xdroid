@@ -227,6 +227,15 @@ public class EventDeliveryOptions implements Parcelable {
         return (enterAnimation | exitAnimation | popEnterAnimation | popExitAnimation) != 0;
     }
 
+    @Override
+    public String toString() {
+        if (SNAPSHOT) {
+            return fragment + "(" + tag + ")";
+        }
+
+        return super.toString();
+    }
+
     static class MethodIsInBackStack {
         private static final Map<String, Method> sMethods = newHashMap();
 

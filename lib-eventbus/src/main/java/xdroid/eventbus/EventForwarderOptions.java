@@ -7,6 +7,7 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 
 import static xdroid.core.ObjectUtils.notNull;
+import static xdroid.eventbus.BuildConfig.SNAPSHOT;
 import static xdroid.eventbus.EventDispatcherInflater.readClass;
 
 /**
@@ -27,6 +28,15 @@ public class EventForwarderOptions implements Parcelable {
         } finally {
             a.recycle();
         }
+    }
+
+    @Override
+    public String toString() {
+        if (SNAPSHOT) {
+            return activity + "(forResult: " + forResult + ", requestCode: " + requestCode + ")";
+        }
+
+        return super.toString();
     }
 
     public int describeContents() {

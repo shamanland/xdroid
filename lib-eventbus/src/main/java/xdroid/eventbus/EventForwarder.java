@@ -43,19 +43,8 @@ public class EventForwarder extends DefaultEventDispatcher implements Inflatable
 
     @Override
     public boolean performOnNewEvent(int eventId, Bundle event) {
-        Class<?> target;
-
-        try {
-            target = Class.forName(mOptions.activity);
-        } catch (ClassNotFoundException ex) {
-            if (SNAPSHOT) {
-                Log.wtf(LOG_TAG, "performOnNewEvent: " + EventBus.getEventName(eventId) + debugThis(), ex);
-            }
-
-            return false;
-        }
-
-        Intent intent = new Intent(mContext, target);
+        Intent intent = new Intent();
+        intent.setClassName(mContext, mOptions.activity);
         intent.putExtra(EventBus.INTENT_EXTRA_EVENT, EventBus.prepare(eventId, event));
 
         if (mOptions.forResult) {
@@ -76,7 +65,21 @@ public class EventForwarder extends DefaultEventDispatcher implements Inflatable
     }
 
     @Override
+    protected boolean isForwarder(int eventId, Bundle event) {
+        return true;
+    }
+
+    @Override
     public void inflate(Context context, XmlPullParser parser, AttributeSet attrs) {
         setOptions(new EventForwarderOptions(context, attrs));
+    }
+
+    @Override
+    protected String debugToStringTail() {
+        if (SNAPSHOT) {
+            return mOptions.toString();
+        }
+
+        return super.debugToStringTail();
     }
 }
