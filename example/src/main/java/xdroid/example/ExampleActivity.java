@@ -4,12 +4,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import xdroid.app.ActivityExt;
 import xdroid.eventbus.EventBus;
-import xdroid.eventbus.EventDispatcher;
-import xdroid.eventbus.EventDispatcherInflater;
+import xdroid.eventbus.EventBusActivity;
 
-public class ExampleActivity extends ActivityExt {
+public class ExampleActivity extends EventBusActivity {
+    @Override
+    public int getEventDispatcherXmlId() {
+        return R.xml.ed_example;
+    }
+
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
@@ -20,8 +23,6 @@ public class ExampleActivity extends ActivityExt {
                     .add(R.id.container, new ExampleListFragment())
                     .commit();
         }
-
-        putCustomService(EventDispatcher.class.getName(), EventDispatcherInflater.getInstance().inflate(getContext(), R.xml.ed_example));
     }
 
     @Override
@@ -34,7 +35,7 @@ public class ExampleActivity extends ActivityExt {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 0:
-                return EventBus.send(getContext(), R.id.ev_show_in_first);
+                return EventBus.send(getContext(), R.id.ev_brief);
         }
 
         return super.onOptionsItemSelected(item);

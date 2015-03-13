@@ -1,5 +1,7 @@
 package xdroid.eventbus;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import static xdroid.core.ObjectUtils.notNull;
@@ -10,21 +12,50 @@ import static xdroid.core.ObjectUtils.notNull;
  */
 public final class EventDispatcherHelper {
     public static void onCreate(EventDispatcherOwner owner, Bundle state) {
+        EventDispatcherOwner.Options options = owner.getEventDispatcherOptions();
+
+        options.activityReCreating = state != null;
+        options.activityResultInvoked = false;
+
         if (owner.getEventDispatcherXmlId() != 0) {
             final EventDispatcher dispatcher = EventDispatcherInflater.getInstance().inflate(owner.getContext(), owner.getEventDispatcherXmlId());
             owner.putCustomService(EventDispatcher.class.getName(), dispatcher);
 
-            if (state == null || owner.raiseInitialEventWhenReCreating()) {
+            if (state == null || options.raiseInitialEventWhenReCreating) {
                 Bundle event = owner.extractInitialEvent();
                 if (event != null) {
                     dispatcher.onNewEvent(EventBus.getEventId(event), event);
                 }
             }
 
-            if (owner.allowKeepLastEvent()) {
+            if (options.raiseSavedEventWhenReCreating) {
                 Object keeper = new KeepLastEventDispatcher(dispatcher, state);
                 owner.putCustomService(EventDispatcher.class.getName(), keeper);
                 owner.putCustomService(KeepLastEventDispatcher.class.getName(), keeper);
+            }
+        }
+    }
+
+    public static void onResume(EventDispatcherOwner owner) {
+        EventDispatcherOwner.Options options = owner.getEventDispatcherOptions();
+
+        Object dispatcher = owner.getCustomService(KeepLastEventDispatcher.class.getName());
+
+        if (options.activityResultInvoked) {
+            if (!options.activityResultHasData) {
+                if (dispatcher instanceof KeepLastEventDispatcher) {
+                    ((KeepLastEventDispatcher) dispatcher).reset();
+                }
+            }
+
+            return;
+        }
+
+        if (options.activityReCreating) {
+            options.activityReCreating = false;
+
+            if (dispatcher instanceof KeepLastEventDispatcher) {
+                ((KeepLastEventDispatcher) dispatcher).raiseLastEvent();
             }
         }
     }
@@ -36,11 +67,27 @@ public final class EventDispatcherHelper {
         }
     }
 
-    public static void resetLastEvent(EventDispatcherOwner owner) {
-        Object dispatcher = owner.getCustomService(KeepLastEventDispatcher.class.getName());
-        if (dispatcher instanceof KeepLastEventDispatcher) {
-            ((KeepLastEventDispatcher) dispatcher).reset();
+    public static boolean onActivityResult(EventDispatcherOwner owner, int requestCode, int resultCode, Intent data) {
+        EventDispatcherOwner.Options options = owner.getEventDispatcherOptions();
+
+        options.activityResultInvoked = true;
+        options.activityResultHasData = data != null;
+
+        Bundle event = EventBus.extract(data);
+        if (event != null) {
+            //noinspection ConstantConditions
+            if (EventFinish.class.getName().equals(data.getAction())) {
+                if (options.ignoreFinishedEvent) {
+                    return false;
+                }
+            } else if (resultCode == Activity.RESULT_CANCELED && options.ignoreActivityResultCancelled) {
+                return false;
+            }
+
+            return EventBus.send(owner.getContext(), event);
         }
+
+        return false;
     }
 
     private EventDispatcherHelper() {
@@ -58,9 +105,12 @@ public final class EventDispatcherHelper {
 
             if (state != null) {
                 mLast = state.getBundle(KEY_LAST);
-                if (mLast != null) {
-                    mBase.onNewEvent(EventBus.getEventId(mLast), mLast);
-                }
+            }
+        }
+
+        public void raiseLastEvent() {
+            if (mLast != null) {
+                mBase.onNewEvent(EventBus.getEventId(mLast), mLast);
             }
         }
 
