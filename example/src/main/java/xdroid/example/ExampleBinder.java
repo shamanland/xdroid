@@ -1,47 +1,41 @@
 package xdroid.example;
 
-import xdroid.adapter.ViewBinder;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-public class ExampleBinder implements ViewBinder<ExampleData, View> {
-    static class ViewHolder {
-        TextView text1;
-        TextView text2;
-        CompoundButton added;
-        RatingBar progress;
-    }
+import xdroid.adapter.ViewBinder;
+import xdroid.viewholder.ViewHolder;
 
+public class ExampleBinder implements ViewBinder<ExampleData, View> {
     @Override
     public void onNewView(int position, View view) {
-        ViewHolder holder = new ViewHolder();
-        holder.text1 = (TextView) view.findViewById(android.R.id.text1);
-        holder.text2 = (TextView) view.findViewById(android.R.id.text2);
-        holder.added = (CompoundButton) view.findViewById(R.id.added);
-        holder.progress = (RatingBar) view.findViewById(android.R.id.progress);
-        view.setTag(holder);
+        // none
     }
 
     @Override
     public void onNewData(int position, View view, ExampleData data) {
-        ViewHolder holder = (ViewHolder) view.getTag();
+        ViewHolder holder = ViewHolder.obtain(view);
 
-        if (holder.text1 != null) {
-            holder.text1.setText(data.getTitle());
+        TextView text1 = holder.get(android.R.id.text1);
+        if (text1 != null) {
+            text1.setText(data.getTitle());
         }
 
-        if (holder.text2 != null) {
-            holder.text2.setText(data.getSubTitle());
+        TextView text2 = holder.get(android.R.id.text2);
+        if (text2 != null) {
+            text2.setText(data.getSubTitle());
         }
 
-        if (holder.added != null) {
-            holder.added.setChecked(data.isAdded());
+        CompoundButton added = holder.get(R.id.added);
+        if (added != null) {
+            added.setChecked(data.isAdded());
         }
 
-        if (holder.progress != null) {
-            holder.progress.setRating(3.5f);
+        RatingBar progress = holder.get(android.R.id.progress);
+        if (progress != null) {
+            progress.setRating((Math.abs(data.hashCode()) % 5) + 1);
         }
     }
 }

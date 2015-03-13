@@ -1,19 +1,21 @@
 package xdroid.example.eventbus;
 
-import xdroid.eventbus.EventBus;
-import xdroid.eventbus.EventBusFragment;
-import xdroid.eventbus.EventDispatcher;
-import xdroid.example.R;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import xdroid.eventbus.EventBus;
+import xdroid.eventbus.EventBusFragment;
+import xdroid.eventbus.EventDispatcher;
+import xdroid.example.R;
+
 public class DetailsFragment extends EventBusFragment {
     private TextView mTitleView;
     private TextView mDescriptionView;
     private TextView mTextView;
+    private DataItem mData;
 
     @Override
     public void onCreate(Bundle state) {
@@ -23,7 +25,7 @@ public class DetailsFragment extends EventBusFragment {
             @Override
             public boolean onNewEvent(int eventId, Bundle event) {
                 switch (eventId) {
-                    case R.id.ev_show_in_second:
+                    case R.id.ev_details:
                         onNewData((DataItem) event.getParcelable("data"));
                         return true;
                 }
@@ -50,8 +52,16 @@ public class DetailsFragment extends EventBusFragment {
     }
 
     protected void onNewData(DataItem data) {
-        mTitleView.setText(data.getTitle());
-        mDescriptionView.setText(data.getDescription());
-        mTextView.setText(data.getText());
+        mData = data;
+
+        notifyDataChanged();
+    }
+
+    private void notifyDataChanged() {
+        if (getView() != null) {
+            mTitleView.setText(mData.getTitle());
+            mDescriptionView.setText(mData.getDescription());
+            mTextView.setText(mData.getText());
+        }
     }
 }

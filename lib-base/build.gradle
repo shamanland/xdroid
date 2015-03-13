@@ -1,6 +1,7 @@
 dependencies {
     compile project(':lib-eventbus')
     compile project(':lib-toaster')
+    compile project(':lib-viewholder')
     compile project(':lib-widget')
 }
 

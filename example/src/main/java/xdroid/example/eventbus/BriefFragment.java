@@ -28,7 +28,7 @@ public class BriefFragment extends EventBusFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 DataItem item = (DataItem) parent.getAdapter().getItem(position);
-                EventBus.send(getContext(), R.id.ev_show_in_second, new BundleBuilder("data", item).get());
+                EventBus.send(getContext(), R.id.ev_details, new BundleBuilder("data", item).get());
             }
         });
 

@@ -1,25 +1,25 @@
 package xdroid.eventbus;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
 import xdroid.app.FragmentExt;
 
 public class EventBusFragment extends FragmentExt implements EventDispatcherOwner {
+    private final Options mOptions;
+
+    public EventBusFragment() {
+        mOptions = new Options();
+    }
+
     @Override
     public int getEventDispatcherXmlId() {
         return 0;
     }
 
     @Override
-    public boolean allowKeepLastEvent() {
-        return false;
-    }
-
-    @Override
-    public boolean raiseInitialEventWhenReCreating() {
-        return true;
+    public Options getEventDispatcherOptions() {
+        return mOptions;
     }
 
     @Override
@@ -35,6 +35,13 @@ public class EventBusFragment extends FragmentExt implements EventDispatcherOwne
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        EventDispatcherHelper.onResume(this);
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
 
@@ -43,12 +50,10 @@ public class EventBusFragment extends FragmentExt implements EventDispatcherOwne
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (EventBus.onActivityResult(getContext(), data)) {
+        if (EventDispatcherHelper.onActivityResult(this, requestCode, resultCode, data)) {
             return;
         }
 
-        if (resultCode == Activity.RESULT_CANCELED) {
-            EventDispatcherHelper.resetLastEvent(this);
-        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
