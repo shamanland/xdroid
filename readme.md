@@ -16,13 +16,14 @@ For more information, please, see [the website][1].
 - Event Bus
 - Inflater
 - Toaster
+- ViewHolder
 - Widget
 
 ## Gradle dependency
 
 ```
 dependencies {
-    compile 'com.shamanland:xdroid:0.2.2'
+    compile 'com.shamanland:xdroid:0.2.3'
 }
 ```
 
@@ -30,7 +31,7 @@ In case of using `ActionBarActivity` or `FragmentActivity` from support librarie
 
 ```
 dependencies {
-    compile 'com.shamanland:xdroid-support:0.2.2'
+    compile 'com.shamanland:xdroid-support:0.2.3'
 }
 ```
 
