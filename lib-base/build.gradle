@@ -1,4 +1,5 @@
 dependencies {
+    compile project(':lib-enum-format')
     compile project(':lib-eventbus')
     compile project(':lib-toaster')
     compile project(':lib-viewholder')

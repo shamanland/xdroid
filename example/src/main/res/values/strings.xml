@@ -3,4 +3,9 @@
     <string name="app_name">Xdroid</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <!-- This string referenced by one of annotations EnumString -->
+    <string name="one">One</string>
+    <!-- This string referenced implicitly by EnumFormat -->
+    <string name="value_two">Two</string>
 </resources>
