@@ -29,6 +29,7 @@ public class ExampleActivity extends EventBusActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(Menu.NONE, 0, Menu.NONE, "EventBus");
         menu.add(Menu.NONE, 1, Menu.NONE, "EnumFormat");
+        menu.add(Menu.NONE, 99, Menu.NONE, "Settings");
         return true;
     }
 
@@ -40,6 +41,8 @@ public class ExampleActivity extends EventBusActivity {
             case 1:
                 showDialog(ExampleEnumFormatDialog.class, "enum.format", null);
                 return true;
+            case 99:
+                return EventBus.send(getContext(), R.id.ev_settings);
         }
 
         return super.onOptionsItemSelected(item);
