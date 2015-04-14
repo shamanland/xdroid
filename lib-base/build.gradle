@@ -1,8 +1,0 @@
-dependencies {
-    compile project(':lib-eventbus')
-    compile project(':lib-toaster')
-    compile project(':lib-viewholder')
-    compile project(':lib-widget')
-}
-
-apply from: GRADLE_MVN_PUSH

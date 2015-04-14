@@ -22,5 +22,6 @@
 
         <activity android:name=".eventbus.BriefActivity"/>
         <activity android:name=".eventbus.DetailsActivity"/>
+        <activity android:name=".settings.SettingsActivity"/>
     </application>
 </manifest>
