@@ -13,8 +13,10 @@ For more information, please, see [the website][1].
 - Collections
 - Core
 - Custom Service
+- Enum Format
 - Event Bus
 - Inflater
+- Options
 - Toaster
 - ViewHolder
 - Widget
@@ -23,7 +25,7 @@ For more information, please, see [the website][1].
 
 ```
 dependencies {
-    compile 'com.shamanland:xdroid:0.2.3'
+    compile 'com.shamanland:xdroid:0.2.4'
 }
 ```
 
@@ -31,7 +33,7 @@ In case of using `ActionBarActivity` or `FragmentActivity` from support librarie
 
 ```
 dependencies {
-    compile 'com.shamanland:xdroid-support:0.2.3'
+    compile 'com.shamanland:xdroid-support:0.2.4'
 }
 ```
 

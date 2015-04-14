@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <EventTransmitter xmlns:app="http://schemas.android.com/apk/res-auto">
     <EventForwarder
-            app:id="@id/ev_brief"
-            app:activity=".eventbus.BriefActivity"
-            />
+        app:id="@id/ev_brief"
+        app:activity=".eventbus.BriefActivity"
+        />
+    <EventForwarder
+        app:id="@id/ev_settings"
+        app:activity=".settings.SettingsActivity"
+        />
 </EventTransmitter>
