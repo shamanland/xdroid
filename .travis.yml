@@ -1,2 +1,2 @@
 language: android
-script: ./gradlew clean --continue && ./gradlew build
+script: ./gradlew clean --continue || ./gradlew build
