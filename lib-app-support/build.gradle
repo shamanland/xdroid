@@ -1,5 +1,5 @@
 dependencies {
-    compile 'com.android.support:appcompat-v7:21.0.0'
+    compile 'com.android.support:appcompat-v7:' + SUPPORT_LIB_VERSION
     compile project(':lib-app-base')
 }
 
