@@ -25,7 +25,7 @@ For more information, please, see [the website][1].
 
 ```
 dependencies {
-    compile 'com.shamanland:xdroid:0.2.5'
+    compile 'com.shamanland:xdroid:0.2.6'
 }
 ```
 
@@ -33,7 +33,7 @@ In case of using `ActionBarActivity` or `FragmentActivity` from support librarie
 
 ```
 dependencies {
-    compile 'com.shamanland:xdroid-support:0.2.5'
+    compile 'com.shamanland:xdroid-support:0.2.6'
 }
 ```
 
