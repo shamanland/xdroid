@@ -6,14 +6,14 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 
 import xdroid.core.ActivityStarter;
 import xdroid.core.FragmentManagerHelper;
 import xdroid.customservice.CustomService;
 import xdroid.customservice.CustomServiceResolver;
 
-public class ActivityExt extends ActionBarActivity implements AppEntity {
+public class ActivityExt extends AppCompatActivity implements AppEntity {
     private ActivityImpl mImpl;
 
     @Override
