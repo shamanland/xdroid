@@ -1,5 +1,6 @@
 package xdroid.example.settings;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
@@ -8,21 +9,16 @@ import android.preference.PreferenceFragment;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import xdroid.eventbus.EventBusActivity;
 import xdroid.example.R;
 
-public class SettingsActivity extends EventBusActivity {
+public class SettingsActivity extends Activity {
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
 
-        ViewGroup container = new FrameLayout(getContext());
+        ViewGroup container = new FrameLayout(this);
         container.setId(R.id.container);
         setContentView(container);
-
-        if (state == null) {
-            getFm().beginTransaction().add(R.id.container, new SettingsFragment()).commit();
-        }
     }
 
     public static class SettingsFragment extends PreferenceFragment {

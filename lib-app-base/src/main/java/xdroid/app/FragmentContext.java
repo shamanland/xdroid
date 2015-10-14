@@ -5,41 +5,40 @@ import android.content.ContextWrapper;
 import android.view.LayoutInflater;
 
 import xdroid.customservice.CustomService;
+import xdroid.customservice.CustomServiceHolder;
+import xdroid.customservice.CustomServiceResolver;
 import xdroid.customservice.CustomServices;
 
 import static xdroid.core.ObjectUtils.notNull;
-import static xdroid.customservice.CustomService.asCustomServiceResolver;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
-public class FragmentImpl extends ContextWrapper {
-    private final Object mFragment;
+public class FragmentContext<F> extends ContextWrapper implements CustomServiceHolder {
+    private final F mFragment;
     private final CustomServices mCustomServices;
     private LayoutInflater mInflater;
 
-    public CustomServices getCustomServices() {
-        return mCustomServices;
+    public F getFragment() {
+        return mFragment;
     }
 
-    public FragmentImpl(Object fragment, Activity activity) {
+    public FragmentContext(F fragment, Activity activity, CustomServiceResolver parentResolver) {
         super(notNull(activity));
         mFragment = notNull(fragment);
-        mCustomServices = new CustomServices(asCustomServiceResolver(activity));
+        mCustomServices = new CustomServices(parentResolver);
     }
 
     @Override
     public String toString() {
-        return FragmentImpl.class.getSimpleName() + '[' + mFragment.toString() + "]@" + System.identityHashCode(this);
+        return FragmentContext.class.getSimpleName() + '[' + mFragment.toString() + "]@" + System.identityHashCode(this);
     }
 
     @Override
     public Object getSystemService(@SuppressWarnings("NullableProblems") String name) {
-        if (CustomService.isCustom(name)) {
-            Object result = CustomService.resolve(mCustomServices, name);
-            if (result != null) {
-                return result;
-            }
+        Object result = CustomService.resolve(this, name);
+        if (result != null) {
+            return result;
         }
 
         if (LAYOUT_INFLATER_SERVICE.equals(name)) {
@@ -51,5 +50,10 @@ public class FragmentImpl extends ContextWrapper {
         }
 
         return super.getSystemService(name);
+    }
+
+    @Override
+    public CustomServiceResolver getResolver() {
+        return mCustomServices;
     }
 }

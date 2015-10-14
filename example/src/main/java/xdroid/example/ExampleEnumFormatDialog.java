@@ -2,13 +2,13 @@ package xdroid.example;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.os.Bundle;
 
-import xdroid.app.DialogFragmentExt;
 import xdroid.enumformat.EnumFormat;
 import xdroid.enumformat.EnumString;
 
-public class ExampleEnumFormatDialog extends DialogFragmentExt {
+public class ExampleEnumFormatDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle state) {
         MyEnum[] values = MyEnum.values();
@@ -24,7 +24,7 @@ public class ExampleEnumFormatDialog extends DialogFragmentExt {
             items[i] = enumFormat.format(e);
         }
 
-        return new AlertDialog.Builder(getContext())
+        return new AlertDialog.Builder(getActivity())
                 .setItems(items, null)
                 .create();
     }

@@ -4,15 +4,18 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 
+import xdroid.core.ActivityStarter;
+import xdroid.core.ContextOwner;
 import xdroid.core.Global;
 import xdroid.customservice.CustomService;
+import xdroid.customservice.CustomServiceHolder;
 import xdroid.customservice.CustomServiceResolver;
 import xdroid.customservice.CustomServices;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
-public class ApplicationExt extends Application implements AppEntity {
+public class ApplicationX extends Application implements ActivityStarter, ContextOwner, CustomServiceHolder {
     private CustomServices mCustomServices;
 
     @Override
@@ -26,16 +29,6 @@ public class ApplicationExt extends Application implements AppEntity {
     }
 
     @Override
-    public Object getFm() {
-        return null;
-    }
-
-    @Override
-    public Object getAb() {
-        return null;
-    }
-
-    @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         Global.init(this);
@@ -43,27 +36,15 @@ public class ApplicationExt extends Application implements AppEntity {
     }
 
     @Override
-    public void putCustomService(String name, Object instance) {
-        mCustomServices.putCustomService(name, instance);
-    }
-
-    @Override
-    public Object getCustomService(String name) {
-        return mCustomServices.getCustomService(name);
-    }
-
-    @Override
-    public CustomServiceResolver getParentResolver() {
-        return mCustomServices.getParentResolver();
+    public CustomServiceResolver getResolver() {
+        return mCustomServices;
     }
 
     @Override
     public Object getSystemService(String name) {
-        if (CustomService.isCustom(name)) {
-            Object result = CustomService.resolve(this, name);
-            if (result != null) {
-                return result;
-            }
+        Object result = CustomService.resolve(this, name);
+        if (result != null) {
+            return result;
         }
 
         return super.getSystemService(name);

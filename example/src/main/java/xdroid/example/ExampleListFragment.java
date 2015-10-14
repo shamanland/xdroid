@@ -1,5 +1,6 @@
 package xdroid.example;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,12 +10,11 @@ import android.widget.AdapterView;
 import java.util.List;
 
 import xdroid.adapter.AdapterExt;
-import xdroid.app.FragmentExt;
 import xdroid.widget.ListViewExt;
 
 import static xdroid.toaster.Toaster.toast;
 
-public class ExampleListFragment extends FragmentExt {
+public class ExampleListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle state) {
         View result = inflater.inflate(R.layout.f_main, container, false);

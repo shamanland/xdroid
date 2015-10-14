@@ -1,8 +1,9 @@
 package xdroid.app;
 
+import android.app.Activity;
+
 import java.util.Collection;
 
-import static java.util.Collections.emptyList;
 import static xdroid.collections.Prototypes.newArrayList;
 import static xdroid.core.ObjectUtils.notNull;
 
@@ -12,22 +13,6 @@ import static xdroid.core.ObjectUtils.notNull;
 public class ActivityListeners {
     private Collection<OnBackPressedListener> mBackPressed;
     private Collection<OnFinishListener> mFinish;
-
-    protected Iterable<OnBackPressedListener> getBackPressed() {
-        if (mBackPressed != null) {
-            return mBackPressed;
-        }
-
-        return emptyList();
-    }
-
-    protected Iterable<OnFinishListener> getFinish() {
-        if (mFinish != null) {
-            return mFinish;
-        }
-
-        return emptyList();
-    }
 
     public void add(OnBackPressedListener listener) {
         if (mBackPressed == null) {
@@ -54,6 +39,26 @@ public class ActivityListeners {
     public void remove(OnFinishListener listener) {
         if (mFinish != null) {
             mFinish.remove(listener);
+        }
+    }
+
+    public boolean onBackPressed(Activity activity) {
+        boolean preventDefault = false;
+
+        if (mBackPressed != null) {
+            for (OnBackPressedListener listener : mBackPressed) {
+                preventDefault |= listener.onBackPressed(activity);
+            }
+        }
+
+        return preventDefault;
+    }
+
+    public void onFinish(Activity activity) {
+        if (mFinish != null) {
+            for (OnFinishListener listener : mFinish) {
+                listener.onFinish(activity);
+            }
         }
     }
 }

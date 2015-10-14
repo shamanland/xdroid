@@ -9,7 +9,7 @@ public final class CustomService {
     private static final HashSet<String> SYSTEM;
 
     static {
-        SYSTEM = new HashSet<String>();
+        SYSTEM = new HashSet<>();
 
         SYSTEM.add(Context.POWER_SERVICE);
         SYSTEM.add(Context.WINDOW_SERVICE);
@@ -96,6 +96,14 @@ public final class CustomService {
         return !SYSTEM.contains(name);
     }
 
+    public static Object resolve(CustomServiceHolder holder, String name) {
+        if (isCustom(name)) {
+            return resolve(holder.getResolver(), name);
+        }
+
+        return null;
+    }
+
     public static Object resolve(CustomServiceResolver resolver, String name) {
         while (resolver != null) {
             Object result = resolver.getCustomService(name);
@@ -112,10 +120,6 @@ public final class CustomService {
     public static <T> T get(Context context, Class<T> clazz) {
         //noinspection ResourceType
         return clazz.cast(context.getSystemService(clazz.getName()));
-    }
-
-    public static CustomServiceResolver asCustomServiceResolver(Object object) {
-        return object instanceof CustomServiceResolver ? (CustomServiceResolver) object : null;
     }
 
     private CustomService() {

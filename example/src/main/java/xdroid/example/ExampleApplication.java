@@ -1,9 +1,9 @@
 package xdroid.example;
 
-import xdroid.app.ApplicationExt;
+import xdroid.app.ApplicationX;
 import xdroid.core.Global;
 
-public class ExampleApplication extends ApplicationExt {
+public class ExampleApplication extends ApplicationX {
     @Override
     public void onCreate() {
         super.onCreate();
