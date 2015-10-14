@@ -45,7 +45,7 @@ subprojects {
 
     apply plugin: "android-sdk-manager"
 
-    if (!name.equals("example")) {
+    if (!name.equals("app")) {
         apply plugin: "com.android.library"
     } else {
         apply plugin: "com.android.application"
