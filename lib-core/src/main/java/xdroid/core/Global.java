@@ -1,5 +1,6 @@
 package xdroid.core;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Handler;
@@ -7,8 +8,10 @@ import android.os.Looper;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.Map;
 
 import static xdroid.core.BuildConfig.SNAPSHOT;
+import static xdroid.core.ObjectUtils.cast;
 import static xdroid.core.ObjectUtils.notNull;
 
 /**
@@ -16,18 +19,9 @@ import static xdroid.core.ObjectUtils.notNull;
  */
 public final class Global {
     private static Context sContext;
-    private static Handler sUiHandler;
-    private static Handler sBackgroundHandler;
-    private static HashMap<Class<?>, Object> sSingletons;
 
     private Global() {
         // disallow public access
-    }
-
-    static {
-        sUiHandler = new Handler(Looper.getMainLooper());
-        sBackgroundHandler = ThreadUtils.newThread(Global.class.getSimpleName(), null);
-        sSingletons = new HashMap<>();
     }
 
     public static void setContext(Context context) {
@@ -36,23 +30,7 @@ public final class Global {
 
     public static Context getContext() {
         if (sContext == null) {
-            synchronized (Global.class) {
-                if (sContext == null) {
-                    Throwable exception = null;
-
-                    try {
-                        Class<?> clazz = Class.forName("android.app.ActivityThread");
-                        Method method = ReflectUtils.getMethod(clazz, "currentApplication");
-                        sContext = (Context) ReflectUtils.invokeStaticMethod(method);
-                    } catch (Throwable ex) {
-                        exception = ex;
-                    }
-
-                    if (sContext == null) {
-                        throw new IllegalStateException(exception);
-                    }
-                }
-            }
+            sContext = CurrentApplicationHolder.INSTANCE;
         }
 
         return notNull(sContext);
@@ -63,11 +41,15 @@ public final class Global {
     }
 
     public static Handler getUiHandler() {
-        return sUiHandler;
+        return UiHandlerHolder.INSTANCE;
     }
 
     public static Handler getBackgroundHandler() {
-        return sBackgroundHandler;
+        return BackgroundHandlerHolder.INSTANCE;
+    }
+
+    protected static Map<Class<?>, Object> getSingletons() {
+        return SingletonsHolder.INSTANCE;
     }
 
     public static <T> void putSingleton(Class<T> clazz, T instance) {
@@ -76,20 +58,46 @@ public final class Global {
                 throw new IllegalArgumentException();
             }
 
-            Object old = sSingletons.get(clazz);
+            Object old = getSingletons().get(clazz);
             if (old != null) {
                 throw new IllegalStateException();
             }
         }
 
-        sSingletons.put(clazz, notNull(instance));
+        getSingletons().put(clazz, notNull(instance));
     }
 
     public static boolean hasSingleton(Class<?> clazz) {
-        return sSingletons.containsKey(clazz);
+        return getSingletons().containsKey(clazz);
     }
 
     public static <T> T getSingleton(Class<T> clazz) {
-        return notNull(clazz.cast(sSingletons.get(clazz)));
+        return notNull(clazz.cast(getSingletons().get(clazz)));
+    }
+
+    static class CurrentApplicationHolder {
+        static final Application INSTANCE;
+
+        static {
+            try {
+                Class<?> clazz = Class.forName("android.app.ActivityThread");
+                Method method = ReflectUtils.getMethod(clazz, "currentApplication");
+                INSTANCE = cast(ReflectUtils.invokeStaticMethod(method));
+            } catch (Throwable ex) {
+                throw new AssertionError(ex);
+            }
+        }
+    }
+
+    static class UiHandlerHolder {
+        static final Handler INSTANCE = new Handler(Looper.getMainLooper());
+    }
+
+    static class BackgroundHandlerHolder {
+        static final Handler INSTANCE = ThreadUtils.newThread(Global.class.getSimpleName(), null);
+    }
+
+    static class SingletonsHolder {
+        static final HashMap<Class<?>, Object> INSTANCE = new HashMap<>();
     }
 }
