@@ -2,9 +2,9 @@ package xdroid.app;
 
 import android.app.Activity;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
-import static xdroid.collections.Prototypes.newArrayList;
 import static xdroid.core.ObjectUtils.notNull;
 
 /**
@@ -16,7 +16,7 @@ public class ActivityListeners {
 
     public void add(OnBackPressedListener listener) {
         if (mBackPressed == null) {
-            mBackPressed = newArrayList();
+            mBackPressed = new ArrayList<>(2);
         }
 
         mBackPressed.add(notNull(listener));
@@ -24,7 +24,7 @@ public class ActivityListeners {
 
     public void add(OnFinishListener listener) {
         if (mFinish == null) {
-            mFinish = newArrayList();
+            mFinish = new ArrayList<>(2);
         }
 
         mFinish.add(notNull(listener));

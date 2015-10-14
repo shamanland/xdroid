@@ -1,6 +1,5 @@
 package xdroid.core;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Handler;
@@ -10,6 +9,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 
 import static xdroid.core.BuildConfig.SNAPSHOT;
+import static xdroid.core.ObjectUtils.notNull;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
@@ -27,11 +27,11 @@ public final class Global {
     static {
         sUiHandler = new Handler(Looper.getMainLooper());
         sBackgroundHandler = ThreadUtils.newThread(Global.class.getSimpleName(), null);
-        sSingletons = new HashMap<Class<?>, Object>();
+        sSingletons = new HashMap<>();
     }
 
-    public static void init(Application app) {
-        sContext = ObjectUtils.notNull(app);
+    public static void setContext(Context context) {
+        sContext = context;
     }
 
     public static Context getContext() {
@@ -55,11 +55,11 @@ public final class Global {
             }
         }
 
-        return ObjectUtils.notNull(sContext);
+        return notNull(sContext);
     }
 
     public static Resources getResources() {
-        return ObjectUtils.notNull(getContext().getResources());
+        return notNull(getContext().getResources());
     }
 
     public static Handler getUiHandler() {
@@ -82,7 +82,7 @@ public final class Global {
             }
         }
 
-        sSingletons.put(clazz, ObjectUtils.notNull(instance));
+        sSingletons.put(clazz, notNull(instance));
     }
 
     public static boolean hasSingleton(Class<?> clazz) {
@@ -90,6 +90,6 @@ public final class Global {
     }
 
     public static <T> T getSingleton(Class<T> clazz) {
-        return ObjectUtils.notNull(clazz.cast(sSingletons.get(clazz)));
+        return notNull(clazz.cast(sSingletons.get(clazz)));
     }
 }

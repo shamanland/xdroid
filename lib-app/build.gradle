@@ -1,5 +1,5 @@
 dependencies {
-    compile libs.xdroidCustomService
+    compile libs.xdroidCore
 }
 
 apply from: libs.gradleMvnPush
