@@ -7,12 +7,19 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import xdroid.core.SharedPreferencesUtils;
-
 import static xdroid.core.Global.getContext;
 import static xdroid.core.ObjectUtils.cast;
 import static xdroid.core.ObjectUtils.notNull;
+import static xdroid.core.SharedPreferencesUtils.getBoolean;
+import static xdroid.core.SharedPreferencesUtils.getFloat;
+import static xdroid.core.SharedPreferencesUtils.getInt;
+import static xdroid.core.SharedPreferencesUtils.getLong;
+import static xdroid.core.SharedPreferencesUtils.getString;
+import static xdroid.core.SharedPreferencesUtils.getStringSet;
 
+/**
+ * @author Oleksii Kropachov (o.kropachov@shamanland.com)
+ */
 public class OptionAccessor {
     private final Object mDefaultValue;
     private final Getter mGetter;
@@ -142,7 +149,7 @@ public class OptionAccessor {
     protected class IntGetter extends Getter {
         public int asInt() {
             if (mValue == null) {
-                mValue = SharedPreferencesUtils.getInt(getPrefs(), mOption.getName(), (Integer) mDefaultValue);
+                mValue = getInt(getPrefs(), mOption.getName(), (Integer) mDefaultValue);
             }
 
             return (Integer) mValue;
@@ -161,7 +168,7 @@ public class OptionAccessor {
     protected class LongGetter extends Getter {
         public long asLong() {
             if (mValue == null) {
-                mValue = SharedPreferencesUtils.getLong(getPrefs(), mOption.getName(), (Long) mDefaultValue);
+                mValue = getLong(getPrefs(), mOption.getName(), (Long) mDefaultValue);
             }
 
             return (Long) mValue;
@@ -180,7 +187,7 @@ public class OptionAccessor {
     protected class FloatGetter extends Getter {
         public float asFloat() {
             if (mValue == null) {
-                mValue = SharedPreferencesUtils.getFloat(getPrefs(), mOption.getName(), (Float) mDefaultValue);
+                mValue = getFloat(getPrefs(), mOption.getName(), (Float) mDefaultValue);
             }
 
             return (Float) mValue;
@@ -199,7 +206,7 @@ public class OptionAccessor {
     protected class BooleanGetter extends Getter {
         public boolean asBoolean() {
             if (mValue == null) {
-                mValue = SharedPreferencesUtils.getBoolean(getPrefs(), mOption.getName(), (Boolean) mDefaultValue);
+                mValue = getBoolean(getPrefs(), mOption.getName(), (Boolean) mDefaultValue);
             }
 
             return (Boolean) mValue;
@@ -218,7 +225,7 @@ public class OptionAccessor {
     protected class StringGetter extends Getter {
         public String asString() {
             if (mValue == null) {
-                mValue = SharedPreferencesUtils.getString(getPrefs(), mOption.getName(), (String) mDefaultValue);
+                mValue = getString(getPrefs(), mOption.getName(), (String) mDefaultValue);
             }
 
             return (String) mValue;
@@ -238,7 +245,7 @@ public class OptionAccessor {
         public Set<String> asStringSet() {
             if (mValue == null) {
                 Set<String> defaultValue = cast(mDefaultValue);
-                mValue = SharedPreferencesUtils.getStringSet(getPrefs(), mOption.getName(), defaultValue);
+                mValue = getStringSet(getPrefs(), mOption.getName(), defaultValue);
             }
 
             return cast(mValue);
@@ -255,6 +262,6 @@ public class OptionAccessor {
     }
 
     protected static boolean isChanged(Object a, Object b) {
-        return (a == null) ? (b != null) : !a.equals(b);
+        return a == null ? b != null : !a.equals(b);
     }
 }
