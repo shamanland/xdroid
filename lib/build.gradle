@@ -1,6 +1,15 @@
 dependencies {
-    compile project(':lib-app')
-    compile project(':lib-base')
+    compile libs.xdroidAdapter
+    compile libs.xdroidApp
+    compile libs.xdroidCollections
+    compile libs.xdroidCore
+    compile libs.xdroidCustomService
+    compile libs.xdroidEnumFormat
+    compile libs.xdroidInflater
+    compile libs.xdroidOptions
+    compile libs.xdroidToaster
+    compile libs.xdroidViewHolder
+    compile libs.xdroidWidget
 }
 
-apply from: GRADLE_MVN_PUSH
+apply from: libs.gradleMvnPush
