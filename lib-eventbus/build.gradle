@@ -1,6 +1,5 @@
 dependencies {
-    compile project(':lib-customservice')
-    compile project(':lib-inflater')
+    // none
 }
 
-apply from: GRADLE_MVN_PUSH
+apply from: libs.gradleMvnPush

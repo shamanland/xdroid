@@ -1,5 +1,5 @@
 dependencies {
-    compile project(':lib-collections')
+    compile libs.xdroidCollections
 }
 
-apply from: GRADLE_MVN_PUSH
+apply from: libs.gradleMvnPush

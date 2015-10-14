@@ -2,4 +2,4 @@ dependencies {
     // none
 }
 
-apply from: GRADLE_MVN_PUSH
+apply from: libs.gradleMvnPush

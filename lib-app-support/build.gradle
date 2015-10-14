@@ -1,6 +1,5 @@
 dependencies {
-    compile 'com.android.support:appcompat-v7:' + SUPPORT_LIB_VERSION
-    compile project(':lib-app-base')
+    // none
 }
 
-apply from: GRADLE_MVN_PUSH
+apply from: libs.gradleMvnPush

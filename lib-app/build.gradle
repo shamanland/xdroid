@@ -2,4 +2,4 @@ dependencies {
     compile project(':lib-app-base')
 }
 
-apply from: GRADLE_MVN_PUSH
+apply from: libs.gradleMvnPush

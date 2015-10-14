@@ -1,59 +1,110 @@
 buildscript {
+    extensions.add("libs", [
+            androidAppCompat   : "com.android.support:appcompat-v7:23.0.1",
+            androidGradlePlugin: "com.android.tools.build:gradle:1.3.1",
+            jUnit              : "junit:junit:4.12",
+            gradleMvnPush      : new File(rootDir, 'gradle-mvn-push.gradle').absolutePath,
+            mockito            : "org.mockito:mockito-core:1.10.19",
+            rollbar            : files("libs/rollbar-android-0.1.2.jar"),
+            sdkManager         : "com.jakewharton.sdkmanager:gradle-plugin:0.12.0",
+            xdroidAdapter      : project(":lib-adapter"),
+            xdroidApp          : project(":lib-app"),
+            xdroidCollections  : project(":lib-collections"),
+            xdroidCore         : project(":lib-core"),
+            xdroidCustomService: project(":lib-customservice"),
+            xdroidEnumFormat   : project(":lib-enum-format"),
+            xdroidInflater     : project(":lib-inflater"),
+            xdroidOptions      : project(":lib-options"),
+            xdroidToaster      : project(":lib-toaster"),
+            xdroidViewHolder   : project(":lib-viewholder"),
+            xdroidWidget       : project(":lib-widget"),
+    ])
+}
+
+buildscript {
     repositories {
         mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.2.3'
-        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.0'
+        classpath libs.androidGradlePlugin
+        classpath libs.sdkManager
     }
 }
-
-def isSnapshot() {
-    return VERSION_NAME.contains('SNAPSHOT')
-}
-
-def gradleMvnPush = new File(buildDir, 'gradle-mvn-push.gradle')
-if (!gradleMvnPush.exists()) {
-    buildDir.mkdirs()
-    ant.get(src: GRADLE_MVN_PUSH, dest: gradleMvnPush)
-}
-
-setProperty('GRADLE_MVN_PUSH', gradleMvnPush)
 
 subprojects {
-    group GROUP
-    version VERSION_NAME
-
-    apply plugin: 'android-sdk-manager'
-
-    if (name.startsWith('lib')) {
-        apply plugin: 'com.android.library'
-    } else {
-        apply plugin: 'com.android.application'
-    }
-
-    android {
-        compileSdkVersion COMPILE_SDK_VERSION as int
-        buildToolsVersion BUILD_TOOLS_VERSION
-
-        defaultConfig {
-            minSdkVersion MIN_SDK_VERSION as int
-            targetSdkVersion TARGET_SDK_VERSION as int
-            versionCode 1
-            versionName '1.0'
-
-            // workaround for https://code.google.com/p/android/issues/detail?id=52962
-            buildConfigField 'boolean', 'SNAPSHOT', isSnapshot().toString()
-        }
-
-        lintOptions {
-            abortOnError false
-        }
-    }
+    group GROUP as String
+    version({ name, suffix -> suffix.isEmpty() ? name : name + "." + suffix }.call(VERSION_NAME as String, VERSION_NAME_SUFFIX as String))
 
     repositories {
         mavenLocal()
         mavenCentral()
+        jcenter()
+    }
+
+    apply plugin: "android-sdk-manager"
+
+    if (!name.equals("example")) {
+        apply plugin: "com.android.library"
+    } else {
+        apply plugin: "com.android.application"
+
+        android {
+            defaultConfig {
+                applicationId APP_ID as String
+                versionCode VERSION_CODE as int
+                versionName version
+            }
+
+            signingConfigs {
+                debug {
+                    storeFile new File(rootProject.rootDir, "debug.keystore")
+                }
+
+                release {
+                    storeFile new File(rootProject.rootDir, STORE_FILE as String)
+                    storePassword STORE_PASSWORD as String
+                    keyAlias KEY_ALIAS as String
+                    keyPassword KEY_PASSWORD as String
+                }
+            }
+
+            buildTypes {
+                release {
+                    if ({ f -> f.isFile() && f.exists() }.call(signingConfigs.release.storeFile)) {
+                        signingConfig signingConfigs.release
+                    }
+
+                    minifyEnabled true
+                    proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+                }
+            }
+        }
+    }
+
+    android {
+        compileSdkVersion COMPILE_SDK_VERSION as int
+        buildToolsVersion BUILD_TOOLS_VERSION as String
+
+        defaultConfig {
+            minSdkVersion MIN_SDK_VERSION as int
+            targetSdkVersion TARGET_SDK_VERSION as int
+
+            // workaround for https://code.google.com/p/android/issues/detail?id=52962
+            String snapshot = (SNAPSHOT as boolean) ? "Boolean.parseBoolean(\"true\")" : "false"
+            buildConfigField "boolean", "SNAPSHOT", snapshot
+
+            String production = (SNAPSHOT as boolean && (VERSION_NAME_SUFFIX as String).isEmpty()) ? "Boolean.parseBoolean(\"false\")" : "true"
+            buildConfigField "boolean", "PRODUCTION", production
+        }
+
+        testOptions {
+            unitTests.returnDefaultValues = true
+        }
+
+        dependencies {
+            testCompile libs.jUnit
+            testCompile libs.mockito
+        }
     }
 }

@@ -1,5 +1,5 @@
 dependencies {
-    compile project(':lib-adapter')
+    compile libs.xdroidAdapter
 }
 
-apply from: GRADLE_MVN_PUSH
+apply from: libs.gradleMvnPush

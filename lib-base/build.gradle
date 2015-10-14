@@ -1,10 +1,9 @@
 dependencies {
-    compile project(':lib-enum-format')
-    compile project(':lib-eventbus')
-    compile project(':lib-options')
-    compile project(':lib-toaster')
-    compile project(':lib-viewholder')
-    compile project(':lib-widget')
+    compile libs.xdroidEnumFormat
+    compile libs.xdroidOptions
+    compile libs.xdroidToaster
+    compile libs.xdroidViewHolder
+    compile libs.xdroidWidget
 }
 
-apply from: GRADLE_MVN_PUSH
+apply from: libs.gradleMvnPush
