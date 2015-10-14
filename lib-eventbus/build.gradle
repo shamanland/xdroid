@@ -1,5 +1,0 @@
-dependencies {
-    // none
-}
-
-apply from: libs.gradleMvnPush

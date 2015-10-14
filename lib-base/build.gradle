@@ -1,9 +1,0 @@
-dependencies {
-    compile libs.xdroidEnumFormat
-    compile libs.xdroidOptions
-    compile libs.xdroidToaster
-    compile libs.xdroidViewHolder
-    compile libs.xdroidWidget
-}
-
-apply from: libs.gradleMvnPush
