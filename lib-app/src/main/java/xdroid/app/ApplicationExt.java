@@ -11,7 +11,7 @@ import xdroid.core.Global;
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
-public class ApplicationX extends Application implements ActivityStarter, ContextOwner {
+public class ApplicationExt extends Application implements ActivityStarter, ContextOwner {
     @Override
     public Context getContext() {
         return this;
@@ -24,7 +24,7 @@ public class ApplicationX extends Application implements ActivityStarter, Contex
 
     @Override
     protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
         Global.setContext(this);
+        super.attachBaseContext(base);
     }
 }
