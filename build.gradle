@@ -75,9 +75,6 @@ subprojects {
                     if ({ f -> f.isFile() && f.exists() }.call(signingConfigs.release.storeFile)) {
                         signingConfig signingConfigs.release
                     }
-
-                    minifyEnabled true
-                    proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
                 }
             }
         }
