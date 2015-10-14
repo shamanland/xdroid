@@ -13,20 +13,20 @@ import static xdroid.core.ObjectUtils.notNull;
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
-public class CursorAdapterExt<V extends View> extends CursorAdapter implements IAdapter<Cursor, V> {
+public class CursorAdapterX<V extends View> extends CursorAdapter implements IAdapter<Cursor, V> {
     private ViewBinder<Cursor, V> mBinder;
     private ViewTypeResolver<Cursor> mViewTypeResolver;
     private SparseIntArray mLayoutId;
 
     private transient boolean mChangesLocked;
 
-    public CursorAdapterExt(Context context, Cursor c, boolean autoRequery) {
+    public CursorAdapterX(Context context, Cursor c, boolean autoRequery) {
         super(context, c, autoRequery);
         init();
     }
 
     @Deprecated
-    public CursorAdapterExt(Context context, Cursor c, int flags) {
+    public CursorAdapterX(Context context, Cursor c, int flags) {
         super(context, c, flags);
         init();
     }

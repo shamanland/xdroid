@@ -1,18 +1,19 @@
 package xdroid.toaster;
 
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.widget.Toast;
 
 import static xdroid.core.Global.getContext;
+import static xdroid.core.Global.getUiHandler;
+import static xdroid.core.ThreadUtils.newHandler;
 
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
 @SuppressWarnings("unused")
 public final class Toaster implements Handler.Callback {
-    private static final Handler sHandler = new Handler(Looper.getMainLooper(), new Toaster());
+    private static final Handler sHandler = newHandler(getUiHandler(), new Toaster());
 
     private Toaster() {
         // disallow public access

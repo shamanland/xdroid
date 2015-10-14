@@ -5,11 +5,11 @@
         <attr name="adapterData" format="enum">
             <!-- do not initialize Adapter (default) -->
             <enum name="none" value="0"/>
-            <!-- used with AdapterExt -->
+            <!-- used with AdapterX -->
             <enum name="array_list" value="1"/>
-            <!-- used with AdapterExt -->
+            <!-- used with AdapterX -->
             <enum name="linked_list" value="2"/>
-            <!-- used with CursorAdapterExt -->
+            <!-- used with CursorAdapterX -->
             <enum name="cursor" value="3"/>
         </attr>
         <!-- used for adapterData="cursor" -->

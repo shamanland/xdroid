@@ -20,7 +20,7 @@ public class EnumFormat extends Format {
     }
 
     public EnumFormat() {
-        mCache = new HashMap<String, Integer>();
+        mCache = new HashMap<>();
     }
 
     public synchronized void clearCache() {

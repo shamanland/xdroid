@@ -22,7 +22,7 @@ public final class ReflectUtils {
     private static final Map<String, SoftReference<Class>> sCache;
 
     static {
-        sWrapper = new HashSet<Class<?>>();
+        sWrapper = new HashSet<>();
         sWrapper.add(Boolean.class);
         sWrapper.add(Character.class);
         sWrapper.add(Byte.class);
@@ -33,12 +33,12 @@ public final class ReflectUtils {
         sWrapper.add(Double.class);
         sWrapper.add(Void.class);
 
-        sImmutable = new HashSet<Class<?>>(sWrapper);
+        sImmutable = new HashSet<>(sWrapper);
         sImmutable.add(String.class);
         sImmutable.add(BigInteger.class);
         sImmutable.add(BigDecimal.class);
 
-        sCache = new HashMap<String, SoftReference<Class>>();
+        sCache = new HashMap<>();
     }
 
     private ReflectUtils() {
@@ -175,7 +175,7 @@ public final class ReflectUtils {
     }
 
     public static <T> T invokeConstructor(Class<T> clazz) {
-        return invokeConstructor(clazz, new Class[]{}, new Object[]{});
+        return invokeConstructor(clazz, new Class<?>[]{}, new Object[]{});
     }
 
     public static <T> T invokeConstructor(Class<T> clazz, Class<?>[] parameterTypes, Object[] values) {

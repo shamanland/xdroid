@@ -50,9 +50,7 @@ public abstract class AbstractInflater<T, C extends T> {
             }
 
             return result;
-        } catch (XmlPullParserException ex) {
-            throw new InflateException(parser.getPositionDescription(), ex);
-        } catch (IOException ex) {
+        } catch (XmlPullParserException | IOException ex) {
             throw new InflateException(parser.getPositionDescription(), ex);
         }
     }

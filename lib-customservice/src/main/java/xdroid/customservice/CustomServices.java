@@ -1,8 +1,7 @@
 package xdroid.customservice;
 
+import java.util.HashMap;
 import java.util.Map;
-
-import xdroid.collections.Prototypes;
 
 import static xdroid.core.ObjectUtils.notNull;
 
@@ -12,7 +11,7 @@ public class CustomServices implements CustomServiceResolver {
 
     public CustomServices(CustomServiceResolver parentResolver) {
         mParentResolver = parentResolver;
-        mCustomServices = Prototypes.newHashMap();
+        mCustomServices = new HashMap<>();
     }
 
     @Override

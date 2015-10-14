@@ -18,7 +18,7 @@ import xdroid.core.ParcelUtils;
 /**
  * @author Oleksii Kropachov (o.kropachov@shamanland.com)
  */
-public class AdapterExt<D, V extends View> extends BaseAdapter implements IAdapter<D, V>, Iterable<D>, Parcelable {
+public class AdapterX<D, V extends View> extends BaseAdapter implements IAdapter<D, V>, Iterable<D>, Parcelable {
     private Indexed<D> mData;
     private ViewBinder<D, V> mBinder;
     private ViewTypeResolver<D> mViewTypeResolver;
@@ -26,7 +26,7 @@ public class AdapterExt<D, V extends View> extends BaseAdapter implements IAdapt
 
     private transient boolean mChangesLocked;
 
-    public AdapterExt() {
+    public AdapterX() {
         mLayoutId = new SparseIntArray();
         mLayoutId.put(0, android.R.layout.simple_list_item_1);
     }
@@ -157,17 +157,17 @@ public class AdapterExt<D, V extends View> extends BaseAdapter implements IAdapt
         ParcelUtils.writeSparseIntArray(out, mLayoutId);
     }
 
-    public static final Parcelable.Creator<AdapterExt> CREATOR = new Parcelable.Creator<AdapterExt>() {
-        public AdapterExt createFromParcel(Parcel in) {
-            return new AdapterExt(in);
+    public static final Parcelable.Creator<AdapterX> CREATOR = new Parcelable.Creator<AdapterX>() {
+        public AdapterX createFromParcel(Parcel in) {
+            return new AdapterX(in);
         }
 
-        public AdapterExt[] newArray(int size) {
-            return new AdapterExt[size];
+        public AdapterX[] newArray(int size) {
+            return new AdapterX[size];
         }
     };
 
-    protected AdapterExt(Parcel in) {
+    protected AdapterX(Parcel in) {
         ClassLoader cl = ((Object) this).getClass().getClassLoader();
         mData = ParcelUtils.readParcelableOrSerializable(in, cl);
         mBinder = ParcelUtils.<ViewBinder<D, V>>readParcelableOrSerializable(in, cl);
