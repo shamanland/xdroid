@@ -102,7 +102,10 @@ public final class ThreadUtils implements Runnable {
 
     @Override
     public void run() {
-        Looper.myLooper().quit();
+        Looper looper = Looper.myLooper();
+        if (looper != null) {
+            looper.quit();
+        }
     }
 
     public static class ObjAsRunnableCallback implements Handler.Callback {
