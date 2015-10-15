@@ -4,7 +4,7 @@
 
 Xdroid - extensions library for any Android app.
 
-For more information, please, see [the website][1].
+**NOTE:** This library currently in development stage. I'm working on examples, unit-tests and documentation.
 
 ## Modules
 
@@ -14,7 +14,6 @@ For more information, please, see [the website][1].
 - Core
 - Custom Service
 - Enum Format
-- Event Bus
 - Inflater
 - Options
 - Toaster
@@ -25,15 +24,15 @@ For more information, please, see [the website][1].
 
 ```
 dependencies {
-    compile 'com.shamanland:xdroid:0.2.4'
+    compile 'com.shamanland:xdroid:0.3.0'
 }
 ```
 
-In case of using `ActionBarActivity` or `FragmentActivity` from support libraries:
+In case if you need only one of modules use this pattern:
 
 ```
 dependencies {
-    compile 'com.shamanland:xdroid-support:0.2.4'
+    compile 'com.shamanland:xdroid-<module-name>:0.3.0'
 }
 ```
 
