@@ -7,10 +7,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
 
-import static xdroid.core.BuildConfig.SNAPSHOT;
 import static xdroid.core.ObjectUtils.cast;
 import static xdroid.core.ObjectUtils.notNull;
 
@@ -48,33 +45,6 @@ public final class Global {
         return BackgroundHandlerHolder.INSTANCE;
     }
 
-    protected static Map<Class<?>, Object> getSingletons() {
-        return SingletonsHolder.INSTANCE;
-    }
-
-    public static <T> void putSingleton(Class<T> clazz, T instance) {
-        if (SNAPSHOT) {
-            if (!clazz.isInstance(instance)) {
-                throw new IllegalArgumentException();
-            }
-
-            Object old = getSingletons().get(clazz);
-            if (old != null) {
-                throw new IllegalStateException();
-            }
-        }
-
-        getSingletons().put(clazz, notNull(instance));
-    }
-
-    public static boolean hasSingleton(Class<?> clazz) {
-        return getSingletons().containsKey(clazz);
-    }
-
-    public static <T> T getSingleton(Class<T> clazz) {
-        return notNull(clazz.cast(getSingletons().get(clazz)));
-    }
-
     static class CurrentApplicationHolder {
         static final Application INSTANCE;
 
@@ -95,9 +65,5 @@ public final class Global {
 
     static class BackgroundHandlerHolder {
         static final Handler INSTANCE = ThreadUtils.newThread(Global.class.getSimpleName(), null);
-    }
-
-    static class SingletonsHolder {
-        static final HashMap<Class<?>, Object> INSTANCE = new HashMap<>();
     }
 }
